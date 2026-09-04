@@ -1,0 +1,747 @@
+/* =========================================
+   ROYAL PALACE PAGE
+========================================= */
+
+.palace-hero {
+
+    position: relative;
+
+    min-height: 520px;
+
+    display: flex;
+
+    align-items: center;
+
+    background:
+        linear-gradient(
+            rgba(20, 15, 10, 0.62),
+            rgba(20, 15, 10, 0.72)
+        ),
+        url("../images/royal-palace.jpg")
+        center / cover no-repeat;
+
+    overflow: hidden;
+}
+
+
+.palace-hero-content {
+
+    position: relative;
+
+    max-width: 800px;
+
+    padding: 100px 0;
+
+    color: white;
+
+    animation: palaceHeroIn 0.9s ease both;
+}
+
+
+.palace-hero-content .section-label {
+
+    color: var(--royal-gold);
+
+}
+
+
+.palace-hero-content h1 {
+
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(42px, 7vw, 76px);
+
+    line-height: 1.05;
+
+}
+
+
+.palace-hero-content p {
+
+    max-width: 650px;
+
+    margin: 0;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+
+}
+
+
+/* =========================================
+   INTRODUCTION
+========================================= */
+
+.palace-introduction {
+
+    padding: 100px 0;
+
+}
+
+
+.palace-intro-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, 0.8fr)
+        minmax(300px, 1.2fr);
+
+    gap: 80px;
+
+    align-items: start;
+
+}
+
+
+.palace-intro-heading h2 {
+
+    margin-top: 15px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(32px, 4vw, 52px);
+
+    line-height: 1.15;
+
+    color: var(--royal-primary);
+
+}
+
+
+.palace-intro-text {
+
+    color: #555;
+
+    font-size: 17px;
+
+    line-height: 1.9;
+
+}
+
+
+/* =========================================
+   PALACE SECTIONS
+========================================= */
+
+.palace-sections {
+
+    padding: 100px 0;
+
+    background: #f7f5f0;
+
+}
+
+
+.palace-sections-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 25px;
+
+}
+
+
+.palace-section-card {
+
+    background: white;
+
+    padding: 35px;
+
+    border: 1px solid
+        rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+
+}
+
+
+.palace-section-card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.09);
+
+}
+
+
+.palace-section-card-image {
+
+    width: 100%;
+
+    height: 240px;
+
+    margin-bottom: 25px;
+
+    overflow: hidden;
+
+}
+
+
+.palace-section-card-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+}
+
+
+.palace-section-card span {
+
+    color: var(--royal-gold);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+
+}
+
+
+.palace-section-card h3 {
+
+    margin: 10px 0 15px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 28px;
+
+    color: var(--royal-primary);
+
+}
+
+
+.palace-section-card p {
+
+    margin: 0;
+
+    color: #666;
+
+    line-height: 1.8;
+
+}
+
+
+/* =========================================
+   HERITAGE
+========================================= */
+
+.palace-heritage {
+
+    padding: 110px 0;
+
+}
+
+
+.palace-heritage-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(300px, 1fr)
+        minmax(300px, 1fr);
+
+    gap: 70px;
+
+    align-items: center;
+
+}
+
+
+.palace-heritage-image {
+
+    min-height: 480px;
+
+    overflow: hidden;
+
+    position: relative;
+
+}
+
+
+.palace-heritage-image img {
+
+    width: 100%;
+
+    height: 480px;
+
+    object-fit: cover;
+
+    display: none;
+
+}
+
+
+.palace-image-placeholder {
+
+    min-height: 480px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #201a14,
+            #6f5428
+        );
+
+    color: white;
+
+    text-align: center;
+
+}
+
+
+.palace-image-placeholder span {
+
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    opacity: 0.75;
+
+}
+
+
+.palace-image-placeholder strong {
+
+    margin-top: 12px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 42px;
+
+}
+
+
+.palace-heritage-content h2 {
+
+    margin: 15px 0 25px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(34px, 4vw, 52px);
+
+    color: var(--royal-primary);
+
+}
+
+
+.palace-heritage-content p {
+
+    margin-bottom: 20px;
+
+    color: #555;
+
+    line-height: 1.9;
+
+}
+
+
+/* =========================================
+   ROLE
+========================================= */
+
+.palace-role {
+
+    padding: 100px 0;
+
+    background: var(--royal-primary);
+
+    color: white;
+
+}
+
+
+.palace-role-content {
+
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+}
+
+
+.palace-role-content .section-label {
+
+    color: var(--royal-gold);
+
+}
+
+
+.palace-role-content h2 {
+
+    margin: 15px 0 25px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(34px, 4vw, 52px);
+
+}
+
+
+.palace-role-content p {
+
+    margin: 0;
+
+    font-size: 17px;
+
+    line-height: 1.9;
+
+    opacity: 0.9;
+
+}
+
+
+/* =========================================
+   RELATED
+========================================= */
+
+.palace-related {
+
+    padding: 100px 0;
+
+    background: #f7f5f0;
+
+}
+
+
+.palace-related
+.section-heading {
+
+    margin-bottom: 45px;
+
+}
+
+
+.palace-related
+.section-heading h2 {
+
+    margin-top: 12px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(32px, 4vw, 48px);
+
+    color: var(--royal-primary);
+
+}
+
+
+.palace-related-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+}
+
+
+.palace-related-card {
+
+    position: relative;
+
+    min-height: 190px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    padding: 28px;
+
+    background: white;
+
+    color: inherit;
+
+    text-decoration: none;
+
+    border: 1px solid
+        rgba(0, 0, 0, 0.07);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+
+}
+
+
+.palace-related-card:hover {
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 18px 40px
+        rgba(0, 0, 0, 0.1);
+
+}
+
+
+.palace-related-card span {
+
+    color: var(--royal-gold);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+.palace-related-card h3 {
+
+    max-width: 230px;
+
+    margin: 10px 0 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 23px;
+
+    color: var(--royal-primary);
+
+}
+
+
+.palace-related-card strong {
+
+    position: absolute;
+
+    top: 25px;
+
+    right: 25px;
+
+    font-size: 22px;
+
+    color: var(--royal-gold);
+
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.palace-loading {
+
+    grid-column: 1 / -1;
+
+    padding: 70px;
+
+    text-align: center;
+
+    color: #666;
+
+}
+
+
+.palace-spinner {
+
+    width: 35px;
+
+    height: 35px;
+
+    margin: 0 auto 15px;
+
+    border: 3px solid
+        rgba(0, 0, 0, 0.1);
+
+    border-top-color:
+        var(--royal-primary);
+
+    border-radius: 50%;
+
+    animation:
+        palaceSpin 0.8s linear infinite;
+
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes palaceSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+@keyframes palaceHeroIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .palace-hero {
+
+        min-height: 430px;
+
+    }
+
+
+    .palace-hero-content {
+
+        padding: 80px 0;
+
+    }
+
+
+    .palace-introduction,
+    .palace-sections,
+    .palace-heritage,
+    .palace-role,
+    .palace-related {
+
+        padding: 70px 0;
+
+    }
+
+
+    .palace-intro-grid,
+    .palace-heritage-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+
+    }
+
+
+    .palace-sections-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .palace-related-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .palace-heritage-image,
+    .palace-image-placeholder {
+
+        min-height: 350px;
+
+    }
+
+
+    .palace-heritage-image img {
+
+        height: 350px;
+
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .palace-hero-content h1 {
+
+        font-size: 42px;
+
+    }
+
+
+    .palace-hero-content p {
+
+        font-size: 16px;
+
+    }
+
+
+    .palace-section-card {
+
+        padding: 25px;
+
+    }
+
+}

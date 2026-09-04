@@ -1,0 +1,642 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<link rel="stylesheet" href="css/royal-family.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/footer.css">
+<body>
+    
+    <!-- =========================================
+         SITE HEADER
+    ========================================== -->
+
+    <header class="site-header">
+
+        <!--
+            For now we will reuse the same
+            header structure from index.html.
+        -->
+
+        <div class="royal-bar">
+
+            <!-- ADA -->
+
+            <div class="royal-symbol royal-symbol-right">
+
+                <div class="royal-symbol-image">
+
+                    <img
+                        src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/ada(1).png"
+                        alt="Ada of Agbor Kingdom"
+                    >
+
+                </div>
+
+                <span class="royal-symbol-name">
+                    ADA
+                </span>
+
+            </div>
+
+
+            <!-- KINGDOM BRAND -->
+
+            <div class="kingdom-brand">
+
+              <h1>
+                AGBOR KINGDOM
+            </h1>
+
+             <span class="brand-small">
+                ROYAL KINGDOM
+            </span>
+
+                <span class="brand-subtitle">
+                    Royal Institution & Heritage
+                </span>
+
+            </div>
+
+
+            <!-- EBEN -->
+
+            <div class="royal-symbol royal-symbol-left">
+
+                <div class="royal-symbol-image">
+
+                    <img
+                        src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/eben.png"
+                        alt="Eben of Agbor Kingdom"
+                    >
+
+                </div>
+
+                <span class="royal-symbol-name">
+                    EBEN
+                </span>
+
+            </div>
+
+        </div>
+
+<!-- =====================================
+             MAIN NAVIGATION
+        ====================================== -->
+
+        <nav class="main-navigation">
+
+            <div class="nav-container">
+
+                <a
+                    href="index.html"
+                    class="nav-link active"
+                >
+                    Home
+                </a>
+
+                
+
+                <div class="nav-dropdown">
+
+                    <button
+                        class="nav-dropdown-button"
+                        type="button"
+                    >
+                        Kingdom
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="dein.html">
+                    The Dein of Agbor Kingdom
+                </a>
+
+                        <a href="history.html">
+                            History of Agbor
+                        </a>
+
+                        <a href="agbor-monarchs.html">
+                           Agbor Kingdom Monarchs
+                        </a>
+
+                        <a href="agbor-council.html">
+                           Agbor Kingdom Council of Chiefs
+                        </a>
+
+                        <a href="agbor-communities.html">
+                           Agbor Kingdom Communities
+                        </a>
+
+                        <a href="political-achievements.html">
+                            Political Achievements
+                        </a>
+
+                        <a href="economy.html">
+                            Economy
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="nav-dropdown">
+
+                    <button
+                        class="nav-dropdown-button"
+                        type="button"
+                    >
+                        Royal Institution
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="royal-palace.html">
+                            Royal Palace
+                        </a>
+
+                        <a href="royal-council.html">
+                            Royal Council
+                        </a>
+
+                        <a href="royal-family.html">
+                            Royal Family
+                        </a>
+
+                        <a href="palace-pages.html">
+                            Palace Pages
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="nav-dropdown">
+
+                    <button
+                        class="nav-dropdown-button"
+                        type="button"
+                    >
+                        Culture
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="traditions.html">
+                            Traditions
+                        </a>
+
+                        <a href="festivals.html">
+                            Festivals
+                        </a>
+
+                        <a href="language.html">
+                            Language
+                        </a>
+
+                        <a href="arts-crafts.html">
+                            Arts & Crafts
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <a
+                    href="news-list.html"
+                    class="nav-link"
+                >
+                    News
+                </a>
+
+                <div class="nav-dropdown">
+
+                    <button
+                        class="nav-dropdown-button"
+                        type="button"
+                    >
+                        Media
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="gallery.html">
+                            Gallery
+                        </a>
+
+                        <a href="videos.html">
+                            Videos
+                        </a>
+
+                        <a href="publications.html">
+                            Publications
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <a
+                    href="events.html"
+                    class="nav-link "
+                >
+                    Events
+                </a>
+
+                <a
+                    href="contact.html"
+                    class="nav-link"
+                >
+                    Contact
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+
+        <button
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+        <div class="mobile-brand">
+            AGBOR KINGDOM
+        </div>
+
+        <div class="mobile-ada">
+            <div class="royal-symbol-image">
+                <img
+                    src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/ada(1).png"
+                    alt="Ada of Agbor Kingdom"
+                >
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =========================================
+         MOBILE SIDE MENU
+    ========================================== -->
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <aside class="mobile-side-menu" id="mobileSideMenu">
+
+        <div class="mobile-menu-header">
+
+           <div>
+                 <strong>AGBOR</strong>
+                <span>ROYAL KINGDOM</span>
+               
+            </div>
+
+            <button id="mobileMenuClose" aria-label="Close menu">
+                ×
+            </button>
+
+        </div>
+
+        <div class="mobile-menu-content">
+
+            <a href="index.html">Home</a>
+
+            <a href="dein.html">The Dein of Agbor Kingdom</a>
+
+            <details>
+                <summary>Kingdom</summary>
+
+                <a href="history.html">History of Agbor</a>
+                <a href="agbor-monarchs.html">Agbor Kingdom Monarchs</a>
+                <a href="agbor-council.html">Agbor Kingdom Council of Chiefs</a>
+                <a href="agbor-communities.html">Agbor Kingdom Communities</a>
+                <a href="political-achievements.html">Political Achievements</a>
+                <a href="economy.html">Economy</a>
+            </details>
+
+            <details>
+                <summary>Royal Institution</summary>
+
+                <a href="royal-palace.html">Royal Palace</a>
+                <a href="royal-council.html">Royal Council</a>
+                <a href="royal-family.html">Royal Family</a>
+                <a href="palace-pages.html">Palace Pages</a>
+            </details>
+
+            <details>
+                <summary>Culture</summary>
+
+                <a href="traditions.html">Traditions</a>
+                <a href="festivals.html">Festivals</a>
+                <a href="language.html">Language</a>
+                <a href="arts-crafts.html">Arts & Crafts</a>
+            </details>
+
+            <a href="news-list.html" class="nav-link">News</a>
+        
+            <details>
+                <summary>Media</summary>
+
+                <a href="gallery.html">Gallery</a>
+                <a href="videos.html">Videos</a>
+                <a href="publications.html">Publications</a>
+            </details>
+
+            <a href="events.html">Events</a>
+            <a href="contact.html">Contact</a>
+
+        </div>
+
+    </aside>
+
+
+    <main>
+
+    <!-- =========================================
+         ROYAL FAMILY HERO
+    ========================================== -->
+
+    <section class="family-hero">
+
+        <div class="family-hero-overlay"></div>
+
+        <div class="section-container">
+
+            <div class="family-hero-content">
+
+                <span class="section-label">
+                    ROYAL INSTITUTION
+                </span>
+
+                <h1>
+                    Royal Family
+                </h1>
+
+                <p>
+                    The Royal Family of Agbor Kingdom and
+                    its place within the traditional
+                    institution of the Kingdom.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         INTRODUCTION
+    ========================================== -->
+
+    <section class="family-intro">
+
+        <div class="section-container">
+
+            <div class="family-intro-grid">
+
+                <div class="family-intro-heading">
+
+                    <span class="section-label">
+                        THE ROYAL FAMILY
+                    </span>
+
+                    <h2>
+                        A Living Royal Institution
+                    </h2>
+
+                </div>
+
+                <div class="family-intro-content">
+
+                    <p>
+                        The Royal Family forms an important
+                        part of the traditional institution
+                        of Agbor Kingdom.
+                    </p>
+
+                    <p>
+                        Through generations, the family has
+                        remained connected to the history,
+                        traditions and responsibilities of
+                        the Kingdom.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FAMILY FEATURE
+    ========================================== -->
+
+    <section class="family-feature">
+
+        <div class="section-container">
+
+            <div class="family-feature-grid">
+
+                <div class="family-feature-image">
+
+                    <img
+                        src="images/royal/royalfamilyofdein.jpeg"
+                        alt="Royal Family of Agbor Kingdom"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <div class="family-feature-content">
+
+                    <span class="section-label">
+                        ROYAL HERITAGE
+                    </span>
+
+                    <h2>
+                        Royal Family Members
+                    </h2>
+
+                    
+
+                    <p>
+                        The Queen Mother, Princes, and Princesses of the Royal House comprise the mother, siblings, and immediate offspring of the ruling line who carry royal titles. They support the monarch and represent the throne across diplomatic, cultural, and philanthropic engagements.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FAMILY MEMBERS
+    ========================================== -->
+
+    <section class="family-members">
+
+        <div class="section-container">
+
+            <div class="section-heading family-heading">
+
+                <span class="section-label">
+                    ROYAL HOUSE
+                </span>
+
+                <h2>
+                    Members of the Royal Family
+                </h2>
+
+                <p>
+                    The Royal Family includes members whose
+                    lives and responsibilities are connected
+                    to the royal institution of Agbor Kingdom.
+                </p>
+
+            </div>
+
+
+            <div class="family-grid">
+
+                <article class="family-card">
+
+                    <div class="family-card-image">
+
+                        <img
+                            src="images/royal/umudein.jpeg"
+                            alt="Member of the Royal Family"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="family-card-content">
+
+                        <span>
+                            ROYAL FAMILY
+                        </span>
+
+                        <h3>
+                            Tradition, Family & Continuity
+                        </h3>
+
+                        <p>
+                           The broader royal lineage consisting of descendants from past Deins of Agbor. 
+                        Members of the Umu-Dein hold respected traditional standing within Ime-Obi, 
+                        supporting royal court protocols, palace festivals, and ancestral rites. 
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FAMILY & INSTITUTION
+    ========================================== -->
+
+    <section class="family-institution">
+
+        <div class="section-container">
+
+            <div class="family-institution-content">
+
+                <span class="section-label">
+                    ROYAL INSTITUTION
+                </span>
+
+                <h2>
+                    Family & Kingdom
+                </h2>
+
+                <p>
+                    The Royal Family remains connected to
+                    the wider traditional institution and
+                    the cultural heritage of Agbor Kingdom.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         HERITAGE
+    ========================================== -->
+
+    <section class="family-heritage">
+
+        <div class="section-container">
+
+            <div class="family-heritage-grid">
+
+                <div>
+
+                    <span class="section-label">
+                        HERITAGE
+                    </span>
+
+                    <h2>
+                        Preserving Royal Heritage
+                    </h2>
+
+                </div>
+
+                <p>
+                    Royal heritage is carried forward through
+                    generations, preserving the traditions,
+                    stories and values that form part of the
+                    identity of Agbor Kingdom.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<div id="siteFooter"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/main.js"></script>
+
+<script src="js/footer-loader.js"></script>
+</body>
+</html>

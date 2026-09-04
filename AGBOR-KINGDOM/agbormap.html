@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agbor Kingdom Interactive Map</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/agbormap.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="w-full min-h-screen bg-[#f4efe5]">
+
+  <!-- =========================================
+       SITE HEADER
+  ========================================== -->
+  <header class="site-header">
+    <div class="royal-bar">
+      <!-- ADA -->
+      <div class="royal-symbol royal-symbol-right">
+        <div class="royal-symbol-image">
+          <img src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/ada(1).png" alt="Ada of Agbor Kingdom">
+        </div>
+        <span class="royal-symbol-name">ADA</span>
+      </div>
+
+      <!-- BRAND -->
+      <div class="kingdom-brand">
+       <h1>
+                AGBOR KINGDOM
+            </h1>
+
+             <span class="brand-small">
+                ROYAL KINGDOM
+            </span>
+        <span class="brand-subtitle">Royal Institution & Heritage</span>
+      </div>
+
+      <!-- EBEN -->
+      <div class="royal-symbol royal-symbol-left">
+        <div class="royal-symbol-image">
+          <img src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/eben.png" alt="Eben of Agbor Kingdom">
+        </div>
+        <span class="royal-symbol-name">EBEN</span>
+      </div>
+    </div>
+
+    <!-- MAIN NAVIGATION -->
+    <nav class="main-navigation">
+      <div class="nav-container">
+        <a href="index.html" class="nav-link active">Home</a>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-button" type="button">Kingdom <span>⌄</span></button>
+          <div class="dropdown-menu">
+            <a href="dein.html">The Dein of Agbor Kingdom</a>
+            <a href="history.html">History of Agbor</a>
+            <a href="agbor-monarchs.html">Agbor Kingdom Monarchs</a>
+            <a href="agbor-council.html">Agbor Kingdom Council of Chiefs</a>
+            <a href="agbor-communities.html">Agbor Kingdom Communities</a>
+            <a href="political-achievements.html">Political Achievements</a>
+            <a href="economy.html">Economy</a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-button" type="button">Royal Institution <span>⌄</span></button>
+          <div class="dropdown-menu">
+            <a href="royal-palace.html">Royal Palace</a>
+            <a href="royal-council.html">Royal Council</a>
+            <a href="royal-family.html">Royal Family</a>
+            <a href="palace-pages.html">Palace Pages</a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-button" type="button">Culture <span>⌄</span></button>
+          <div class="dropdown-menu">
+            <a href="traditions.html">Traditions</a>
+            <a href="festivals.html">Festivals</a>
+            <a href="language.html">Language</a>
+            <a href="arts-crafts.html">Arts & Crafts</a>
+          </div>
+        </div>
+
+        <a href="news-list.html" class="nav-link">News</a>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-button" type="button">Media <span>⌄</span></button>
+          <div class="dropdown-menu">
+            <a href="gallery.html">Gallery</a>
+            <a href="videos.html">Videos</a>
+            <a href="publications.html">Publications</a>
+          </div>
+        </div>
+
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <button class="mobile-menu-button" id="mobileMenuButton" aria-label="Open menu">☰</button>
+    <div class="mobile-brand">AGBOR KINGDOM</div>
+    <div class="mobile-ada">
+      <div class="royal-symbol-image">
+        <img src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/ada(1).png" alt="Ada of Agbor Kingdom">
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE SIDE MENU -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <aside class="mobile-side-menu" id="mobileSideMenu">
+    <div class="mobile-menu-header">
+      <div>
+                 <strong>AGBOR</strong>
+                <span>ROYAL KINGDOM</span>
+               
+            </div>
+      <button id="mobileMenuClose" aria-label="Close menu">×</button>
+    </div>
+
+    <div class="mobile-menu-content">
+      <a href="index.html">Home</a>
+      <a href="dein.html">The Dein of Agbor Kingdom</a>
+
+      <details>
+        <summary>Kingdom</summary>
+        <a href="history.html">History of Agbor</a>
+        <a href="agbor-monarchs.html">Agbor Kingdom Monarchs</a>
+        <a href="agbor-council.html">Agbor Kingdom Council of Chiefs</a>
+        <a href="agbor-communities.html">Agbor Kingdom Communities</a>
+        <a href="political-achievements.html">Political Achievements</a>
+        <a href="economy.html">Economy</a>
+      </details>
+
+      <details>
+        <summary>Royal Institution</summary>
+        <a href="royal-palace.html">Royal Palace</a>
+        <a href="royal-council.html">Royal Council</a>
+        <a href="royal-family.html">Royal Family</a>
+        <a href="palace-pages.html">Palace Pages</a>
+      </details>
+
+      <details>
+        <summary>Culture</summary>
+        <a href="traditions.html">Traditions</a>
+        <a href="festivals.html">Festivals</a>
+        <a href="language.html">Language</a>
+        <a href="arts-crafts.html">Arts & Crafts</a>
+      </details>
+
+      <a href="news-list.html" class="nav-link">News</a>
+
+      <details>
+        <summary>Media</summary>
+        <a href="gallery.html">Gallery</a>
+        <a href="videos.html">Videos</a>
+        <a href="publications.html">Publications</a>
+      </details>
+
+      <a href="events.html">Events</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </aside>
+
+  <!-- Main Interactive Map Section -->
+  <main class="w-full">
+    <section class="max-w-7xl mx-auto px-5 pt-8 pb-5">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-5">
+        <div>
+          <p class="text-xs uppercase tracking-[.22em] font-bold text-[#a4772b]">Delta State, Nigeria</p>
+          <h1 class="display mt-1 text-3xl md:text-4xl text-[#10211f] font-semibold leading-tight">Explore Agbor Communities</h1>
+        </div>
+        <p class="max-w-xl text-[#4d625e] text-sm leading-relaxed">
+          Navigate through cities, historic towns, and traditional villages across the Agbor Kingdom. Select any location to open details and view its exact map location.
+        </p>
+      </div>
+    </section>
+
+    <!-- Interactive Workspace -->
+    <section id="map-area" class="max-w-7xl mx-auto px-5 pb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)_340px] rounded-2xl overflow-hidden shadow-[0_20px_55px_rgba(17,45,39,.14)] border border-[#d8d9cb]">
+        
+        <!-- Left Sidebar: Directory & Filters -->
+        <aside id="directory" class="bg-[#fffdf8] p-5 border-b lg:border-b-0 lg:border-r border-[#e7dfd0]">
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="display text-xl text-[#163b35] font-semibold">Directory</h2>
+            <span id="community-count" class="bg-[#163b35] text-[#e4c67e] rounded-full px-2.5 py-0.5 text-xs font-bold">0 Places</span>
+          </div>
+
+          <!-- Search Bar -->
+          <form id="search-form" class="mt-4" role="search" onsubmit="return false;">
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#35514b] mb-1" for="community-search">Search Location</label>
+            <div class="relative">
+              <i data-lucide="search" class="absolute left-3 top-3 w-4 h-4 text-[#758882]"></i>
+              <input id="community-search" class="w-full rounded-lg border border-[#d8d9cb] bg-white py-2 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-[#d7ae58]" type="search" placeholder="Search town, city, or village...">
+            </div>
+          </form>
+
+          <!-- Type Filters (Dynamic including City) -->
+          <div class="mt-4">
+            <p class="text-[11px] font-bold uppercase tracking-[.14em] text-[#758882] mb-2">Filter By Type</p>
+            <div class="flex flex-wrap gap-1.5" id="filter-container">
+              <button class="filter-btn active rounded-full border border-[#d8d9cb] px-3 py-1 text-xs font-semibold" type="button" data-filter="all">All</button>
+              <button class="filter-btn rounded-full border border-[#d8d9cb] px-3 py-1 text-xs font-semibold" type="button" data-filter="City">Cities</button>
+              <button class="filter-btn rounded-full border border-[#d8d9cb] px-3 py-1 text-xs font-semibold" type="button" data-filter="Town">Towns</button>
+              <button class="filter-btn rounded-full border border-[#d8d9cb] px-3 py-1 text-xs font-semibold" type="button" data-filter="Village">Villages</button>
+            </div>
+          </div>
+
+          <!-- Dynamic Community List Container -->
+          <div id="community-list" class="mt-4 space-y-2 max-h-[420px] overflow-y-auto pr-1"></div>
+          <p id="no-results" class="hidden text-xs text-[#758882] mt-4 text-center">No matching locations found.</p>
+        </aside>
+
+        <!-- Center Stage: Map Canvas with Dynamic Pins -->
+        <section id="map-stage" class="map-stage relative min-h-[520px] p-5" aria-label="Map of Agbor communities">
+          <div class="leaf left-[4%] top-[8%]"></div>
+          <div class="leaf right-[5%] bottom-[10%] rotate-[130deg]"></div>
+          
+          <div class="river left-[-15%] top-[55%]"></div>
+          <div class="road left-[5%] top-[30%] w-[88%] rotate-[20deg]"></div>
+          <div class="road left-[12%] top-[70%] w-[65%] -rotate-[35deg]"></div>
+          <div class="road left-[45%] top-[10%] w-[50%] rotate-[75deg]"></div>
+
+          <div class="relative z-[3] flex items-start justify-between">
+            <div class="rounded-lg bg-[#163b35]/95 p-3 text-white shadow-lg border border-[#d7ae58]/30">
+              <p class="text-[10px] font-bold uppercase tracking-[1px] text-[#e4c67e]">Agbor Kingdom Visual Map</p>
+              <p class="text-xs mt-0.5 text-white/80">Click a pin to inspect</p>
+            </div>
+            <button class="px-3 py-1.5 bg-[#fffdf8] hover:bg-white text-[#163b35] text-xs font-semibold rounded-lg shadow border border-[#d8d9cb] transition" type="button" id="reset-map">
+              Reset View
+            </button>
+          </div>
+
+          <!-- Pins Container (Generated via JS) -->
+          <div id="pins-container"></div>
+
+          <div class="absolute bottom-4 left-5 right-5 flex justify-between text-[10px] font-bold tracking-widest uppercase text-[#58736b]">
+            <span>← Benin City Axis</span>
+            <span>Asaba / Onitsha Axis →</span>
+          </div>
+        </section>
+
+        <!-- Right Sidebar: Details & External Map Link Panel -->
+        <aside class="bg-[#163b35] p-6 text-white flex flex-col justify-between">
+          <div id="details-container">
+            <!-- Details Cards Rendered dynamically via JS -->
+          </div>
+
+          <div class="mt-8 pt-4 border-t border-white/15">
+            <p class="text-[11px] leading-relaxed text-white/50">
+              * Maps are interactive representations. Use the location link on each card to view actual GPS directions on Google Maps.
+            </p>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+    <div id="siteFooter"></div>
+
+  <!-- External JavaScript -->
+  <script src="js/agbormap.js"></script>
+<script src="js/main.js"></script>
+
+
+
+<script src="js/footer-loader.js"></script>
+
+</body>
+</html>

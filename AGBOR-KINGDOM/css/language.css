@@ -1,0 +1,353 @@
+
+/* =========================================
+   LANGUAGE HERO
+========================================= */
+
+.language-hero {
+    position: relative;
+    min-height: 500px;
+
+    display: flex;
+    align-items: center;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+}
+
+.language-hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 15, 10, 0.78),
+            rgba(20, 15, 10, 0.45)
+        );
+
+    z-index: 1;
+}
+
+.language-hero .section-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.language-hero-content {
+    max-width: 800px;
+    padding: 100px 0;
+    margin-left: 30px;
+    color: white;
+}
+
+.language-hero-label {
+    color: var(--royal-gold);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.language-hero-content h1 {
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(42px, 7vw, 74px);
+    line-height: 1.05;
+}
+
+.language-hero-content p {
+    max-width: 650px;
+
+    font-size: 18px;
+    line-height: 1.8;
+}
+/* =========================================
+   INTRO
+========================================= */
+
+.language-intro {
+    padding: 75px 20px 50px;
+    background: #fff;
+    text-align: center;
+}
+
+.language-intro-container {
+    width: min(900px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+.language-intro-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #9b7620;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+.language-intro h2 {
+    margin: 0 0 20px;
+    color: #211a11;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 600;
+}
+
+.language-intro p {
+    margin: 0 auto;
+    color: #625b50;
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   CONTENT SECTIONS
+========================================= */
+
+.language-content {
+    padding: 35px 20px 90px;
+    background: #faf9f6;
+}
+
+#languageSections {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+/* =========================================
+   LANGUAGE CARD
+========================================= */
+
+.language-section {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    min-height: 300px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e7dfd1;
+    border-radius: 8px;
+    box-shadow: 0 8px 28px rgba(45, 35, 20, 0.06);
+}
+
+.language-section-reverse {
+    grid-template-columns: 1.15fr 0.85fr;
+}
+
+.language-section-reverse
+.language-section-image {
+    order: 2;
+}
+
+.language-section-reverse
+.language-section-content {
+    order: 1;
+}
+
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.language-section-image {
+    min-height: 300px;
+    overflow: hidden;
+    background: #eee8dd;
+}
+
+.language-section-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.language-section:hover
+.language-section-image img {
+    transform: scale(1.04);
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.language-section-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px;
+}
+
+.language-label {
+    display: inline-block;
+    width: fit-content;
+    margin-bottom: 12px;
+    color: #a17b25;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.language-section-content h2 {
+    margin: 0 0 10px;
+    color: #211a11;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(27px, 3vw, 38px);
+    line-height: 1.15;
+}
+
+.language-section-content h3 {
+    margin: 0 0 18px;
+    color: #7a6a52;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.language-section-content p {
+    max-width: 650px;
+    margin: 0;
+    color: #5e584f;
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.language-message {
+    padding: 70px 25px;
+    background: #fff;
+    border: 1px solid #e7dfd1;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.language-message-icon {
+    margin-bottom: 15px;
+    color: #a17b25;
+    font-size: 30px;
+}
+
+.language-message h3 {
+    margin: 0 0 10px;
+    color: #211a11;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+}
+
+.language-message p {
+    max-width: 650px;
+    margin: 0 auto;
+    color: #716a60;
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.language-loading {
+    padding: 60px 20px;
+    color: #776f63;
+    text-align: center;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .language-hero {
+        min-height: 320px;
+        padding: 60px 20px;
+    }
+
+    .language-intro {
+        padding: 60px 20px 40px;
+    }
+
+    .language-content {
+        padding: 25px 15px 60px;
+    }
+
+    .language-section,
+    .language-section-reverse {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .language-section-reverse
+    .language-section-image,
+    .language-section-reverse
+    .language-section-content {
+        order: initial;
+    }
+
+    .language-section-image {
+        min-height: 230px;
+        max-height: 280px;
+    }
+
+    .language-section-content {
+        padding: 32px 25px;
+    }
+
+    .language-section-content h2 {
+        font-size: 29px;
+    }
+
+    .language-section-content p {
+        font-size: 15px;
+        line-height: 1.75;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .language-hero {
+        min-height: 280px;
+    }
+
+    .language-hero h1 {
+        font-size: 36px;
+    }
+
+    .language-hero p {
+        font-size: 15px;
+    }
+
+    .language-intro h2 {
+        font-size: 30px;
+    }
+
+    .language-section-image {
+        min-height: 200px;
+    }
+
+    .language-section-content {
+        padding: 28px 20px;
+    }
+}

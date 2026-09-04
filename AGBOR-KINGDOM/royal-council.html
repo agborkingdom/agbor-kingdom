@@ -1,0 +1,709 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/royal-council.css">
+
+<link rel="stylesheet" href="css/footer.css">
+<body>
+    
+    <!-- =========================================
+         SITE HEADER
+    ========================================== -->
+
+    <header class="site-header">
+
+        <!--
+            For now we will reuse the same
+            header structure from index.html.
+        -->
+
+        <div class="royal-bar">
+
+            <!-- ADA -->
+
+            <div class="royal-symbol royal-symbol-right">
+
+                <div class="royal-symbol-image">
+
+                    <img
+                        src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/ada(1).png"
+                        alt="Ada of Agbor Kingdom"
+                    >
+
+                </div>
+
+                <span class="royal-symbol-name">
+                    ADA
+                </span>
+
+            </div>
+
+
+            <!-- KINGDOM BRAND -->
+
+            <div class="kingdom-brand">
+
+               <h1>
+                AGBOR KINGDOM
+            </h1>
+
+             <span class="brand-small">
+                ROYAL KINGDOM
+            </span>
+
+                <span class="brand-subtitle">
+                    Royal Institution & Heritage
+                </span>
+
+            </div>
+
+
+            <!-- EBEN -->
+
+            <div class="royal-symbol royal-symbol-left">
+
+                <div class="royal-symbol-image">
+
+                    <img
+                        src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/eben.png"
+                        alt="Eben of Agbor Kingdom"
+                    >
+
+                </div>
+
+                <span class="royal-symbol-name">
+                    EBEN
+                </span>
+
+            </div>
+
+        </div>
+
+<!-- =====================================
+             MAIN NAVIGATION
+        ====================================== -->
+
+        <nav class="main-navigation">
+
+            <div class="nav-container">
+
+                <a
+                    href="index.html"
+                    class="nav-link active"
+                >
+                    Home
+                </a>
+
+                
+
+                <div class="nav-dropdown">
+
+                    <button
+                        class="nav-dropdown-button"
+                        type="button"
+                    >
+                        Kingdom
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="dein.html">
+                    The Dein of Agbor Kingdom
+                </a>
+
+                        <a href="history.html">
+                            History of Agbor
+                        </a>
+
+                        <a href="agbor-monarchs.html">
+                           Agbor Kingdom Monarchs
+                        </a>
+
+                        <a href="agbor-council.html">
+                           Agbor Kingdom Council of Chiefs
+                        </a>
+
+                        <a href="agbor-communities.html">
+                           Agbor Kingdom Communities
+                        </a>
+
+                        <a href="political-achievements.html">
+                            Political Achievements
+                        </a>
+
+                        <a href="economy.html">
+                            Economy
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="nav-dropdown">
+
+                    <button
+                        class="nav-dropdown-button"
+                        type="button"
+                    >
+                        Royal Institution
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="royal-palace.html">
+                            Royal Palace
+                        </a>
+
+                        <a href="royal-council.html">
+                            Royal Council
+                        </a>
+
+                        <a href="royal-family.html">
+                            Royal Family
+                        </a>
+
+                        <a href="palace-pages.html">
+                            Palace Pages
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="nav-dropdown">
+
+                    <button
+                        class="nav-dropdown-button"
+                        type="button"
+                    >
+                        Culture
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="traditions.html">
+                            Traditions
+                        </a>
+
+                        <a href="festivals.html">
+                            Festivals
+                        </a>
+
+                        <a href="language.html">
+                            Language
+                        </a>
+
+                        <a href="arts-crafts.html">
+                            Arts & Crafts
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <a
+                    href="news-list.html"
+                    class="nav-link"
+                >
+                    News
+                </a>
+
+                <div class="nav-dropdown">
+
+                    <button
+                        class="nav-dropdown-button"
+                        type="button"
+                    >
+                        Media
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        <a href="gallery.html">
+                            Gallery
+                        </a>
+
+                        <a href="videos.html">
+                            Videos
+                        </a>
+
+                        <a href="publications.html">
+                            Publications
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <a
+                    href="events.html"
+                    class="nav-link "
+                >
+                    Events
+                </a>
+
+                <a
+                    href="contact.html"
+                    class="nav-link"
+                >
+                    Contact
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+
+        <button
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+        <div class="mobile-brand">
+            AGBOR KINGDOM
+        </div>
+
+        <div class="mobile-ada">
+            <div class="royal-symbol-image">
+                <img
+                    src="https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/royal/ada(1).png"
+                    alt="Ada of Agbor Kingdom"
+                >
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =========================================
+         MOBILE SIDE MENU
+    ========================================== -->
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <aside class="mobile-side-menu" id="mobileSideMenu">
+
+        <div class="mobile-menu-header">
+
+           <div>
+                 <strong>AGBOR</strong>
+                <span>ROYAL KINGDOM</span>
+               
+            </div>
+
+
+            <button id="mobileMenuClose" aria-label="Close menu">
+                ×
+            </button>
+
+        </div>
+
+        <div class="mobile-menu-content">
+
+            <a href="index.html">Home</a>
+
+            <a href="dein.html">The Dein of Agbor Kingdom</a>
+
+            <details>
+                <summary>Kingdom</summary>
+
+                <a href="history.html">History of Agbor</a>
+                <a href="agbor-monarchs.html">Agbor Kingdom Monarchs</a>
+                <a href="agbor-council.html">Agbor Kingdom Council of Chiefs</a>
+                <a href="agbor-communities.html">Agbor Kingdom Communities</a>
+                <a href="political-achievements.html">Political Achievements</a>
+                <a href="economy.html">Economy</a>
+            </details>
+
+            <details>
+                <summary>Royal Institution</summary>
+
+                <a href="royal-palace.html">Royal Palace</a>
+                <a href="royal-council.html">Royal Council</a>
+                <a href="royal-family.html">Royal Family</a>
+                <a href="palace-pages.html">Palace Pages</a>
+            </details>
+
+            <details>
+                <summary>Culture</summary>
+
+                <a href="traditions.html">Traditions</a>
+                <a href="festivals.html">Festivals</a>
+                <a href="language.html">Language</a>
+                <a href="arts-crafts.html">Arts & Crafts</a>
+            </details>
+
+            <a href="news-list.html" class="nav-link">News</a>
+        
+            <details>
+                <summary>Media</summary>
+
+                <a href="gallery.html">Gallery</a>
+                <a href="videos.html">Videos</a>
+                <a href="publications.html">Publications</a>
+            </details>
+
+            <a href="events.html">Events</a>
+            <a href="contact.html">Contact</a>
+
+        </div>
+
+    </aside>
+
+    <main>
+
+    <!-- =========================================
+         ROYAL COUNCIL HERO
+    ========================================== -->
+
+    <section class="council-hero">
+
+        <div class="council-hero-overlay"></div>
+
+        <div class="section-container">
+
+            <div class="council-hero-content">
+
+                <span class="section-label">
+                    ROYAL INSTITUTION
+                </span>
+
+                <h1>
+                    Royal Council
+                </h1>
+
+                <p>
+                    The traditional council that supports
+                    the institution, leadership and affairs
+                    of Agbor Kingdom.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         INTRODUCTION
+    ========================================== -->
+
+    <section class="council-intro">
+
+        <div class="section-container">
+
+            <div class="council-intro-grid">
+
+                <div class="council-intro-heading">
+
+                    <span class="section-label">
+                        THE COUNCIL
+                    </span>
+
+                    <h2>
+                        Guardians of Tradition
+                        and Royal Institution
+                    </h2>
+
+                </div>
+
+                <div class="council-intro-content">
+
+                   <p>
+        The Royal Council serves as a foundational pillar of governance within the Agbor Kingdom's traditional institution.
+    </p>
+
+    <p>
+        Drawing upon collective wisdom, generational experience, and deep-rooted custom, the Council provides strategic guidance to the throne safeguarding the kingdom's heritage and ensuring responsible leadership across all realms.
+    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         COUNCIL MEMBERS
+    ========================================== -->
+
+    <section class="council-members">
+
+        <div class="section-container">
+
+            <div class="section-heading council-heading">
+
+                <span class="section-label">
+                    ROYAL COUNCIL
+                </span>
+
+                <h2>
+                    Council Members
+                </h2>
+
+                <p>
+                    Members of the Council represent experience,
+                    traditional authority and service to the
+                    Kingdom.
+                </p>
+
+            </div>
+
+
+
+
+
+
+
+            <div class="council-grid">
+
+                <article class="council-card">
+
+                    <div class="council-card-image">
+
+                        <img
+                            src="images/royal/uzamachiefs.jpeg"
+                            alt="Royal Council member"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="council-card-content">
+
+                        <span>
+                            ROYAL COUNCIL
+                        </span>
+
+                        <h3>
+                          The Kingmakers
+                        </h3>
+
+                        <p>
+                            The Uzama Class Chiefs constitute the highest 
+                            traditional order within the Agbor Kingdom 
+                            administrative structure. Rooted in ancient
+                             hereditary succession passed down through
+                              primogeniture, the Uzama serve as the principal 
+                              advisors to His Royal Majesty, the Dein of Agbor,
+                               and function as the supreme kingmakers of the realm. 
+                               Select Uzama chiefs also hold hereditary leadership over
+                                their respective communities, clans, and quarters across the kingdom
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="council-card">
+
+                    <div class="council-card-image">
+
+                        <img
+                            src="images/royal/ighaiwochiefs.jpeg"
+                            alt="Royal Council member"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="council-card-content">
+
+                        <span>
+                            ROYAL COUNCIL
+                        </span>
+
+                        <h3>
+                        The Executive Cabinet
+                        </h3>
+
+                        <p>
+                            The Ighaiwo Class Chiefs constitute the second-highest traditional governance order in Agbor Kingdom, ranking directly below the kingmaking Uzama class.
+                             Built upon the sacred principle of hereditary primogeniture.Select Ighaiwo chiefs also hold traditional authority over their respective communities,
+                              while serving collectively as the core executive cabinet of His Royal Majesty, the Dein of Agbor.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="council-card">
+
+                    <div class="council-card-image">
+
+                        <img
+                            src="images/royal/ifiorkporchiefs.jpeg"
+                            alt="Royal Council member"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="council-card-content">
+
+                        <span>
+                            ROYAL COUNCIL
+                        </span>
+
+                        <h3>
+                           The Traditional Cabinet
+                        </h3>
+
+                        <p>
+                           The Ifiorkpor Class Chiefs constitute the third distinct order within the Agbor Kingdom traditional hierarchy, serving as a vital bridge between local community administration and the royal palace
+                            of His Royal Majesty, the Dein of Agbor. While a significant portion of Ifiorkpor titles are strictly hereditary—descending through lineage from father to eldest son—others are governed by gerontocracy, where leadership and chieftaincy rights pass to the oldest surviving man within a family, quarter, or council.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                 <article class="council-card">
+
+                    <div class="council-card-image">
+
+                        <img
+                            src="images/royal/idibodeinchiefs.jpeg"
+                            alt="Royal Council member"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="council-card-content">
+
+                        <span>
+                            ROYAL COUNCIL
+                        </span>
+
+                        <h3>
+                            The Honorary Cabinet
+                        </h3>
+
+                        <p>
+                           The Ndichen-Igbodein Class Chiefs represent the fourth tier within the Agbor Kingdom traditional hierarchy. Distinct from the hereditary and gerontocratic orders, the Ndichen-Igbodein titles are strictly non-hereditary. They are bestowed at the sole prerogative of His Royal Majesty, the Dein of Agbor,
+                            upon distinguished individuals whenever it pleases the monarch to recognize exceptional merit, loyalty, and service to the Agbor Kingdom.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         ROLE OF THE COUNCIL
+    ========================================== -->
+
+    <section class="council-role">
+
+        <div class="section-container">
+
+            <div class="council-role-grid">
+
+                <div class="council-role-image">
+
+                    <img
+                        src="images/royal/DEIN-OF-AGBOR.jpg"
+                        alt="Royal Council of Agbor Kingdom"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <div class="council-role-content">
+
+    <span class="section-label">
+        THE SOVEREIGN MONARCHY
+    </span>
+
+    <h2>
+        The Dein of Agbor Kingdom
+    </h2>
+
+    <p>
+        His Royal Majesty, the Dein of Agbor, stands as the supreme custodian of ancient traditions, sacred authority, and territorial integrity within the Agbor Kingdom.
+    </p>
+
+    <p>
+        As the royal center of governance, the Dein provides sovereign leadership, unites all traditional chieftaincy tiers, and guides the socio-cultural and administrative progress of the kingdom.
+    </p>
+
+</div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         TRADITIONAL LEADERSHIP
+    ========================================== -->
+
+    <section class="council-values">
+
+        <div class="section-container">
+
+            <div class="council-values-content">
+
+                <span class="section-label">
+                    SERVICE & TRADITION
+                </span>
+
+                <h2>
+                    Preserving the Institution
+                </h2>
+
+                <p>
+                    The Council contributes to the continuity
+                    of traditional leadership and the preservation
+                    of the values, customs and heritage of
+                    Agbor Kingdom.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<div id="siteFooter"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/main.js"></script>
+<script src="js/footer-loader.js"></script>
+
+</body>
+</html>

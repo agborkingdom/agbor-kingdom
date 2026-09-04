@@ -1,0 +1,546 @@
+
+/* =========================================
+   ECONOMY HERO
+========================================= */
+
+.economy-hero {
+    position: relative;
+
+    min-height: 560px;
+
+    display: flex;
+    align-items: center;
+
+    background-color: var(--royal-primary);
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   HERO OVERLAY
+========================================= */
+
+.economy-hero-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 15, 10, 0.78),
+            rgba(20, 15, 10, 0.50)
+        );
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.economy-hero .section-container {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+}
+
+.economy-hero-content {
+
+    max-width: 800px;
+
+    padding: 100px 0;
+
+    margin-left: 30px;
+
+    color: white;
+
+    animation:
+        economyHeroIn 0.9s ease both;
+}
+
+.economy-hero-content .section-label {
+    color: var(--royal-gold);
+}
+
+.economy-hero-content h1 {
+
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(42px, 7vw, 74px);
+
+    line-height: 1.05;
+}
+
+.economy-hero-content p {
+
+    max-width: 650px;
+
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.88);
+
+    font-size: 18px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   HERO ANIMATION
+========================================= */
+
+@keyframes economyHeroIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .economy-hero {
+        min-height: 500px;
+    }
+
+    .economy-hero-content {
+        padding: 80px 0;
+    }
+
+    .economy-hero-content h1 {
+        font-size: 42px;
+    }
+
+    .economy-hero-content p {
+        font-size: 16px;
+    }
+
+}
+
+
+
+.economy-hero-content {
+    max-width: 800px;
+
+    padding: 100px 0;
+
+    color: white;
+}
+
+.economy-hero-content .section-label {
+    color: var(--royal-gold);
+}
+
+.economy-hero-content h1 {
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(42px, 7vw, 70px);
+
+    line-height: 1.05;
+}
+
+.economy-hero-content p {
+    max-width: 680px;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   INTRO
+========================================= */
+
+.economy-intro {
+    padding: 100px 0;
+}
+
+.economy-intro-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+}
+
+.economy-intro-heading h2 {
+    margin-top: 15px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(36px, 5vw, 55px);
+
+    line-height: 1.15;
+
+    color: var(--royal-primary);
+}
+
+.economy-intro-text p {
+    margin: 0 0 20px;
+
+    color: #555;
+
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   SECTORS
+========================================= */
+
+.economy-sectors {
+    padding: 100px 0;
+
+    background: #f7f5f0;
+}
+
+.economy-heading {
+    max-width: 700px;
+
+    margin: 0 auto 55px;
+
+    text-align: center;
+}
+
+.economy-heading h2 {
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(35px, 5vw, 52px);
+
+    color: var(--royal-primary);
+}
+
+.economy-heading p {
+    color: #666;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   ECONOMY CARDS
+========================================= */
+
+.economy-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 25px;
+}
+
+.economy-card {
+    overflow: hidden;
+
+    background: white;
+
+    border:
+        1px solid
+        rgba(0, 0, 0, 0.07);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.economy-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 18px 40px
+        rgba(0, 0, 0, 0.10);
+}
+
+.economy-card-image {
+    height: 220px;
+
+    overflow: hidden;
+}
+
+.economy-card-image img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.5s ease;
+}
+
+.economy-card:hover
+.economy-card-image img {
+    transform: scale(1.05);
+}
+
+.economy-card-content {
+    position: relative;
+
+    padding: 30px;
+}
+
+.economy-card-number {
+    color: var(--royal-gold);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.economy-card-content h3 {
+    margin: 10px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 25px;
+
+    color: var(--royal-primary);
+}
+
+.economy-card-content p {
+    margin: 0;
+
+    color: #666;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   TRADITION
+========================================= */
+
+.economy-tradition {
+    padding: 110px 0;
+}
+
+.economy-tradition-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 75px;
+
+    align-items: center;
+}
+
+.economy-tradition-image {
+    height: 500px;
+
+    overflow: hidden;
+}
+
+.economy-tradition-image img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.economy-tradition-content h2 {
+    margin: 15px 0 25px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(35px, 5vw, 52px);
+
+    line-height: 1.15;
+
+    color: var(--royal-primary);
+}
+
+.economy-tradition-content p {
+    color: #666;
+
+    line-height: 1.9;
+}
+
+.economy-link {
+    display: inline-flex;
+
+    gap: 12px;
+
+    margin-top: 15px;
+
+    color: var(--royal-primary);
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.economy-link span {
+    color: var(--royal-gold);
+
+    transition:
+        transform 0.2s ease;
+}
+
+.economy-link:hover span {
+    transform: translateX(5px);
+}
+
+
+/* =========================================
+   FUTURE
+========================================= */
+
+.economy-future {
+    padding: 110px 0;
+
+    background: var(--royal-primary);
+
+    color: white;
+
+    text-align: center;
+}
+
+.economy-future-content {
+    max-width: 760px;
+
+    margin: auto;
+}
+
+.economy-future .section-label {
+    color: var(--royal-gold);
+}
+
+.economy-future h2 {
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(35px, 5vw, 55px);
+
+    line-height: 1.15;
+}
+
+.economy-future p {
+    max-width: 650px;
+
+    margin: auto;
+
+    color: rgba(255, 255, 255, 0.75);
+
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 950px) {
+
+    .economy-intro-grid,
+    .economy-tradition-grid {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+    .economy-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .economy-hero {
+        min-height: 430px;
+    }
+
+    .economy-hero-content {
+        padding: 75px 0;
+    }
+
+    .economy-hero-content h1 {
+        font-size: 42px;
+    }
+
+    .economy-hero-content p {
+        font-size: 16px;
+    }
+
+    .economy-intro,
+    .economy-sectors,
+    .economy-tradition,
+    .economy-future {
+        padding: 70px 0;
+    }
+
+    .economy-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .economy-card-image {
+        height: 210px;
+    }
+
+    .economy-tradition-image {
+        height: 350px;
+    }
+
+}

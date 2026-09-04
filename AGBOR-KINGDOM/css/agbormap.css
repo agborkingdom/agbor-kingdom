@@ -1,0 +1,169 @@
+:root { 
+  --ink: #10211f; 
+  --forest: #163b35; 
+  --gold: #d7ae58; 
+  --sand: #f4efe5; 
+  --paper: #fffdf8; 
+}
+
+* { 
+  box-sizing: border-box; 
+}
+
+body { 
+  font-family: "DM Sans", sans-serif; 
+  color: var(--ink); 
+}
+
+.display { 
+  font-family: "Playfair Display", serif; 
+}
+
+/* Map Canvas Background */
+.map-stage {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(215,174,88,.25) 0 2px, transparent 2.5px),
+    radial-gradient(circle at 78% 72%, rgba(22,59,53,.14) 0 2px, transparent 2.5px),
+    linear-gradient(135deg, #edf0e7, #dce7dc);
+  background-size: 32px 32px, 44px 44px, auto;
+  overflow: hidden;
+}
+
+.map-stage::before {
+  content: ""; 
+  position: absolute; 
+  inset: 8% 7%;
+  border: 1px solid rgba(22,59,53,.16); 
+  border-radius: 47% 53% 50% 42%;
+  transform: rotate(-7deg);
+  pointer-events: none;
+}
+
+/* Graphic Decorative Elements */
+.road { 
+  position: absolute; 
+  height: 8px; 
+  border-radius: 999px; 
+  background: #f9f4e9; 
+  box-shadow: 0 0 0 2px rgba(22,59,53,.12); 
+  transform-origin: left center; 
+}
+
+.road::after { 
+  content: ""; 
+  position: absolute; 
+  left: 6px; 
+  right: 6px; 
+  top: 3px; 
+  border-top: 1px dashed rgba(164,119,43,.75); 
+}
+
+.river { 
+  position: absolute; 
+  width: 135%; 
+  height: 58px; 
+  border: 12px solid rgba(84,153,147,.42); 
+  border-color: rgba(84,153,147,.42) transparent transparent transparent; 
+  border-radius: 50%; 
+  transform: rotate(11deg); 
+  pointer-events: none;
+}
+
+.leaf { 
+  position: absolute; 
+  width: 100px; 
+  height: 48px; 
+  border-radius: 100% 0 100% 0; 
+  background: rgba(41,106,80,.12); 
+  transform: rotate(24deg); 
+  pointer-events: none;
+}
+
+/* Map Pin Styling */
+.map-pin { 
+  position: absolute; 
+  z-index: 4; 
+  transform: translate(-50%, -100%); 
+  transition: transform .2s ease, filter .2s ease; 
+  cursor: pointer;
+}
+
+.map-pin:hover, .map-pin.selected { 
+  transform: translate(-50%, -100%) scale(1.15); 
+  filter: drop-shadow(0 8px 9px rgba(15,45,39,.28)); 
+  z-index: 10;
+}
+
+.pin-dot { 
+  width: 32px; 
+  height: 32px; 
+  display: grid; 
+  place-items: center; 
+  border: 2px solid #fffaf0; 
+  border-radius: 50% 50% 50% 0; 
+  background: var(--forest); 
+  color: #fff; 
+  transform: rotate(-45deg); 
+  box-shadow: 0 5px 12px rgba(15,45,39,.25); 
+}
+
+.map-pin.selected .pin-dot {
+  background: var(--gold);
+  color: var(--forest);
+}
+
+.pin-dot i { 
+  width: 15px; 
+  height: 15px; 
+  transform: rotate(45deg); 
+}
+
+.pin-label { 
+  position: absolute; 
+  left: 22px; 
+  bottom: 8px; 
+  white-space: nowrap; 
+  background: rgba(255,253,248,.95); 
+  border: 1px solid rgba(22,59,53,.18); 
+  padding: 3px 8px; 
+  border-radius: 6px; 
+  font-size: 11px; 
+  font-weight: 700; 
+  color: var(--forest); 
+  box-shadow: 0 3px 8px rgba(15,45,39,.09); 
+}
+
+/* Card States */
+.community-card { 
+  transition: all .2s ease; 
+}
+
+.community-card:hover, .community-card.active { 
+  border-color: var(--gold); 
+  background: #fff9ec; 
+  transform: translateX(3px); 
+}
+
+.filter-btn.active { 
+  background: #163b35; 
+  color: #fffdf8; 
+  border-color: #163b35; 
+}
+
+.detail-card { 
+  display: none; 
+}
+
+.detail-card.active { 
+  display: block; 
+  animation: reveal .28s ease both; 
+}
+
+@keyframes reveal { 
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1023px) { 
+  .map-stage { min-height: 480px; } 
+}

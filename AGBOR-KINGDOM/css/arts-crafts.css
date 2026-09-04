@@ -1,0 +1,318 @@
+/* =========================================
+   ARTS & CRAFTS PAGE
+========================================= */
+
+.arts-crafts-page {
+    background: #faf9f6;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.arts-crafts-hero {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 20px;
+    text-align: center;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(25, 19, 12, 0.72),
+            rgba(25, 19, 12, 0.72)
+        ),
+        url("https://flhorvkvkxbodappjspg.supabase.co/storage/v1/object/public/kingdom-media/hero/hero-1.jpeg")
+        center / cover no-repeat;
+}
+
+.arts-crafts-hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(850px, 100%);
+    color: #fff;
+}
+
+.arts-crafts-hero-label {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #d4af37;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.arts-crafts-hero h1 {
+    margin: 0 0 18px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(40px, 6vw, 68px);
+    font-weight: 600;
+    line-height: 1.05;
+}
+
+.arts-crafts-hero p {
+    max-width: 720px;
+    margin: 0 auto;
+    color: rgba(255,255,255,.88);
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   INTRO
+========================================= */
+
+.arts-crafts-intro {
+    padding: 75px 20px 50px;
+    background: #fff;
+    text-align: center;
+}
+
+.arts-crafts-intro-container {
+    width: min(900px, 100%);
+    margin: auto;
+}
+
+.arts-crafts-intro-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #9b7620;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.arts-crafts-intro h2 {
+    margin: 0 0 20px;
+    color: #211a11;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 4vw, 46px);
+}
+
+.arts-crafts-intro p {
+    margin: auto;
+    color: #625b50;
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.arts-crafts-content {
+    padding: 35px 20px 90px;
+}
+
+.arts-crafts-sections {
+    width: min(1120px, 100%);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.arts-crafts-section {
+    display: grid;
+    grid-template-columns: .85fr 1.15fr;
+    min-height: 300px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e7dfd1;
+    border-radius: 8px;
+    box-shadow: 0 8px 28px rgba(45,35,20,.06);
+}
+
+.arts-crafts-section-reverse {
+    grid-template-columns: 1.15fr .85fr;
+}
+
+.arts-crafts-section-reverse
+.arts-crafts-section-image {
+    order: 2;
+}
+
+.arts-crafts-section-reverse
+.arts-crafts-section-content {
+    order: 1;
+}
+
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.arts-crafts-section-image {
+    min-height: 300px;
+    overflow: hidden;
+    background: #eee8dd;
+}
+
+.arts-crafts-section-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform .5s ease;
+}
+
+.arts-crafts-section:hover
+.arts-crafts-section-image img {
+    transform: scale(1.04);
+}
+
+
+/* =========================================
+   TEXT
+========================================= */
+
+.arts-crafts-section-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px;
+}
+
+.arts-crafts-label {
+    margin-bottom: 12px;
+    color: #a17b25;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.arts-crafts-section-content h2 {
+    margin: 0 0 10px;
+    color: #211a11;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(27px, 3vw, 38px);
+}
+
+.arts-crafts-section-content h3 {
+    margin: 0 0 18px;
+    color: #7a6a52;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.arts-crafts-section-content p {
+    margin: 0;
+    color: #5e584f;
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.arts-crafts-message {
+    padding: 70px 25px;
+    background: #fff;
+    border: 1px solid #e7dfd1;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.arts-crafts-message-icon {
+    margin-bottom: 15px;
+    color: #a17b25;
+    font-size: 30px;
+}
+
+.arts-crafts-message h3 {
+    margin: 0 0 10px;
+    color: #211a11;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+}
+
+.arts-crafts-message p {
+    max-width: 650px;
+    margin: auto;
+    color: #716a60;
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .arts-crafts-hero {
+        min-height: 320px;
+        padding: 60px 20px;
+    }
+
+    .arts-crafts-intro {
+        padding: 60px 20px 40px;
+    }
+
+    .arts-crafts-content {
+        padding: 25px 15px 60px;
+    }
+
+    .arts-crafts-section,
+    .arts-crafts-section-reverse {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .arts-crafts-section-reverse
+    .arts-crafts-section-image,
+    .arts-crafts-section-reverse
+    .arts-crafts-section-content {
+        order: initial;
+    }
+
+    .arts-crafts-section-image {
+        min-height: 230px;
+        max-height: 280px;
+    }
+
+    .arts-crafts-section-content {
+        padding: 32px 25px;
+    }
+
+    .arts-crafts-section-content h2 {
+        font-size: 29px;
+    }
+
+    .arts-crafts-section-content p {
+        font-size: 15px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .arts-crafts-hero h1 {
+        font-size: 36px;
+    }
+
+    .arts-crafts-hero p {
+        font-size: 15px;
+    }
+
+    .arts-crafts-section-image {
+        min-height: 200px;
+    }
+
+    .arts-crafts-section-content {
+        padding: 28px 20px;
+    }
+}

@@ -1,0 +1,595 @@
+/* =========================================
+   POLITICAL ACHIEVEMENTS
+========================================= */
+
+/* =========================================
+   ACHIEVEMENTS HERO
+========================================= */
+
+.achievements-hero {
+    position: relative;
+
+    min-height: 560px;
+
+    display: flex;
+    align-items: center;
+
+    background-color: var(--royal-primary);
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   HERO OVERLAY
+========================================= */
+
+.achievements-hero-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 15, 10, 0.78),
+            rgba(20, 15, 10, 0.50)
+        );
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.achievements-hero .section-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.achievements-hero-content {
+    max-width: 800px;
+
+    padding: 100px 0;
+    margin-left: 30px;
+    color: white;
+
+    animation:
+        achievementsHeroIn 0.9s ease both;
+}
+
+.achievements-hero-content .section-label {
+    color: var(--royal-gold);
+}
+
+.achievements-hero-content h1 {
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(42px, 7vw, 74px);
+
+    line-height: 1.05;
+}
+
+.achievements-hero-content p {
+    max-width: 650px;
+
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.88);
+
+    font-size: 18px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   HERO ANIMATION
+========================================= */
+
+@keyframes achievementsHeroIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .achievements-hero {
+        min-height: 500px;
+    }
+
+    .achievements-hero-content {
+        padding: 80px 0;
+    }
+
+    .achievements-hero-content h1 {
+        font-size: 42px;
+    }
+
+    .achievements-hero-content p {
+        font-size: 16px;
+    }
+
+}
+
+/* =========================================
+   INTRODUCTION
+========================================= */
+
+.achievements-intro {
+    padding: 100px 0;
+}
+
+
+.achievements-intro-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+}
+
+
+.achievements-intro-heading h2 {
+    margin-top: 15px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(36px, 5vw, 55px);
+
+    line-height: 1.15;
+
+    color: var(--royal-primary);
+}
+
+
+.achievements-intro-text p {
+    margin: 0 0 20px;
+
+    color: #555;
+
+    font-size: 16px;
+
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   ACHIEVEMENTS
+========================================= */
+
+.achievements-section {
+    padding: 100px 0;
+
+    background: #f7f5f0;
+}
+
+
+.achievements-heading {
+    max-width: 720px;
+
+    margin: 0 auto 55px;
+
+    text-align: center;
+}
+
+
+.achievements-heading h2 {
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(35px, 5vw, 52px);
+
+    color: var(--royal-primary);
+}
+
+
+.achievements-heading p {
+    color: #666;
+
+    line-height: 1.8;
+}
+
+
+.achievements-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 25px;
+}
+
+
+/* =========================================
+   ACHIEVEMENT CARD
+========================================= */
+
+.achievement-card {
+    position: relative;
+
+    min-height: 300px;
+
+    padding: 35px;
+
+    background: white;
+
+    border:
+        1px solid
+        rgba(0, 0, 0, 0.07);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.achievement-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 18px 40px
+        rgba(0, 0, 0, 0.10);
+}
+
+
+.achievement-number {
+    position: absolute;
+
+    top: 20px;
+
+    right: 22px;
+
+    color: rgba(0, 0, 0, 0.10);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 34px;
+
+    font-weight: bold;
+}
+
+
+.achievement-icon {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 48px;
+
+    height: 48px;
+
+    margin-bottom: 25px;
+
+    background: var(--royal-primary);
+
+    color: var(--royal-gold);
+
+    font-size: 14px;
+}
+
+
+.achievement-label {
+    color: var(--royal-gold);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.7px;
+}
+
+
+.achievement-content h3 {
+    margin: 12px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 25px;
+
+    color: var(--royal-primary);
+}
+
+
+.achievement-content p {
+    margin: 0;
+
+    color: #666;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   TIMELINE
+========================================= */
+
+.achievements-timeline-section {
+    padding: 100px 0;
+}
+
+
+.achievements-timeline {
+    position: relative;
+
+    max-width: 850px;
+
+    margin: 60px auto 0;
+}
+
+
+.achievements-timeline::before {
+    content: "";
+
+    position: absolute;
+
+    left: 25px;
+
+    top: 0;
+
+    bottom: 0;
+
+    width: 1px;
+
+    background: #d8d3c9;
+}
+
+
+.timeline-item {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns: 52px 1fr;
+
+    gap: 25px;
+
+    margin-bottom: 45px;
+}
+
+
+.timeline-marker {
+    position: relative;
+
+    z-index: 1;
+
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--royal-primary);
+
+    color: var(--royal-gold);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+.timeline-content {
+    padding: 5px 0 25px;
+}
+
+
+.timeline-content > span {
+    color: var(--royal-gold);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.timeline-content h3 {
+    margin: 10px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 27px;
+
+    color: var(--royal-primary);
+}
+
+
+.timeline-content p {
+    margin: 0;
+
+    color: #666;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   CLOSING
+========================================= */
+
+.achievements-closing {
+    padding: 100px 0;
+
+    background: var(--royal-primary);
+
+    color: white;
+
+    text-align: center;
+}
+
+
+.achievements-closing-content {
+    max-width: 750px;
+
+    margin: auto;
+}
+
+
+.achievements-closing .section-label {
+    color: var(--royal-gold);
+}
+
+
+.achievements-closing h2 {
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(35px, 5vw, 55px);
+
+    line-height: 1.15;
+}
+
+
+.achievements-closing p {
+    max-width: 600px;
+
+    margin: auto;
+
+    color: rgba(255, 255, 255, 0.75);
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 950px) {
+
+    .achievements-intro-grid {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+
+    .achievements-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .achievements-hero {
+        min-height: 430px;
+    }
+
+
+    .achievements-hero-content {
+        padding: 75px 0;
+    }
+
+
+    .achievements-hero-content h1 {
+        font-size: 42px;
+    }
+
+
+    .achievements-hero-content p {
+        font-size: 16px;
+    }
+
+
+    .achievements-intro,
+    .achievements-section,
+    .achievements-timeline-section,
+    .achievements-closing {
+        padding: 70px 0;
+    }
+
+
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .achievement-card {
+        min-height: auto;
+    }
+
+
+    .timeline-item {
+        grid-template-columns: 45px 1fr;
+
+        gap: 18px;
+    }
+
+
+    .timeline-marker {
+        width: 45px;
+
+        height: 45px;
+    }
+
+
+    .achievements-timeline::before {
+        left: 22px;
+    }
+
+}

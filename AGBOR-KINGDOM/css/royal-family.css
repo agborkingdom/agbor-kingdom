@@ -1,0 +1,465 @@
+/* =========================================
+   ROYAL FAMILY PAGE
+========================================= */
+
+.family-hero {
+      padding: 90px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--royal-primary),
+            #151515
+        );
+
+    color: var(--white);
+
+    text-align: center;
+}
+
+.family-hero-content {
+    align-items: center;
+}
+
+.family-hero-content .section-label {
+    color: var(--royal-gold);
+}
+
+.family-hero-content h1 {
+        margin: 12px 0 18px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(
+        36px,
+        6vw,
+        64px
+    );
+
+    line-height: 1.1;
+}
+
+.family-hero-content p {
+       max-width: 680px;
+
+    margin: 0 auto;
+
+    color:
+        rgba(255, 255, 255, 0.8);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   INTRODUCTION
+========================================= */
+
+.family-intro {
+    padding: 100px 0;
+}
+
+.family-intro-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, 0.8fr)
+        minmax(300px, 1.2fr);
+
+    gap: 80px;
+
+    align-items: start;
+}
+
+.family-intro-heading h2 {
+    margin-top: 15px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(32px, 4vw, 52px);
+
+    line-height: 1.15;
+
+    color: var(--royal-primary);
+}
+
+.family-intro-content p {
+    margin: 0 0 20px;
+
+    color: #555;
+
+    font-size: 17px;
+
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   FEATURE
+========================================= */
+
+.family-feature {
+    padding: 110px 0;
+
+    background: #f7f5f0;
+}
+
+.family-feature-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(300px, 1fr)
+        minmax(300px, 1fr);
+
+    gap: 70px;
+
+    align-items: center;
+}
+
+.family-feature-image {
+    min-height: 520px;
+
+    overflow: hidden;
+}
+
+.family-feature-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+.family-feature-content h2 {
+    margin: 15px 0 25px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(34px, 4vw, 52px);
+
+    line-height: 1.15;
+
+    color: var(--royal-primary);
+}
+
+.family-feature-content p {
+    margin-bottom: 20px;
+
+    color: #555;
+
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   FAMILY MEMBERS
+========================================= */
+
+.family-members {
+    padding: 110px 0;
+}
+
+.family-heading {
+    max-width: 750px;
+
+    margin-bottom: 50px;
+}
+
+.family-heading h2 {
+    margin: 15px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(34px, 4vw, 52px);
+
+    color: var(--royal-primary);
+}
+
+.family-heading p {
+    color: #666;
+
+    line-height: 1.8;
+}
+
+.family-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 22px;
+}
+
+.family-card {
+    overflow: hidden;
+
+    background: white;
+
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.family-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.1);
+}
+
+.family-card-image {
+    height: 330px;
+
+    overflow: hidden;
+
+    background: #e9e5dd;
+}
+
+.family-card-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.5s ease;
+}
+
+.family-card:hover
+.family-card-image img {
+    transform: scale(1.04);
+}
+
+.family-card-content {
+    padding: 25px;
+}
+
+.family-card-content span {
+    color: var(--royal-gold);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.6px;
+}
+
+.family-card-content h3 {
+    margin: 10px 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 22px;
+
+    color: var(--royal-primary);
+}
+
+.family-card-content p {
+    margin: 0;
+
+    color: #666;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   FAMILY & INSTITUTION
+========================================= */
+
+.family-institution {
+    padding: 110px 0;
+
+    background: #f7f5f0;
+}
+
+.family-institution-content {
+    max-width: 800px;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+.family-institution-content h2 {
+    margin: 15px 0 20px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(34px, 4vw, 52px);
+
+    color: var(--royal-primary);
+}
+
+.family-institution-content p {
+    margin: 0;
+
+    color: #666;
+
+    font-size: 17px;
+
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   HERITAGE
+========================================= */
+
+.family-heritage {
+    padding: 100px 0;
+}
+
+.family-heritage-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, 0.8fr)
+        minmax(300px, 1.2fr);
+
+    gap: 70px;
+
+    align-items: center;
+}
+
+.family-heritage-grid h2 {
+    margin: 15px 0 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(34px, 4vw, 50px);
+
+    line-height: 1.15;
+
+    color: var(--royal-primary);
+}
+
+.family-heritage-grid > p {
+    margin: 0;
+
+    color: #555;
+
+    font-size: 17px;
+
+    line-height: 1.9;
+}
+
+
+/* =========================================
+   ANIMATION
+========================================= */
+
+@keyframes familyHeroIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .family-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .family-feature-grid {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+    .family-feature-image {
+        min-height: 400px;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .family-hero {
+        min-height: 430px;
+    }
+
+    .family-hero-content {
+        padding: 80px 0;
+    }
+
+    .family-intro,
+    .family-feature,
+    .family-members,
+    .family-institution,
+    .family-heritage {
+        padding: 70px 0;
+    }
+
+    .family-intro-grid,
+    .family-heritage-grid {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .family-hero-content h1 {
+        font-size: 42px;
+    }
+
+    .family-hero-content p {
+        font-size: 16px;
+    }
+
+    .family-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .family-card-image {
+        height: 380px;
+    }
+
+}

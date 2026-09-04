@@ -1,0 +1,4413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Agbor Kingdom — Admin</title>
+
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <!-- =========================================
+         ADMIN APP
+    ========================================== -->
+
+    <div id="adminApp">
+        
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <aside class="admin-sidebar">
+
+            <div class="admin-brand">
+
+                <div class="admin-brand-title">
+                    AGBOR KINGDOM
+                </div>
+
+                <div class="admin-brand-subtitle">
+                    ADMINISTRATION
+                </div>
+
+            </div>
+
+
+            <nav class="admin-navigation">
+
+                <a href="#" class="admin-nav-link active">
+                    Dashboard
+                </a>
+
+                
+
+               <a
+    href="#"
+    class="admin-nav-link"
+    data-admin-section="adminAnnouncementsSection"
+>
+    Announcements
+</a>
+
+            </nav>
+
+
+            <div class="admin-sidebar-footer">
+
+                <button
+                    type="button"
+                    id="adminLogoutButton"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =====================================
+             MAIN AREA
+        ====================================== -->
+
+        <main class="admin-main">
+
+            <div id="adminToast" class="admin-toast" aria-live="polite"></div>
+
+            <!-- TOP BAR -->
+
+            <header class="admin-topbar">
+
+                <div>
+
+                    <span class="admin-topbar-label">
+                        AGBOR KINGDOM
+                    </span>
+
+
+                </div>
+
+
+                <div class="admin-user">
+
+                    <span class="admin-user-name">
+                        Administrator
+                    </span>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================
+                 DASHBOARD CONTENT
+            ================================== -->
+
+
+            <section class="admin-content">
+
+                <div class="admin-welcome">
+
+                    <span class="admin-section-label">
+                        ADMINISTRATION
+                    </span>
+
+                    <h2>
+                        Welcome to the Admin Panel
+                    </h2>
+
+                    <p>
+                        Manage the content of the Royal
+                        Kingdom of Agbor website from one
+                        central place.
+                    </p>
+
+                </div>
+
+
+                <!-- =================================
+                     DASHBOARD CARDS
+                ================================== -->
+
+                <div class="admin-dashboard-grid">
+
+                    <article class="admin-card">
+
+                        <span class="admin-card-number">
+                            01
+                        </span>
+
+                        <h3>
+                            Pages
+                        </h3>
+
+                        <p>
+                            Manage page titles, subtitles,
+                            hero images and page content.
+                        </p>
+
+                                        <button
+                            type="button"
+                            id="managePagesButton"
+                        >
+                            Manage Pages
+                        </button> 
+
+                    </article>
+
+
+                    <article class="admin-card">
+
+                        <span class="admin-card-number">
+                            02
+                        </span>
+
+                        <h3>
+                            Announcements
+                        </h3>
+
+                        <p>
+                            Manage palace updates and
+                            kingdom announcements.
+                        </p>
+
+
+                        <button
+                    type="button"
+                    id="dashboardAnnouncementsButton"
+                >
+                    Manage Announcements
+                </button>
+
+                    </article>
+
+
+                   <!-- =========================================
+                            NEWS ADMIN CARD
+                        ========================================= -->
+
+                        <article class="admin-card">
+
+                            <span class="admin-card-number">
+                                03
+                            </span>
+
+                            <h3>
+                                News
+                            </h3>
+
+                            <p>
+                                Create and manage kingdom news
+                                and publications.
+                            </p>
+
+                            <button
+                                type="button"
+                                id="manageNewsButton"
+                                class="admin-card-button"
+                            >
+                                Manage News
+                            </button>
+
+                        </article>
+
+                    <article class="admin-card">
+
+                        <span class="admin-card-number">
+                            04
+                        </span>
+
+                        <h3>
+                            Events
+                        </h3>
+
+                        <p>
+                            Manage kingdom events and the
+                            kingdom calendar.
+                        </p>
+
+                       
+                                        <button
+                    type="button"
+                    id="manageEventsButton"
+                    class="admin-card-button"
+                >
+                    Manage Events
+                </button>
+
+                    </article>
+
+                    <article class="admin-card">
+
+                <span class="admin-card-number">
+                    05
+                </span>
+
+                <h3>
+                    Illustrious Sons &amp; Daughters
+                </h3>
+
+                <p>
+                    Manage distinguished sons and daughters
+                    of Agbor Kingdom.
+                </p>
+
+            <button
+                type="button"
+                id="manageIllustriousButton"
+                class="admin-primary-button"
+            >
+                Manage Illustrious People
+            </button>
+
+            </article>
+
+
+
+    <!-- =========================================
+     MEDIA MANAGEMENT CARD
+========================================= -->
+
+<article class="admin-card">
+
+    <span class="admin-card-number">
+        06
+    </span>
+
+    <h3>
+        Media
+    </h3>
+
+    <p>
+        Manage images, videos and other
+        kingdom media.
+    </p>
+
+    <button
+        type="button"
+        id="manageMediaButton"
+        class="admin-primary-button"
+    >
+        Manage Media
+    </button>
+
+</article>
+
+                  <article class="admin-card">
+
+    <span class="admin-card-number">
+        07
+    </span>
+
+    <h3>
+        Communities
+    </h3>
+
+    <p>
+        Manage the communities of
+        Agbor Kingdom.
+    </p>
+
+    <button
+        type="button"
+        id="manageCommunitiesButton"
+    >
+        Manage Communities
+    </button>
+
+</article>
+
+<article class="admin-card">
+
+    <span class="admin-card-number">
+        08
+    </span>
+
+    <h3>
+        Hero Slides
+    </h3>
+
+    <p>
+        Manage the images and content displayed
+        on the homepage hero slider.
+    </p>
+
+    <button
+        type="button"
+        id="manageHeroSlidesButton"
+    >
+        Manage Hero Slides
+    </button>
+
+</article>
+
+
+
+    <article class="admin-card">
+
+    <span class="admin-card-number">
+        09
+    </span>
+
+    <h3>
+        Publications
+    </h3>
+
+    <p>
+        Manage kingdom books, reports,
+        newsletters and documents.
+    </p>
+
+    <button
+        type="button"
+        id="managePublicationsButton"
+    >
+        Manage Publications
+    </button>
+
+</article>
+
+
+<!-- =========================================
+     CONTACT MESSAGES
+========================================== -->
+
+<article class="admin-card">
+
+    <span class="admin-card-number">
+        10
+    </span>
+
+    <h3>
+        Contact Messages
+    </h3>
+
+    <p>
+        View and manage enquiries received
+        from visitors and Kingdom correspondents.
+    </p>
+
+    <button
+        type="button"
+        id="manageContactMessagesButton"
+    >
+        Manage Contact Messages
+    </button>
+
+</article>
+
+
+
+
+
+
+                </div>
+
+            </section>
+
+
+
+
+
+            <section class="admin-section" id="pagesSection"hidden>
+
+    <div class="admin-section-header">
+        <div>
+            <span class="admin-label">CONTENT MANAGEMENT</span>
+            <h1>Kingdom Pages</h1>
+            <p>
+                Manage the titles, subtitles and hero information
+                displayed across the Agbor Kingdom website.
+            </p>
+        </div>
+    </div>
+
+    <div class="admin-pages-layout">
+
+        <!-- PAGE LIST -->
+        <aside class="admin-page-list">
+
+            <h3>Pages</h3>
+
+            <div id="adminPageList">
+                <p class="admin-loading">
+                    Loading pages...
+                </p>
+            </div>
+
+        </aside>
+
+
+        <!-- PAGE EDITOR -->
+        <div class="admin-page-editor">
+
+            <div id="pageEditorEmpty" class="admin-editor-empty">
+
+                <div class="admin-editor-icon">
+                    ✦
+                </div>
+
+                <h2>Select a Page</h2>
+
+                <p>
+                    Choose a kingdom page from the list
+                    to edit its content.
+                </p>
+
+            </div>
+
+
+            <form id="pageEditorForm" hidden>
+
+                <input
+                    type="hidden"
+                    id="editPageId"
+                >
+
+                <div class="admin-form-header">
+
+                    <div>
+                        <span class="admin-label">
+                            EDIT PAGE
+                        </span>
+
+                        <h2 id="editPageHeading">
+                            Page
+                        </h2>
+                    </div>
+
+                    <span
+                        class="admin-page-status"
+                        id="editPageStatus"
+                    >
+                        Published
+                    </span>
+
+                </div>
+
+
+                <!-- TITLE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editPageTitle">
+                        Page Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editPageTitle"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SUBTITLE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editPageSubtitle">
+                        Page Subtitle
+                    </label>
+
+                    <textarea
+                        id="editPageSubtitle"
+                        rows="4"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- HERO IMAGE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editPageHeroImage">
+                        Hero Image URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="editPageHeroImage"
+                        placeholder="https://..."
+                    >
+
+                    <small>
+                        Used by pages whose hero image is stored
+                        in kingdom_pages.
+                    </small>
+
+                </div>
+
+
+                <!-- PUBLISHED -->
+
+                <div class="admin-form-checkbox">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="editPagePublished"
+                        >
+
+                        <span>
+                            Page is published
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="admin-form-actions">
+
+                    <button
+                        type="submit"
+                        class="admin-save-button"
+                    >
+                        Save Changes
+                    </button>
+
+                    <span
+                        id="pageSaveMessage"
+                        class="admin-save-message"
+                    ></span>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    
+
+</section>
+
+<!-- =========================================
+     PAGE SECTIONS
+========================================= -->
+
+
+<section
+    class="admin-sections-panel"
+    id="adminSectionsPanel"
+>
+
+    
+    <div class="admin-sections-header">
+
+    <div>
+        <span class="admin-section-label">
+            PAGE SECTIONS
+        </span>
+
+        <h3>
+            Sections on this page
+        </h3>
+    </div>
+
+    <div class="admin-sections-header-actions">
+
+        <span
+            class="admin-section-count"
+            id="adminSectionCount"
+        >
+            0 sections
+        </span>
+
+        <button
+            type="button"
+            class="admin-add-section-button"
+            id="addSectionButton"
+        >
+            + Add Section
+        </button>
+
+    </div>
+
+</div>
+
+    <div
+        id="adminSectionList"
+        class="admin-section-list"
+    >
+
+        <p class="admin-loading">
+            Select a page to view its sections.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     SECTION EDITOR
+========================================= -->
+
+<section
+    class="admin-section-editor"
+    id="adminSectionEditor"
+    hidden
+>
+
+    <div class="admin-section-editor-header">
+
+        <div>
+
+            <span class="admin-section-label">
+                SECTION EDITOR
+            </span>
+
+            <h3 id="editSectionHeading">
+                Edit Section
+            </h3>
+
+        </div>
+
+        <span
+            id="editSectionStatus"
+            class="admin-section-status"
+        >
+            Active
+        </span>
+
+    </div>
+
+
+    <form id="pageSectionEditorForm">
+
+        <!-- Section ID -->
+
+        <input
+            type="hidden"
+            id="editSectionId"
+        >
+
+
+        <!-- Section Type -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionType">
+                Section Type
+            </label>
+
+            <input
+                type="text"
+                id="editSectionType"
+                readonly
+            >
+
+        </div>
+
+
+        <!-- Label -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionLabel">
+                Section Label
+            </label>
+
+            <input
+                type="text"
+                id="editSectionLabel"
+                placeholder="Section label"
+            >
+
+        </div>
+
+
+        <!-- Title -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionTitle">
+                Section Title
+            </label>
+
+            <input
+                type="text"
+                id="editSectionTitle"
+                placeholder="Section title"
+            >
+
+        </div>
+
+
+        <!-- Subtitle -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionSubtitle">
+                Section Subtitle
+            </label>
+
+            <input
+                type="text"
+                id="editSectionSubtitle"
+                placeholder="Section subtitle"
+            >
+
+        </div>
+
+
+        <!-- Content -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionContent">
+                Section Content
+            </label>
+
+            <textarea
+                id="editSectionContent"
+                rows="8"
+                placeholder="Enter the content for this section..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- Image -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionImage">
+                Image URL
+            </label>
+
+            <input
+                type="url"
+                id="editSectionImage"
+                placeholder="https://..."
+            >
+
+        </div>
+
+
+        <!-- Button Text -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionButtonText">
+                Button Text
+            </label>
+
+            <input
+                type="text"
+                id="editSectionButtonText"
+                placeholder="e.g. Learn More"
+            >
+
+        </div>
+
+
+        <!-- Button Link -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionButtonLink">
+                Button Link
+            </label>
+
+            <input
+                type="text"
+                id="editSectionButtonLink"
+                placeholder="e.g. /history.html"
+            >
+
+        </div>
+
+
+        <!-- Sort Order -->
+
+        <div class="admin-form-group">
+
+            <label for="editSectionSortOrder">
+                Sort Order
+            </label>
+
+            <input
+                type="number"
+                id="editSectionSortOrder"
+                min="0"
+                step="1"
+                value="0"
+            >
+
+            <small>
+                Controls the order in which sections appear on the page.
+            </small>
+
+        </div>
+
+
+        <!-- Active -->
+
+        <div class="admin-form-checkbox">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="editSectionActive"
+                >
+
+                <span>
+                    Section is active
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <!-- Save -->
+
+        <div class="admin-section-editor-actions">
+
+            <button
+                type="submit"
+                class="admin-save-button"
+                id="saveSectionButton"
+            >
+                Save Section
+            </button>
+
+            <span
+                id="sectionSaveMessage"
+            ></span>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+
+<section class="admin-management-section" id="adminAnnouncementsSection"
+hidden>
+
+
+<!-- =========================================
+     ANNOUNCEMENTS HEADER
+========================================== -->
+
+<div class="admin-management-header">
+
+    <div>
+        <span class="admin-section-label">
+            PALACE COMMUNICATION
+        </span>
+
+        <h2>
+            Announcements
+        </h2>
+
+        <p>
+            Manage announcements displayed on the kingdom website.
+        </p>
+    </div>
+
+    <button
+        type="button"
+        class="admin-primary-button"
+        id="addAnnouncementButton"
+    >
+        + Add Announcement
+    </button>
+
+</div>
+
+
+<!-- =========================================
+     ANNOUNCEMENT LIST
+========================================== -->
+
+<div class="admin-announcements-panel">
+
+    <div class="admin-panel-header">
+
+        <h3>
+            Kingdom Announcements
+        </h3>
+
+        <span
+            class="admin-item-count"
+            id="adminAnnouncementCount"
+        >
+            0 announcements
+        </span>
+
+    </div>
+
+
+    <div
+        class="admin-announcement-list"
+        id="adminAnnouncementList"
+    >
+
+        <p class="admin-loading">
+            Loading announcements...
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     ANNOUNCEMENT EDITOR
+========================================== -->
+
+<div
+    class="admin-editor-card"
+    id="adminAnnouncementEditor"
+    hidden
+>
+
+    <div class="admin-editor-header">
+
+        <div>
+
+            <span class="admin-section-label">
+                ANNOUNCEMENT EDITOR
+            </span>
+
+            <h3 id="editAnnouncementHeading">
+                Add New Announcement
+            </h3>
+
+        </div>
+
+        <span
+            class="admin-editor-status active"
+            id="editAnnouncementStatus"
+        >
+            New Announcement
+        </span>
+
+    </div>
+
+
+    <form
+        id="announcementEditorForm"
+    >
+
+        <!-- =====================================
+             ANNOUNCEMENT ID
+        ====================================== -->
+
+        <input
+            type="hidden"
+            id="editAnnouncementId"
+        >
+
+
+        <!-- =====================================
+             TITLE
+        ====================================== -->
+
+        <div class="admin-form-group">
+
+            <label for="editAnnouncementTitle">
+                Announcement Title
+            </label>
+
+            <input
+                type="text"
+                id="editAnnouncementTitle"
+                name="title"
+                placeholder="Enter announcement title"
+                required
+            >
+
+        </div>
+
+
+        <!-- =====================================
+             MESSAGE
+        ====================================== -->
+
+        <div class="admin-form-group">
+
+            <label for="editAnnouncementMessage">
+                Announcement Message
+            </label>
+
+            <textarea
+                id="editAnnouncementMessage"
+                name="message"
+                rows="5"
+                placeholder="Enter the announcement message"
+                required
+            ></textarea>
+
+        </div>
+
+
+        <!-- =====================================
+             LINK
+        ====================================== -->
+
+        <div class="admin-form-group">
+
+            <label for="editAnnouncementLink">
+                Link
+                <span class="admin-field-optional">
+                    Optional
+                </span>
+            </label>
+
+            <input
+                type="url"
+                id="editAnnouncementLink"
+                name="link"
+                placeholder="https://example.com"
+            >
+
+        </div>
+
+
+        <!-- =====================================
+             SORT ORDER
+        ====================================== -->
+
+        <div class="admin-form-group">
+
+            <label for="editAnnouncementSortOrder">
+                Display Order
+            </label>
+
+            <input
+                type="number"
+                id="editAnnouncementSortOrder"
+                name="sort_order"
+                value="0"
+                min="0"
+                step="1"
+            >
+
+            <small class="admin-field-help">
+                Lower numbers appear first.
+            </small>
+
+        </div>
+
+
+        <!-- =====================================
+             START DATE
+        ====================================== -->
+
+        <div class="admin-form-group">
+
+            <label for="editAnnouncementStartsAt">
+                Starts At
+                <span class="admin-field-optional">
+                    Optional
+                </span>
+            </label>
+
+            <input
+                type="datetime-local"
+                id="editAnnouncementStartsAt"
+                name="starts_at"
+            >
+
+            <small class="admin-field-help">
+                Leave empty to make the announcement available immediately.
+            </small>
+
+        </div>
+
+
+        <!-- =====================================
+             EXPIRY DATE
+        ====================================== -->
+
+        <div class="admin-form-group">
+
+            <label for="editAnnouncementExpiresAt">
+                Expires At
+                <span class="admin-field-optional">
+                    Optional
+                </span>
+            </label>
+
+            <input
+                type="datetime-local"
+                id="editAnnouncementExpiresAt"
+                name="expires_at"
+            >
+
+            <small class="admin-field-help">
+                Leave empty if the announcement should not automatically expire.
+            </small>
+
+        </div>
+
+
+        <!-- =====================================
+             ACTIVE TOGGLE
+        ====================================== -->
+
+        <div class="admin-form-group admin-toggle-group">
+
+            <div>
+
+                <label for="editAnnouncementActive">
+                    Active Announcement
+                </label>
+
+                <small class="admin-field-help">
+                    Active announcements can appear on the public website.
+                </small>
+
+            </div>
+
+            <label class="admin-toggle">
+
+                <input
+                    type="checkbox"
+                    id="editAnnouncementActive"
+                    name="is_active"
+                    checked
+                >
+
+                <span class="admin-toggle-slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- =====================================
+             SAVE MESSAGE
+        ====================================== -->
+
+        <div
+            class="admin-save-message"
+            id="announcementSaveMessage"
+            aria-live="polite"
+        ></div>
+
+
+        <!-- =====================================
+             EDITOR ACTIONS
+        ====================================== -->
+
+        <div class="admin-editor-actions">
+
+            <button
+                type="submit"
+                class="admin-save-button"
+                id="saveAnnouncementButton"
+            >
+                Save Announcement
+            </button>
+
+            <button
+                type="button"
+                class="admin-delete-button"
+                id="deleteAnnouncementButton"
+            >
+                Delete Announcement
+            </button>
+
+            <button
+                type="button"
+                class="admin-cancel-button"
+                id="cancelAnnouncementButton"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- =========================================
+     ANNOUNCEMENT DELETE CONFIRMATION
+========================================== -->
+
+<div
+    class="admin-delete-modal"
+    id="announcementDeleteConfirmModal"
+    hidden
+    aria-hidden="true"
+>
+
+
+<div
+    class="admin-delete-modal-overlay"
+    data-announcement-delete-cancel
+></div>
+
+
+<div
+    class="admin-delete-modal-content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="announcementDeleteTitle"
+>
+
+    <div class="admin-delete-modal-icon">
+        !
+    </div>
+
+    <h3 id="announcementDeleteTitle">
+        Delete Announcement?
+    </h3>
+
+    <p>
+        Are you sure you want to permanently delete this announcement?
+    </p>
+
+    <p class="admin-delete-warning">
+        This action cannot be undone.
+    </p>
+
+
+    <div class="admin-delete-modal-actions">
+
+        <button
+            type="button"
+            class="admin-cancel-button"
+            data-announcement-delete-cancel
+        >
+            Cancel
+        </button>
+
+        <button
+            type="button"
+            class="admin-delete-button"
+            id="confirmAnnouncementDeleteButton"
+        >
+            Delete Announcement
+        </button>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     NEWS MANAGEMENT PANEL
+========================================= -->
+
+<section
+    id="adminNewsPanel"
+    class="admin-management-panel"
+    hidden
+>
+
+    <!-- =====================================
+         NEWS PANEL HEADER
+    ====================================== -->
+
+    <div class="admin-panel-header">
+
+        <div>
+
+            <span class="admin-panel-label">
+                KINGDOM NEWS
+            </span>
+
+            <h2>
+                News Management
+            </h2>
+
+            <p>
+                Create, edit and manage kingdom news.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            id="addNewsButton"
+            class="admin-primary-button"
+        >
+            + Add News
+        </button>
+
+    </div>
+
+
+    <!-- =====================================
+         NEWS LIST
+    ====================================== -->
+
+    <div class="admin-news-layout">
+
+        <div class="admin-news-list-wrapper">
+
+            <div class="admin-section-list-header">
+
+                <h3>
+                    News Articles
+                </h3>
+
+                <span
+                    id="adminNewsCount"
+                    class="admin-section-count"
+                >
+                    0 articles
+                </span>
+
+            </div>
+
+
+            <div
+                id="adminNewsList"
+                class="admin-news-list"
+            >
+
+                <p class="admin-loading">
+                    No news loaded.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             NEWS EDITOR
+        ================================== -->
+
+        <div
+            id="adminNewsEditor"
+            class="admin-editor"
+            hidden
+        >
+
+            <div class="admin-editor-header">
+
+                <div>
+
+                    <span
+                        id="editNewsStatus"
+                        class="admin-editor-status"
+                    >
+                        New Article
+                    </span>
+
+                    <h3 id="editNewsHeading">
+                        Create News
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <form
+                id="newsEditorForm"
+                class="admin-form"
+            >
+
+                <!-- Hidden ID -->
+
+                <input
+                    type="hidden"
+                    id="editNewsId"
+                >
+
+
+                <!-- TITLE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsTitle">
+                        News Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editNewsTitle"
+                        placeholder="Enter news title"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SLUG -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsSlug">
+                        Slug
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editNewsSlug"
+                        placeholder="example-news-title"
+                        required
+                    >
+
+                    <small>
+                        Used for the news article URL.
+                    </small>
+
+                </div>
+
+
+                <!-- EXCERPT -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsExcerpt">
+                        Excerpt
+                    </label>
+
+                    <textarea
+                        id="editNewsExcerpt"
+                        rows="3"
+                        placeholder="Short summary of the news..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- CONTENT -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsContent">
+                        News Content
+                    </label>
+
+                    <textarea
+                        id="editNewsContent"
+                        rows="10"
+                        placeholder="Write the full news article..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsImage">
+                        Image URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="editNewsImage"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsCategory">
+                        Category
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editNewsCategory"
+                        value="KINGDOM"
+                        placeholder="KINGDOM"
+                    >
+
+                </div>
+
+
+                <!-- AUTHOR -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsAuthor">
+                        Author
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editNewsAuthor"
+                        placeholder="Author name"
+                    >
+
+                </div>
+
+
+                <!-- PUBLISHED AT -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsPublishedAt">
+                        Published At
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="editNewsPublishedAt"
+                    >
+
+                </div>
+
+
+                <!-- SORT ORDER -->
+
+                <div class="admin-form-group">
+
+                    <label for="editNewsSortOrder">
+                        Display Order
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editNewsSortOrder"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <!-- PUBLISHED -->
+
+                <div class="admin-toggle-row">
+
+                    <div>
+
+                        <strong>
+                            Published
+                        </strong>
+
+                        <span>
+                            Make this news article visible
+                            on the website.
+                        </span>
+
+                    </div>
+
+                    <label class="admin-switch">
+
+                        <input
+                            type="checkbox"
+                            id="editNewsPublished"
+                        >
+
+                        <span
+                            class="admin-switch-slider"
+                        ></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- FEATURED -->
+
+                <div class="admin-toggle-row">
+
+                    <div>
+
+                        <strong>
+                            Featured News
+                        </strong>
+
+                        <span>
+                            Display this article as
+                            featured news.
+                        </span>
+
+                    </div>
+
+                    <label class="admin-switch">
+
+                        <input
+                            type="checkbox"
+                            id="editNewsFeatured"
+                        >
+
+                        <span
+                            class="admin-switch-slider"
+                        ></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- SAVE MESSAGE -->
+
+                <div
+                    id="newsSaveMessage"
+                    class="admin-save-message"
+                ></div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="admin-editor-actions">
+
+                    <button
+                        type="submit"
+                        id="saveNewsButton"
+                        class="admin-save-button"
+                    >
+                        Create News
+                    </button>
+
+                    <button
+                        type="button"
+                        id="deleteNewsButton"
+                        class="admin-delete-button"
+                        hidden
+                    >
+                        Delete News
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancelNewsButton"
+                        class="admin-cancel-button"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     EVENTS MANAGEMENT PANEL
+========================================= -->
+
+<section
+    id="adminEventsPanel"
+    class="admin-management-panel"
+    hidden
+>
+
+    <!-- EVENTS HEADER -->
+    <div class="admin-panel-header">
+
+        <div>
+
+            <span class="admin-panel-label">
+                KINGDOM CALENDAR
+            </span>
+
+            <h2>
+                Events Management
+            </h2>
+
+            <p>
+                Create, edit and manage kingdom events.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            id="addEventButton"
+            class="admin-primary-button"
+        >
+            + Add Event
+        </button>
+
+    </div>
+
+
+    <!-- EVENTS LIST + EDITOR -->
+    <div class="admin-news-layout">
+
+        <!-- EVENTS LIST -->
+        <div class="admin-news-list-wrapper">
+
+            <div class="admin-section-list-header">
+
+                <h3>
+                    Kingdom Events
+                </h3>
+
+                <span
+                    id="adminEventCount"
+                    class="admin-section-count"
+                >
+                    0 events
+                </span>
+
+            </div>
+
+            <div
+                id="adminEventList"
+                class="admin-news-list"
+            >
+
+                <p class="admin-loading">
+                    No events loaded.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- EVENT EDITOR -->
+        <div
+            id="adminEventEditor"
+            class="admin-editor"
+            hidden
+        >
+
+            <div class="admin-editor-header">
+
+                <div>
+
+                    <span
+                        id="editEventStatus"
+                        class="admin-editor-status"
+                    >
+                        New Event
+                    </span>
+
+                    <h3 id="editEventHeading">
+                        Create Event
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <form
+                id="eventEditorForm"
+                class="admin-form"
+            >
+
+                <!-- EVENT ID -->
+
+                <input
+                    type="hidden"
+                    id="editEventId"
+                >
+
+
+                <!-- TITLE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventTitle">
+                        Event Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editEventTitle"
+                        placeholder="Enter event title"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="editEventDescription"
+                        rows="6"
+                        placeholder="Enter event description..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- EVENT TYPE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventType">
+                        Event Type
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editEventType"
+                        placeholder="Festival, Ceremony, Meeting..."
+                    >
+
+                </div>
+
+
+                <!-- EVENT DATE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventDate">
+                        Event Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="editEventDate"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EVENT TIME -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventTime">
+                        Event Time
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editEventTime"
+                        placeholder="10:00 AM"
+                    >
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventLocation">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editEventLocation"
+                        placeholder="Event location"
+                    >
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventImage">
+                        Image URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="editEventImage"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <!-- LINK -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventLink">
+                        Event Link
+                        <span class="admin-field-optional">
+                            Optional
+                        </span>
+                    </label>
+
+                    <input
+                        type="url"
+                        id="editEventLink"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <!-- SORT ORDER -->
+
+                <div class="admin-form-group">
+
+                    <label for="editEventSortOrder">
+                        Display Order
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editEventSortOrder"
+                        value="0"
+                        min="0"
+                        step="1"
+                    >
+
+                    <small>
+                        Lower numbers appear first.
+                    </small>
+
+                </div>
+
+
+                <!-- ACTIVE -->
+
+                <div class="admin-toggle-row">
+
+                    <div>
+
+                        <strong>
+                            Active Event
+                        </strong>
+
+                        <span>
+                            Make this event visible
+                            on the website.
+                        </span>
+
+                    </div>
+
+                    <label class="admin-switch">
+
+                        <input
+                            type="checkbox"
+                            id="editEventActive"
+                            checked
+                        >
+
+                        <span
+                            class="admin-switch-slider"
+                        ></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- SAVE MESSAGE -->
+
+                <div
+                    id="eventSaveMessage"
+                    class="admin-save-message"
+                ></div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="admin-editor-actions">
+
+                    <button
+                        type="submit"
+                        id="saveEventButton"
+                        class="admin-save-button"
+                    >
+                        Create Event
+                    </button>
+
+                    <button
+                        type="button"
+                        id="deleteEventButton"
+                        class="admin-delete-button"
+                        hidden
+                    >
+                        Delete Event
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancelEventButton"
+                        class="admin-cancel-button"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     ILLUSTRIOUS SONS & DAUGHTERS MANAGEMENT
+========================================= -->
+
+<section
+    id="adminIllustriousPanel"
+    class="admin-management-panel"
+    hidden
+>
+
+    <!-- =====================================
+         PANEL HEADER
+    ====================================== -->
+
+    <div class="admin-panel-header">
+
+        <div>
+
+            <span class="admin-panel-label">
+                KINGDOM HERITAGE
+            </span>
+
+            <h2>
+                Illustrious Sons &amp; Daughters
+            </h2>
+
+            <p>
+                Create, edit and manage distinguished
+                sons and daughters of Agbor Kingdom.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            id="addIllustriousButton"
+            class="admin-primary-button"
+        >
+            + Add Person
+        </button>
+
+    </div>
+
+
+    <!-- =====================================
+         LIST + EDITOR
+    ====================================== -->
+
+    <div class="admin-news-layout">
+
+
+        <!-- =================================
+             PEOPLE LIST
+        ================================== -->
+
+        <div class="admin-news-list-wrapper">
+
+            <div class="admin-section-list-header">
+
+                <h3>
+                    Sons &amp; Daughters
+                </h3>
+
+                <span
+                    id="adminIllustriousCount"
+                    class="admin-section-count"
+                >
+                    0 people
+                </span>
+
+            </div>
+
+
+            <div
+                id="adminIllustriousList"
+                class="admin-news-list"
+            >
+
+                <p class="admin-loading">
+                    No people loaded.
+                </p>
+
+            </div>
+
+        </div>
+
+
+     
+<!-- =========================================
+     ILLUSTRIOUS EDITOR
+========================================= -->
+
+<div
+    id="adminIllustriousEditor"
+    class="admin-editor"
+    hidden
+>
+
+    <div class="admin-editor-header">
+
+        <div>
+
+            <span
+                id="editIllustriousStatus"
+                class="admin-editor-status"
+            >
+                New Person
+            </span>
+
+            <h3 id="editIllustriousHeading">
+                Create Illustrious Person
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <form
+        id="illustriousEditorForm"
+        class="admin-form"
+    >
+
+        <!-- HIDDEN ID -->
+
+        <input
+            type="hidden"
+            id="editIllustriousId"
+        >
+
+
+        <!-- NAME -->
+
+        <div class="admin-form-group">
+
+            <label for="editIllustriousName">
+                Name
+            </label>
+
+            <input
+                type="text"
+                id="editIllustriousName"
+                placeholder="Enter full name"
+                required
+            >
+
+        </div>
+
+
+        <!-- TITLE -->
+
+        <div class="admin-form-group">
+
+            <label for="editIllustriousTitle">
+                Title
+            </label>
+
+            <input
+                type="text"
+                id="editIllustriousTitle"
+                placeholder="Chief, Professor, Doctor..."
+            >
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <div class="admin-form-group">
+
+            <label for="editIllustriousCategory">
+                Category
+            </label>
+
+            <input
+                type="text"
+                id="editIllustriousCategory"
+                placeholder="Royalty, Leadership, Education..."
+            >
+
+        </div>
+
+
+        <!-- COMMUNITY -->
+
+        <div class="admin-form-group">
+
+            <label for="editIllustriousCommunity">
+                Community
+            </label>
+
+            <input
+                type="text"
+                id="editIllustriousCommunity"
+                placeholder="Enter community"
+            >
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="admin-form-group">
+
+            <label for="editIllustriousDescription">
+                Biography / Description
+            </label>
+
+            <textarea
+                id="editIllustriousDescription"
+                rows="8"
+                placeholder="Write a short biography..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- IMAGE -->
+
+        <div class="admin-form-group">
+
+            <label for="editIllustriousImage">
+                Image URL
+            </label>
+
+            <input
+                type="url"
+                id="editIllustriousImage"
+                placeholder="https://..."
+            >
+
+        </div>
+
+
+        <!-- SORT ORDER -->
+
+        <div class="admin-form-group">
+
+            <label for="editIllustriousSortOrder">
+                Display Order
+            </label>
+
+            <input
+                type="number"
+                id="editIllustriousSortOrder"
+                value="0"
+                min="0"
+                step="1"
+            >
+
+            <small>
+                Lower numbers appear first.
+            </small>
+
+        </div>
+
+
+        <!-- ACTIVE -->
+
+        <div class="admin-toggle-row">
+
+            <div>
+
+                <strong>
+                    Active Person
+                </strong>
+
+                <span>
+                    Make this person visible on the website.
+                </span>
+
+            </div>
+
+            <label class="admin-switch">
+
+                <input
+                    type="checkbox"
+                    id="editIllustriousActive"
+                    checked
+                >
+
+                <span class="admin-switch-slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- SAVE MESSAGE -->
+
+        <div
+            id="illustriousSaveMessage"
+            class="admin-save-message"
+        ></div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="admin-editor-actions">
+
+            <button
+                type="submit"
+                id="saveIllustriousButton"
+                class="admin-save-button"
+            >
+                Create Person
+            </button>
+
+
+            <button
+                type="button"
+                id="deleteIllustriousButton"
+                class="admin-delete-button"
+                hidden
+            >
+                Delete Person
+            </button>
+
+
+            <button
+                type="button"
+                id="cancelIllustriousButton"
+                class="admin-cancel-button"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+     COMMUNITIES MANAGEMENT PANEL
+========================================= -->
+
+<section
+    id="adminCommunitiesPanel"
+    class="admin-management-panel"
+    hidden
+>
+
+    <!-- =====================================
+         PANEL HEADER
+    ====================================== -->
+
+    <div class="admin-panel-header">
+
+        <div>
+
+            <span class="admin-panel-label">
+                KINGDOM HERITAGE
+            </span>
+
+            <h2>
+                Communities Management
+            </h2>
+
+            <p>
+                Create, edit and manage the communities
+                of Agbor Kingdom.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            id="addCommunityButton"
+            class="admin-primary-button"
+        >
+            + Add Community
+        </button>
+
+    </div>
+
+
+    <!-- =====================================
+         LIST + EDITOR
+    ====================================== -->
+
+    <div class="admin-news-layout">
+
+
+        <!-- =================================
+             COMMUNITIES LIST
+        ================================== -->
+
+        <div class="admin-news-list-wrapper">
+
+            <div class="admin-section-list-header">
+
+                <h3>
+                    Kingdom Communities
+                </h3>
+
+                <span
+                    id="adminCommunityCount"
+                    class="admin-section-count"
+                >
+                    0 communities
+                </span>
+
+            </div>
+
+
+            <div
+                id="adminCommunityList"
+                class="admin-news-list"
+            >
+
+                <p class="admin-loading">
+                    No communities loaded.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             COMMUNITY EDITOR
+        ================================== -->
+
+        <div
+            id="adminCommunityEditor"
+            class="admin-editor"
+            hidden
+        >
+
+            <div class="admin-editor-header">
+
+                <div>
+
+                    <span
+                        id="editCommunityStatus"
+                        class="admin-editor-status"
+                    >
+                        New Community
+                    </span>
+
+                    <h3 id="editCommunityHeading">
+                        Create Community
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 FORM
+            ================================== -->
+
+            <form
+                id="communityEditorForm"
+                class="admin-form"
+            >
+
+                <!-- HIDDEN ID -->
+
+                <input
+                    type="hidden"
+                    id="editCommunityId"
+                >
+
+
+                <!-- NAME -->
+
+                <div class="admin-form-group">
+
+                    <label for="editCommunityName">
+                        Community Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editCommunityName"
+                        placeholder="Enter community name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="admin-form-group">
+
+                    <label for="editCommunityDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="editCommunityDescription"
+                        rows="7"
+                        placeholder="Enter community description..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="admin-form-group">
+
+                    <label for="editCommunityImage">
+                        Image URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="editCommunityImage"
+                        placeholder="https://..."
+                    >
+
+                    <small>
+                        Add the image URL for this community.
+                    </small>
+
+                </div>
+
+
+                <!-- SORT ORDER -->
+
+                <div class="admin-form-group">
+
+                    <label for="editCommunitySortOrder">
+                        Display Order
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editCommunitySortOrder"
+                        value="0"
+                        min="0"
+                        step="1"
+                    >
+
+                    <small>
+                        Lower numbers appear first.
+                    </small>
+
+                </div>
+
+
+                <!-- ACTIVE -->
+
+                <div class="admin-toggle-row">
+
+                    <div>
+
+                        <strong>
+                            Active Community
+                        </strong>
+
+                        <span>
+                            Make this community visible
+                            on the website.
+                        </span>
+
+                    </div>
+
+                    <label class="admin-switch">
+
+                        <input
+                            type="checkbox"
+                            id="editCommunityActive"
+                            checked
+                        >
+
+                        <span
+                            class="admin-switch-slider"
+                        ></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- SAVE MESSAGE -->
+
+                <div
+                    id="communitySaveMessage"
+                    class="admin-save-message"
+                ></div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="admin-editor-actions">
+
+                    <button
+                        type="submit"
+                        id="saveCommunityButton"
+                        class="admin-save-button"
+                    >
+                        Create Community
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="deleteCommunityButton"
+                        class="admin-delete-button"
+                        hidden
+                    >
+                        Delete Community
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="cancelCommunityButton"
+                        class="admin-cancel-button"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     MEDIA MANAGEMENT PANEL
+========================================= -->
+
+<section
+    id="adminMediaPanel"
+    class="admin-management-panel"
+    hidden
+>
+
+    <!-- =====================================
+         MEDIA PANEL HEADER
+    ====================================== -->
+
+    <div class="admin-panel-header">
+
+        <div>
+
+            <span class="admin-panel-label">
+                KINGDOM MEDIA
+            </span>
+
+            <h2>
+                Media Management
+            </h2>
+
+            <p>
+                Manage kingdom images and videos
+                from one place.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            id="addMediaButton"
+            class="admin-primary-button"
+        >
+            + Add Media
+        </button>
+
+    </div>
+
+
+    <!-- =====================================
+         MEDIA TABS
+    ====================================== -->
+
+    <div class="admin-media-tabs">
+
+        <button
+            type="button"
+            id="galleryMediaTab"
+            class="admin-media-tab active" 
+        >
+            Gallery
+        </button>
+
+        <button
+            type="button"
+            id="videosMediaTab"
+            class="admin-media-tab"
+        >
+            Videos
+        </button>
+
+    </div>
+
+
+    <!-- =====================================
+         GALLERY CONTENT
+    ====================================== -->
+
+    <div
+        id="adminGalleryMediaContent"
+        class="admin-media-content"
+    >
+
+        <div class="admin-section-list-header">
+
+            <div>
+                <span class="admin-panel-label ">
+                    IMAGE GALLERY
+                </span>
+
+                <h3>
+                    Images Library
+                </h3>
+            </div>
+
+            <span
+                id="adminGalleryCount"
+                class="admin-section-count"
+            >
+                0 images
+            </span>
+
+        </div>
+
+
+        <div
+            id="adminGalleryList"
+            class="admin-media-grid"
+        >
+
+            <p class="admin-loading">
+                No gallery images loaded.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         VIDEOS CONTENT
+    ====================================== -->
+
+    <div
+        id="adminVideosMediaContent"
+        class="admin-media-content"
+        hidden
+    >
+
+        <div class="admin-section-list-header">
+
+            <div>
+                <span class="admin-panel-label">
+                    KINGDOM VIDEOS
+                </span>
+
+                <h3>
+                    Video Library
+                </h3>
+            </div>
+
+            <span
+                id="adminVideoCount"
+                class="admin-section-count"
+            >
+                0 videos
+            </span>
+
+        </div>
+
+
+        <div
+            id="adminVideoList"
+            class="admin-media-grid"
+        >
+
+            <p class="admin-loading">
+                No videos loaded.
+            </p>
+
+        </div>
+
+    </div>
+
+<!-- =========================================
+     GALLERY EDITOR
+========================================= -->
+
+<div
+    id="adminMediaEditor"
+    class="admin-editor"
+    hidden
+>
+
+    <div class="admin-editor-header">
+
+        <div>
+
+            <span
+                id="editGalleryStatus"
+                class="admin-editor-status"
+            >
+                New Image
+            </span>
+
+            <h3 id="editGalleryHeading">
+                Add Gallery Image
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <form
+        id="galleryEditorForm"
+        class="admin-form"
+    >
+
+        <!-- ID -->
+
+        <input
+            type="hidden"
+            id="editGalleryId"
+        >
+
+
+        <!-- TITLE -->
+
+        <div class="admin-form-group">
+
+            <label for="editGalleryTitle">
+                Image Title
+            </label>
+
+            <input
+                type="text"
+                id="editGalleryTitle"
+                placeholder="Enter image title"
+                required
+            >
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="admin-form-group">
+
+            <label for="editGalleryDescription">
+                Description
+            </label>
+
+            <textarea
+                id="editGalleryDescription"
+                rows="5"
+                placeholder="Describe this image..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <div class="admin-form-group">
+
+            <label for="editGalleryCategory">
+                Category
+            </label>
+
+            <input
+                type="text"
+                id="editGalleryCategory"
+                placeholder="HERITAGE"
+            >
+
+        </div>
+
+
+        <!-- IMAGE URL -->
+
+        <div class="admin-form-group">
+
+            <label for="editGalleryImage">
+                Image URL
+            </label>
+
+            <input
+                type="url"
+                id="editGalleryImage"
+                placeholder="https://..."
+                required
+            >
+
+        </div>
+
+
+        <!-- SORT ORDER -->
+
+        <div class="admin-form-group">
+
+            <label for="editGallerySortOrder">
+                Display Order
+            </label>
+
+            <input
+                type="number"
+                id="editGallerySortOrder"
+                value="0"
+                min="0"
+                step="1"
+            >
+
+            <small>
+                Lower numbers appear first.
+            </small>
+
+        </div>
+
+
+        <!-- ACTIVE -->
+
+        <div class="admin-toggle-row">
+
+            <div>
+
+                <strong>
+                    Active Image
+                </strong>
+
+                <span>
+                    Make this image visible
+                    on the website.
+                </span>
+
+            </div>
+
+            <label class="admin-switch">
+
+                <input
+                    type="checkbox"
+                    id="editGalleryActive"
+                    checked
+                >
+
+                <span
+                    class="admin-switch-slider"
+                ></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="gallerySaveMessage"
+            class="admin-save-message"
+        ></div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="admin-editor-actions">
+
+            <button
+                type="submit"
+                id="saveGalleryButton"
+                class="admin-save-button"
+            >
+                Save Changes
+            </button>
+
+            <button
+                type="button"
+                id="deleteGalleryButton"
+                class="admin-delete-button"
+                hidden
+            >
+                Delete Image
+            </button>
+
+            <button
+                type="button"
+                id="cancelGalleryButton"
+                class="admin-cancel-button"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- =========================================
+     VIDEO EDITOR
+========================================= -->
+
+<div
+    id="adminVideoEditor"
+    class="admin-editor"
+    hidden
+>
+
+    <div class="admin-editor-header">
+
+        <div>
+
+            <span
+                id="editVideoStatus"
+                class="admin-editor-status"
+            >
+                New Video
+            </span>
+
+            <h3 id="editVideoHeading">
+                Add Video
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <form
+        id="videoEditorForm"
+        class="admin-form"
+    >
+
+        <!-- ID -->
+
+        <input
+            type="hidden"
+            id="editVideoId"
+        >
+
+
+        <!-- TITLE -->
+
+        <div class="admin-form-group">
+
+            <label for="editVideoTitle">
+                Video Title
+            </label>
+
+            <input
+                type="text"
+                id="editVideoTitle"
+                placeholder="Enter video title"
+                required
+            >
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="admin-form-group">
+
+            <label for="editVideoDescription">
+                Description
+            </label>
+
+            <textarea
+                id="editVideoDescription"
+                rows="5"
+                placeholder="Describe this video..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <div class="admin-form-group">
+
+            <label for="editVideoCategory">
+                Category
+            </label>
+
+            <input
+                type="text"
+                id="editVideoCategory"
+                placeholder="KINGDOM"
+            >
+
+        </div>
+
+
+        <!-- VIDEO URL -->
+
+        <div class="admin-form-group">
+
+            <label for="editVideoUrl">
+                Video URL
+            </label>
+
+            <input
+                type="url"
+                id="editVideoUrl"
+                placeholder="https://..."
+                required
+            >
+
+        </div>
+
+
+        <!-- THUMBNAIL -->
+
+        <div class="admin-form-group">
+
+            <label for="editVideoThumbnail">
+                Thumbnail URL
+            </label>
+
+            <input
+                type="url"
+                id="editVideoThumbnail"
+                placeholder="https://..."
+            >
+
+        </div>
+
+
+        <!-- DURATION -->
+
+        <div class="admin-form-group">
+
+            <label for="editVideoDuration">
+                Duration
+            </label>
+
+            <input
+                type="text"
+                id="editVideoDuration"
+                placeholder="05:32"
+            >
+
+        </div>
+
+
+        <!-- PUBLISHED DATE -->
+
+        <div class="admin-form-group">
+
+            <label for="editVideoPublishedAt">
+                Published Date
+            </label>
+
+            <input
+                type="datetime-local"
+                id="editVideoPublishedAt"
+            >
+
+        </div>
+
+
+        <!-- SORT ORDER -->
+
+        <div class="admin-form-group">
+
+            <label for="editVideoSortOrder">
+                Display Order
+            </label>
+
+            <input
+                type="number"
+                id="editVideoSortOrder"
+                value="0"
+                min="0"
+                step="1"
+            >
+
+            <small>
+                Lower numbers appear first.
+            </small>
+
+        </div>
+
+
+        <!-- PUBLISHED -->
+
+        <div class="admin-toggle-row">
+
+            <div>
+
+                <strong>
+                    Published
+                </strong>
+
+                <span>
+                    Make this video visible on the website.
+                </span>
+
+            </div>
+
+            <label class="admin-switch">
+
+                <input
+                    type="checkbox"
+                    id="editVideoPublished"
+                >
+
+                <span
+                    class="admin-switch-slider"
+                ></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- FEATURED -->
+
+        <div class="admin-toggle-row">
+
+            <div>
+
+                <strong>
+                    Featured Video
+                </strong>
+
+                <span>
+                    Highlight this video on the website.
+                </span>
+
+            </div>
+
+            <label class="admin-switch">
+
+                <input
+                    type="checkbox"
+                    id="editVideoFeatured"
+                >
+
+                <span
+                    class="admin-switch-slider"
+                ></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="videoSaveMessage"
+            class="admin-save-message"
+        ></div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="admin-editor-actions">
+
+            <button
+                type="submit"
+                id="saveVideoButton"
+                class="admin-save-button"
+            >
+                Create Video
+            </button>
+
+
+            <button
+                type="button"
+                id="deleteVideoButton"
+                class="admin-delete-button"
+                hidden
+            >
+                Delete Video
+            </button>
+
+
+            <button
+                type="button"
+                id="cancelVideoButton"
+                class="admin-cancel-button"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     HERO SLIDES MANAGEMENT
+========================================= -->
+
+<section
+    id="adminHeroSlidesPanel"
+    class="admin-media-panel"
+    hidden
+>
+
+    <div class="admin-section-header">
+
+    <div>
+
+        <span class="admin-section-label">
+            HOMEPAGE
+        </span>
+
+        <h2>
+            Hero Slides
+        </h2>
+
+        <p>
+            Manage the images and content displayed
+            in the homepage hero slider.
+        </p>
+
+    </div>
+
+
+    <div class="admin-section-header-actions">
+
+        <div class="admin-section-count">
+
+            <span id="adminHeroSlidesCount">
+                0 slides
+            </span>
+
+        </div>
+
+        <button
+            type="button"
+            id="addHeroSlideButton"
+            class="admin-add-button"
+        >
+            Add Hero Slide
+        </button>
+
+    </div>
+
+</div>
+
+
+    <!-- HERO SLIDES LIST -->
+
+    <div
+        id="adminHeroSlidesList"
+        class="admin-media-grid"
+    >
+
+        <p class="admin-loading">
+            Loading hero slides...
+        </p>
+
+    </div>
+
+    <!-- =========================================
+     HERO SLIDE EDITOR
+========================================= -->
+
+<div
+    id="adminHeroSlideEditor"
+    class="admin-editor"
+    hidden
+>
+
+    <div class="admin-editor-header">
+
+        <div>
+
+            <span
+                id="editHeroSlideStatus"
+                class="admin-editor-status"
+            >
+                New Slide
+            </span>
+
+            <h3 id="editHeroSlideHeading">
+                Add Hero Slide
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <form
+        id="heroSlideEditorForm"
+        class="admin-form"
+    >
+
+        <!-- ID -->
+
+        <input
+            type="hidden"
+            id="editHeroSlideId"
+        >
+
+
+        <!-- TITLE -->
+
+        <div class="admin-form-group">
+
+            <label for="editHeroSlideTitle">
+                Slide Title
+            </label>
+
+            <input
+                type="text"
+                id="editHeroSlideTitle"
+                placeholder="Enter slide title"
+            >
+
+        </div>
+
+
+        <!-- SUBTITLE -->
+
+        <div class="admin-form-group">
+
+            <label for="editHeroSlideSubtitle">
+                Subtitle
+            </label>
+
+            <textarea
+                id="editHeroSlideSubtitle"
+                rows="4"
+                placeholder="Enter slide subtitle..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- IMAGE URL -->
+
+        <div class="admin-form-group">
+
+            <label for="editHeroSlideImage">
+                Image URL
+            </label>
+
+            <input
+                type="url"
+                id="editHeroSlideImage"
+                placeholder="https://..."
+                required
+            >
+
+        </div>
+
+
+        <!-- BUTTON TEXT -->
+
+        <div class="admin-form-group">
+
+            <label for="editHeroSlideButtonText">
+                Button Text
+            </label>
+
+            <input
+                type="text"
+                id="editHeroSlideButtonText"
+                placeholder="Learn More"
+            >
+
+        </div>
+
+
+        <!-- BUTTON LINK -->
+
+        <div class="admin-form-group">
+
+            <label for="editHeroSlideButtonLink">
+                Button Link
+            </label>
+
+            <input
+                type="text"
+                id="editHeroSlideButtonLink"
+                placeholder="#about"
+            >
+
+        </div>
+
+
+        <!-- SORT ORDER -->
+
+        <div class="admin-form-group">
+
+            <label for="editHeroSlideSortOrder">
+                Display Order
+            </label>
+
+            <input
+                type="number"
+                id="editHeroSlideSortOrder"
+                value="0"
+                min="0"
+                step="1"
+            >
+
+            <small>
+                Lower numbers appear first.
+            </small>
+
+        </div>
+
+
+        <!-- ACTIVE -->
+
+        <div class="admin-toggle-row">
+
+            <div>
+
+                <strong>
+                    Active
+                </strong>
+
+                <span>
+                    Show this slide on the homepage.
+                </span>
+
+            </div>
+
+            <label class="admin-switch">
+
+                <input
+                    type="checkbox"
+                    id="editHeroSlideActive"
+                >
+
+                <span
+                    class="admin-switch-slider"
+                ></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="heroSlideSaveMessage"
+            class="admin-save-message"
+        ></div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="admin-editor-actions">
+
+            <button
+                type="submit"
+                id="saveHeroSlideButton"
+                class="admin-save-button"
+            >
+                Create Slide
+            </button>
+
+
+            <button
+                type="button"
+                id="deleteHeroSlideButton"
+                class="admin-delete-button"
+                hidden
+            >
+                Delete Slide
+            </button>
+
+
+            <button
+                type="button"
+                id="cancelHeroSlideButton"
+                class="admin-cancel-button"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     KINGDOM PUBLICATIONS MANAGEMENT
+========================================= -->
+
+<section
+    id="adminPublicationsPanel"
+    class="admin-media-panel"
+    hidden
+>
+
+    <!-- =====================================
+         SECTION HEADER
+    ====================================== -->
+
+    <div class="admin-section-header">
+
+        <div>
+
+            <span class="admin-section-label">
+                KINGDOM MEDIA
+            </span>
+
+            <h2>
+                Kingdom Publications
+            </h2>
+
+            <p>
+                Manage books, reports, documents,
+                newsletters and other official
+                kingdom publications.
+            </p>
+
+        </div>
+
+
+        <div class="admin-section-count">
+
+            <span id="adminPublicationsCount">
+                0 publications
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         ADD PUBLICATION BUTTON
+    ====================================== -->
+
+    <div class="admin-section-actions">
+
+        <button
+            type="button"
+            id="addPublicationButton"
+            class="admin-add-button"
+        >
+            + Add Publication
+        </button>
+
+    </div>
+
+
+    <!-- =====================================
+         PUBLICATIONS LIST
+    ====================================== -->
+
+    <div
+        id="adminPublicationsList"
+        class="admin-media-grid"
+    >
+
+        <p class="admin-loading">
+            Loading publications...
+        </p>
+
+    </div>
+
+<!-- =========================================
+     PUBLICATION EDITOR
+========================================= -->
+
+<div
+    id="adminPublicationEditor"
+    class="admin-editor"
+    hidden
+>
+
+    <div class="admin-editor-header">
+
+        <div>
+
+            <span
+                id="editPublicationStatus"
+                class="admin-editor-status"
+            >
+                New Publication
+            </span>
+
+            <h3 id="editPublicationHeading">
+                Add Publication
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <form
+        id="publicationEditorForm"
+        class="admin-form"
+    >
+
+        <!-- ID -->
+
+        <input
+            type="hidden"
+            id="editPublicationId"
+        >
+
+
+        <!-- TITLE -->
+
+        <div class="admin-form-group">
+
+            <label for="editPublicationTitle">
+                Publication Title
+            </label>
+
+            <input
+                type="text"
+                id="editPublicationTitle"
+                placeholder="Enter publication title"
+                required
+            >
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="admin-form-group">
+
+            <label for="editPublicationDescription">
+                Description
+            </label>
+
+            <textarea
+                id="editPublicationDescription"
+                rows="5"
+                placeholder="Describe this publication..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <div class="admin-form-group">
+
+            <label for="editPublicationCategory">
+                Category
+            </label>
+
+            <input
+                type="text"
+                id="editPublicationCategory"
+                placeholder="KINGDOM PUBLICATION"
+            >
+
+        </div>
+
+
+        <!-- AUTHOR -->
+
+        <div class="admin-form-group">
+
+            <label for="editPublicationAuthor">
+                Author
+            </label>
+
+            <input
+                type="text"
+                id="editPublicationAuthor"
+                placeholder="Royal Kingdom of Agbor"
+            >
+
+        </div>
+
+
+        <!-- PUBLICATION DATE -->
+
+        <div class="admin-form-group">
+
+            <label for="editPublicationDate">
+                Publication Date
+            </label>
+
+            <input
+                type="date"
+                id="editPublicationDate"
+            >
+
+        </div>
+
+
+        <!-- COVER IMAGE -->
+
+        <div class="admin-form-group">
+
+            <label for="editPublicationCoverImage">
+                Cover Image URL
+            </label>
+
+            <input
+                type="url"
+                id="editPublicationCoverImage"
+                placeholder="https://..."
+            >
+
+        </div>
+
+
+        <!-- FILE -->
+
+        <div class="admin-form-group">
+
+            <label for="editPublicationFile">
+                Publication File URL
+            </label>
+
+            <input
+                type="url"
+                id="editPublicationFile"
+                placeholder="https://..."
+            >
+
+            <small>
+                Link to the PDF or publication document.
+            </small>
+
+        </div>
+
+
+        <!-- SORT ORDER -->
+
+        <div class="admin-form-group">
+
+            <label for="editPublicationSortOrder">
+                Display Order
+            </label>
+
+            <input
+                type="number"
+                id="editPublicationSortOrder"
+                value="0"
+                min="0"
+                step="1"
+            >
+
+            <small>
+                Lower numbers appear first.
+            </small>
+
+        </div>
+
+
+        <!-- ACTIVE -->
+
+        <div class="admin-toggle-row">
+
+            <div>
+
+                <strong>
+                    Active
+                </strong>
+
+                <span>
+                    Make this publication visible on the website.
+                </span>
+
+            </div>
+
+            <label class="admin-switch">
+
+                <input
+                    type="checkbox"
+                    id="editPublicationActive"
+                >
+
+                <span
+                    class="admin-switch-slider"
+                ></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="publicationSaveMessage"
+            class="admin-save-message"
+        ></div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="admin-editor-actions">
+
+            <button
+                type="submit"
+                id="savePublicationButton"
+                class="admin-save-button"
+            >
+                Create Publication
+            </button>
+
+
+            <button
+                type="button"
+                id="deletePublicationButton"
+                class="admin-delete-button"
+                hidden
+            >
+                Delete Publication
+            </button>
+
+
+            <button
+                type="button"
+                id="cancelPublicationButton"
+                class="admin-cancel-button"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+    
+
+</section>
+
+
+
+
+<!-- =========================================
+     CONTACT MESSAGES MANAGEMENT
+========================================== -->
+
+<section
+    id="adminContactMessagesPanel"
+    class="admin-management-panel"
+    hidden
+>
+
+    <!-- =========================================
+         PANEL HEADER
+    ========================================== -->
+
+    <div class="admin-panel-header">
+
+        <div>
+
+            <span class="admin-panel-label">
+                ROYAL CORRESPONDENCE
+            </span>
+
+            <h2>
+                Contact Messages
+            </h2>
+
+            <p>
+                View and manage enquiries received
+                through the official Kingdom contact form.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         LIST + MESSAGE VIEWER
+    ========================================== -->
+
+    <div class="admin-news-layout">
+
+
+        <!-- =====================================
+             CONTACT MESSAGE LIST
+        ====================================== -->
+
+        <div class="admin-news-list-wrapper">
+
+            <div class="admin-section-list-header">
+
+                <h3>
+                    Kingdom Enquiries
+                </h3>
+
+                <span
+                    id="adminContactMessageCount"
+                    class="admin-section-count"
+                >
+                    0 messages
+                </span>
+
+            </div>
+
+
+            <div
+                id="adminContactMessageList"
+                class="admin-news-list"
+            >
+
+                <p class="admin-loading">
+                    No messages loaded.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             MESSAGE VIEWER
+        ====================================== -->
+
+        <div
+            id="adminContactMessageViewer"
+            class="admin-editor"
+            hidden
+        >
+
+            <div class="admin-editor-header">
+
+                <div>
+
+                    <span
+                        id="contactMessageStatus"
+                        class="admin-editor-status"
+                    >
+                        New Message
+                    </span>
+
+                    <h3 id="contactMessageHeading">
+                        Contact Enquiry
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 MESSAGE DETAILS
+            ================================== -->
+
+            <div class="admin-form">
+
+
+                <!-- NAME -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <div
+                        id="viewContactName"
+                        class="admin-readonly-field"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <div
+                        id="viewContactEmail"
+                        class="admin-readonly-field"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <div
+                        id="viewContactPhone"
+                        class="admin-readonly-field"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- SUBJECT -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <div
+                        id="viewContactSubject"
+                        class="admin-readonly-field"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Received
+                    </label>
+
+                    <div
+                        id="viewContactDate"
+                        class="admin-readonly-field"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- MESSAGE -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Message
+                    </label>
+
+                    <div
+                        id="viewContactMessage"
+                        class="admin-message-content"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- SAVE MESSAGE -->
+
+                <div
+                    id="contactMessageSaveMessage"
+                    class="admin-save-message"
+                ></div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="admin-editor-actions">
+
+                    <button
+                        type="button"
+                        id="markContactMessageReadButton"
+                        class="admin-save-button"
+                    >
+                        Mark as Read
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="replyContactMessageButton"
+                        class="admin-primary-button"
+                    >
+                        Reply by Email
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="deleteContactMessageButton"
+                        class="admin-delete-button"
+                    >
+                        Delete Message
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="cancelContactMessageButton"
+                        class="admin-cancel-button"
+                    >
+                        Close
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+        </main>
+
+    </div>
+
+    
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="admin-supabase.js"></script>
+
+<script src="admin.js"></script>
+<script src="news.js"></script>
+
+<script src="events.js"></script>
+
+<script src="illustrious.js"></script>
+
+<script src="communities.js"></script>
+
+<script src="media.js"></script>
+
+<script src="hero-slides.js"></script>
+
+<script src="publications.js"></script>
+
+<script src="announcements.js"></script>
+
+<script src="page.js"></script>
+
+<script src="contact.js"></script>
+
+<script src="admin-navigation.js"></script>
+
+<!-- =========================================
+     DELETE CONFIRMATION MODAL
+========================================= -->
+
+<div
+    id="deleteConfirmModal"
+    class="delete-confirm-modal"
+    hidden
+    aria-hidden="true"
+>
+    <div
+        class="delete-confirm-backdrop"
+        data-delete-cancel
+    ></div>
+
+    <div
+        class="delete-confirm-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deleteConfirmTitle"
+    >
+
+        <div class="delete-confirm-icon">
+            !
+        </div>
+
+        <div class="delete-confirm-content">
+
+            <h3 id="deleteConfirmTitle">
+                Delete Section?
+            </h3>
+
+            <p>
+                Are you sure you want to delete this section?
+                This action cannot be undone.
+            </p>
+
+        </div>
+
+        <div class="delete-confirm-actions">
+
+            <button
+                type="button"
+                class="delete-confirm-cancel"
+                data-delete-cancel
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="delete-confirm-submit"
+                id="confirmDeleteButton"
+            >
+                Delete Section
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
