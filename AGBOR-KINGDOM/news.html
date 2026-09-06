@@ -16,6 +16,80 @@
         id="newsMetaDescription"
     >
 
+<!-- SEO -->
+<meta
+    name="description"
+    id="newsMetaDescription"
+    content="Latest news, announcements and stories from the Royal Kingdom of Agbor."
+>
+
+<meta
+    name="robots"
+    content="index, follow"
+>
+
+<link
+    rel="canonical"
+    id="newsCanonical"
+    href="https://agborkingdom.netlify.app/news.html"
+>
+
+<!-- Open Graph / Facebook / WhatsApp -->
+<meta property="og:type" id="ogType" content="article">
+
+<meta
+    property="og:title"
+    id="ogTitle"
+    content="Agbor Kingdom News"
+>
+
+<meta
+    property="og:description"
+    id="ogDescription"
+    content="Latest news, announcements and stories from the Royal Kingdom of Agbor."
+>
+
+<meta
+    property="og:url"
+    id="ogUrl"
+    content="https://agborkingdom.netlify.app/news.html"
+>
+
+<meta
+    property="og:site_name"
+    content="The Royal Kingdom of Agbor"
+>
+
+<meta
+    property="og:image"
+    id="ogImage"
+    content="https://agborkingdom.netlify.app/images/agbor-share-image.jpg"
+>
+
+<!-- X / Twitter -->
+<meta
+    name="twitter:card"
+    content="summary_large_image"
+>
+
+<meta
+    name="twitter:title"
+    id="twitterTitle"
+    content="Agbor Kingdom News"
+>
+
+<meta
+    name="twitter:description"
+    id="twitterDescription"
+    content="Latest news, announcements and stories from the Royal Kingdom of Agbor."
+>
+
+<meta
+    name="twitter:image"
+    id="twitterImage"
+    content="https://agborkingdom.netlify.app/images/agbor-share-image.jpg"
+>
+
     <title>
         Agbor Kingdom | News
     </title>
@@ -504,6 +578,108 @@
                         id="singleNewsBody"
                     ></div>
 
+                    <!-- =========================================
+     SOCIAL SHARING
+========================================== -->
+
+<div
+    class="single-news-share"
+    id="singleNewsShare"
+>
+
+    <div class="single-news-share-heading">
+
+        <span class="single-news-share-label">
+            SHARE THIS STORY
+        </span>
+
+        <h3>
+            Share with others
+        </h3>
+
+    </div>
+
+
+    <div class="single-news-share-buttons">
+
+        <!-- WhatsApp -->
+
+        <button
+            type="button"
+            class="single-news-share-button whatsapp"
+            id="shareWhatsApp"
+            aria-label="Share this news on WhatsApp"
+        >
+            <span class="share-icon">
+                ◉
+            </span>
+
+            <span>
+                WhatsApp
+            </span>
+
+        </button>
+
+
+        <!-- Facebook -->
+
+        <button
+            type="button"
+            class="single-news-share-button facebook"
+            id="shareFacebook"
+            aria-label="Share this news on Facebook"
+        >
+            <span class="share-icon">
+                f
+            </span>
+
+            <span>
+                Facebook
+            </span>
+
+        </button>
+
+
+        <!-- X -->
+
+        <button
+            type="button"
+            class="single-news-share-button twitter"
+            id="shareTwitter"
+            aria-label="Share this news on X"
+        >
+            <span class="share-icon">
+                𝕏
+            </span>
+
+            <span>
+                X
+            </span>
+
+        </button>
+
+
+        <!-- Copy Link -->
+
+        <button
+            type="button"
+            class="single-news-share-button copy"
+            id="shareCopyLink"
+            aria-label="Copy news article link"
+        >
+            <span class="share-icon">
+                ↗
+            </span>
+
+            <span id="shareCopyText">
+                Copy Link
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
 
                     <div class="single-news-back">
 
@@ -523,6 +699,7 @@
                     id="singleNewsError"
                     hidden
                 >
+
 
                     <h2>
                         News Article Not Found

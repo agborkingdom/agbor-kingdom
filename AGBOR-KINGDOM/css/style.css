@@ -4817,3 +4817,245 @@ justify-content: flex-start;
     }
 
 }
+
+/* =========================================
+   AGBOR KINGDOM
+   SINGLE NEWS SOCIAL SHARING
+========================================= */
+
+.single-news-share {
+
+    margin-top: 50px;
+
+    padding-top: 35px;
+
+    border-top: 1px solid
+        rgba(0, 0, 0, 0.12);
+
+}
+
+
+/* =========================================
+   SHARE HEADING
+========================================= */
+
+.single-news-share-heading {
+
+    margin-bottom: 22px;
+
+}
+
+
+.single-news-share-label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
+
+    color: #9b7a2f;
+
+}
+
+
+.single-news-share-heading h3 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+    font-weight: 600;
+
+    color: #222;
+
+}
+
+
+/* =========================================
+   SHARE BUTTONS
+========================================= */
+
+.single-news-share-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+}
+
+
+.single-news-share-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    min-height: 46px;
+
+    padding: 0 18px;
+
+    border: 1px solid
+        rgba(0, 0, 0, 0.14);
+
+    background: #ffffff;
+
+    color: #222;
+
+    font: inherit;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+
+}
+
+
+.single-news-share-button:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #9b7a2f;
+
+    box-shadow:
+        0 8px 20px
+        rgba(0, 0, 0, 0.10);
+
+}
+
+
+.single-news-share-button:active {
+
+    transform: translateY(0);
+
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.share-icon {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 10px;
+
+    height: 10px;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================
+   WHATSAPP
+========================================= */
+
+.single-news-share-button.whatsapp:hover {
+
+    border-color: #25D366;
+
+}
+
+
+/* =========================================
+   FACEBOOK
+========================================= */
+
+.single-news-share-button.facebook:hover {
+
+    border-color: #1877F2;
+
+}
+
+
+/* =========================================
+   X
+========================================= */
+
+.single-news-share-button.twitter:hover {
+
+    border-color: #000000;
+
+}
+
+
+/* =========================================
+   COPY LINK
+========================================= */
+
+.single-news-share-button.copy:hover {
+
+    border-color: #9b7a2f;
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .single-news-share {
+
+        margin-top: 35px;
+
+        padding-top: 28px;
+
+    }
+
+
+    .single-news-share-heading h3 {
+
+        font-size: 21px;
+
+    }
+
+
+    .single-news-share-buttons {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+
+    }
+
+
+    .single-news-share-button {
+
+        width: 100%;
+
+        padding: 0 12px;
+
+    }
+
+    
+}

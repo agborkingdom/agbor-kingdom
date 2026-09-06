@@ -1328,6 +1328,100 @@ async function loadSingleNews() {
 
 }
 
+
+
+/* =========================================
+   AGBOR KINGDOM
+   NEWS ARTICLE SOCIAL SHARING
+========================================= */
+function setupNewsSharing(news) {
+  const whatsappButton = document.getElementById("shareWhatsApp");
+  const facebookButton = document.getElementById("shareFacebook");
+  const twitterButton = document.getElementById("shareTwitter");
+  const copyButton = document.getElementById("copyNewsLink");
+
+  // Get the article title directly from Supabase
+  const articleTitle =
+    news?.title || "News from Agbor Kingdom";
+
+  // Build the correct article URL
+  const articleUrl =
+    "https://agborkingdom.netlify.app/news.html?slug=" +
+    encodeURIComponent(news?.slug || "");
+
+  // WhatsApp
+  if (whatsappButton) {
+    whatsappButton.addEventListener("click", function () {
+      const text = `${articleTitle}\n\n${articleUrl}`;
+
+      const shareUrl =
+        "https://wa.me/?text=" + encodeURIComponent(text);
+
+      window.open(shareUrl, "_blank");
+    });
+  }
+
+  // Facebook
+  if (facebookButton) {
+    facebookButton.addEventListener("click", function () {
+      const shareUrl =
+        "https://www.facebook.com/sharer/sharer.php?u=" +
+        encodeURIComponent(articleUrl);
+
+      window.open(
+        shareUrl,
+        "_blank",
+        "width=650,height=500"
+      );
+    });
+  }
+
+  // X / Twitter
+  if (twitterButton) {
+    twitterButton.addEventListener("click", function () {
+      const shareUrl =
+        "https://twitter.com/intent/tweet?text=" +
+        encodeURIComponent(articleTitle) +
+        "&url=" +
+        encodeURIComponent(articleUrl);
+
+      window.open(
+        shareUrl,
+        "_blank",
+        "width=650,height=500"
+      );
+    });
+  }
+
+  // Copy link
+  if (copyButton) {
+    copyButton.addEventListener("click", async function () {
+      try {
+        await navigator.clipboard.writeText(articleUrl);
+
+        const originalText =
+          copyButton.querySelector(".share-button-text");
+
+        if (originalText) {
+          const previousText = originalText.textContent;
+
+          originalText.textContent = "Copied!";
+
+          setTimeout(function () {
+            originalText.textContent = previousText;
+          }, 2000);
+        }
+
+      } catch (error) {
+        console.error(
+          "Unable to copy news link:",
+          error
+        );
+      }
+    });
+  }
+}
+
 /* =========================================
    RENDER SINGLE NEWS
 ========================================= */
@@ -1429,36 +1523,131 @@ function renderSingleNews(news) {
         news.content || news.excerpt || "";
 
 
-    document.title =
-        `${news.title} | Agbor Kingdom`;
+    document.title = `${news.title} | Agbor Kingdom`;
 
+// ==========================================
+// SEO & SOCIAL MEDIA META DATA
+// ==========================================
 
-    const metaDescription =
-        document.getElementById(
-            "newsMetaDescription"
-        );
+const articleTitle =
+    news.title || "Agbor Kingdom News";
 
+const articleDescription =
+    news.excerpt ||
+    "Latest news, announcements and stories from the Royal Kingdom of Agbor.";
 
-    if (metaDescription) {
+const articleUrl =
+    "https://agborkingdom.netlify.app/news.html?slug=" +
+    encodeURIComponent(news.slug);
 
-        metaDescription.setAttribute(
-            "content",
-            news.excerpt || news.title
-        );
+const articleImage =
+    news.image_url ||
+    "https://agborkingdom.netlify.app/images/agbor-share-image.jpg";
 
-    }
+// SEO description
+const metaDescription =
+    document.getElementById("newsMetaDescription");
 
+if (metaDescription) {
+    metaDescription.setAttribute(
+        "content",
+        articleDescription
+    );
+}
 
-    loading.hidden = true;
+// Open Graph
+const ogTitle =
+    document.getElementById("ogTitle");
 
-    content.hidden = false;
+const ogDescription =
+    document.getElementById("ogDescription");
 
-    /* =========================================
-   INCREMENT NEWS VIEWS
-========================================= */
+const ogUrl =
+    document.getElementById("ogUrl");
+
+const ogImage =
+    document.getElementById("ogImage");
+
+if (ogTitle) {
+    ogTitle.setAttribute(
+        "content",
+        articleTitle
+    );
+}
+
+if (ogDescription) {
+    ogDescription.setAttribute(
+        "content",
+        articleDescription
+    );
+}
+
+if (ogUrl) {
+    ogUrl.setAttribute(
+        "content",
+        articleUrl
+    );
+}
+
+if (ogImage) {
+    ogImage.setAttribute(
+        "content",
+        articleImage
+    );
+}
+
+// X / Twitter
+const twitterTitle =
+    document.getElementById("twitterTitle");
+
+const twitterDescription =
+    document.getElementById("twitterDescription");
+
+const twitterImage =
+    document.getElementById("twitterImage");
+
+if (twitterTitle) {
+    twitterTitle.setAttribute(
+        "content",
+        articleTitle
+    );
+}
+
+if (twitterDescription) {
+    twitterDescription.setAttribute(
+        "content",
+        articleDescription
+    );
+}
+
+if (twitterImage) {
+    twitterImage.setAttribute(
+        "content",
+        articleImage
+    );
+}
+
+// Canonical URL
+const canonical =
+    document.getElementById("newsCanonical");
+
+if (canonical) {
+    canonical.setAttribute(
+        "href",
+        articleUrl
+    );
+}
+
+loading.hidden = true;
+content.hidden = false;
+
+// =========================================
+// INCREMENT NEWS VIEWS
+// =========================================
 
 incrementNewsViews(news.id);
 
+setupNewsSharing(news);
 }
 
 /* =========================================
