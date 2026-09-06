@@ -1338,7 +1338,7 @@ function setupNewsSharing(news) {
   const whatsappButton = document.getElementById("shareWhatsApp");
   const facebookButton = document.getElementById("shareFacebook");
   const twitterButton = document.getElementById("shareTwitter");
-  const copyButton = document.getElementById("copyNewsLink");
+  const copyButton = document.getElementById("shareCopyLink");
 
   // Get the article title directly from Supabase
   const articleTitle =
@@ -1396,30 +1396,79 @@ function setupNewsSharing(news) {
   // Copy link
   if (copyButton) {
     copyButton.addEventListener("click", async function () {
-      try {
-        await navigator.clipboard.writeText(articleUrl);
 
-        const originalText =
-          copyButton.querySelector(".share-button-text");
+        try {
+            await navigator.clipboard.writeText(articleUrl);
 
-        if (originalText) {
-          const previousText = originalText.textContent;
+            const copyText =
+                document.getElementById("shareCopyText");
 
-          originalText.textContent = "Copied!";
+            if (copyText) {
+                const previousText = copyText.textContent;
 
-          setTimeout(function () {
-            originalText.textContent = previousText;
-          }, 2000);
+                copyText.textContent = "Copied!";
+
+                setTimeout(function () {
+                    copyText.textContent = previousText;
+                }, 2000);
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Unable to copy news link:",
+                error
+            );
+
+            // Fallback
+            const textArea =
+                document.createElement("textarea");
+
+            textArea.value = articleUrl;
+
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+
+            document.body.appendChild(textArea);
+
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand("copy");
+
+                const copyText =
+                    document.getElementById("shareCopyText");
+
+                if (copyText) {
+                    const previousText =
+                        copyText.textContent;
+
+                    copyText.textContent = "Copied!";
+
+                    setTimeout(function () {
+                        copyText.textContent =
+                            previousText;
+                    }, 2000);
+                }
+
+            } catch (fallbackError) {
+
+                console.error(
+                    "Fallback copy failed:",
+                    fallbackError
+                );
+
+                alert(
+                    "Unable to copy the link. Please copy it manually."
+                );
+
+            } finally {
+                document.body.removeChild(textArea);
+            }
         }
-
-      } catch (error) {
-        console.error(
-          "Unable to copy news link:",
-          error
-        );
-      }
     });
-  }
+}
 }
 
 /* =========================================
@@ -1528,7 +1577,6 @@ function renderSingleNews(news) {
 // ==========================================
 // SEO & SOCIAL MEDIA META DATA
 // ==========================================
-
 const articleTitle =
     news.title || "Agbor Kingdom News";
 
@@ -1540,9 +1588,7 @@ const articleUrl =
     "https://agborkingdom.netlify.app/news.html?slug=" +
     encodeURIComponent(news.slug);
 
-const articleImage =
-    news.image_url ||
-    "https://agborkingdom.netlify.app/images/agbor-share-image.jpg";
+const articleImage = news.image_url;
 
 // SEO description
 const metaDescription =
