@@ -1582,14 +1582,17 @@ const articleTitle =
 
 const articleDescription =
     news.excerpt ||
-    "Latest news, announcements and stories from the Royal Kingdom of Agbor.";
+    "Latest news, announcements and stories from Agbor Kingdom.";
 
 const articleUrl =
     "https://agborkingdom.netlify.app/news.html?slug=" +
     encodeURIComponent(news.slug);
 
-const articleImage = news.image_url;
 
+
+const articleImage =
+    news.image_url || "";
+    
 // SEO description
 const metaDescription =
     document.getElementById("newsMetaDescription");
