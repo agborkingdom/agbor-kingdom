@@ -1,0 +1,9 @@
+[build]
+
+  publish = "."
+
+
+
+[edge_functions]
+
+  directory = "netlify/edge-functions"

@@ -217,30 +217,63 @@ export default async function (
            content="" for a tag with an ID.
         */
 
-        function updateMetaById(
-            id,
-            value
-        ) {
+       function updateMetaById(
+    id,
+    value
+) {
 
-            const regex =
-                new RegExp(
+    const metaRegex =
+        new RegExp(
 
-                    `(<meta[^>]*id=["']${id}["'][^>]*content=["'])[^"']*(["'][^>]*>)`,
+            `<meta([^>]*\\bid=["']${id}["'][^>]*)>`,
 
-                    "i"
-                );
+            "i"
+
+        );
 
 
-            updatedHtml =
-                updatedHtml.replace(
 
-                    regex,
+    updatedHtml =
+        updatedHtml.replace(
 
-                    `$1${escapeHTML(value)}$2`
+            metaRegex,
 
-                );
+            function (match, attributes) {
 
-        }
+                const contentRegex =
+                    /\bcontent=["'][^"']*["']/i;
+
+
+
+                if (
+                    contentRegex.test(attributes)
+                ) {
+
+                    attributes =
+                        attributes.replace(
+
+                            contentRegex,
+
+                            `content="${escapeHTML(value)}"`
+
+                        );
+
+                } else {
+
+                    attributes +=
+                        ` content="${escapeHTML(value)}"`;
+
+                }
+
+
+
+                return `<meta${attributes}>`;
+
+            }
+
+        );
+
+}
 
 
         /* =================================
@@ -313,14 +346,50 @@ export default async function (
            CANONICAL URL
         ================================= */
 
-        updatedHtml =
-            updatedHtml.replace(
+       const canonicalRegex =
+    /<link([^>]*\bid=["']newsCanonical["'][^>]*)>/i;
 
-                /(<link[^>]*id=["']newsCanonical["'][^>]*href=["'])[^"']*(["'][^>]*>)/i,
 
-                `$1${escapeHTML(articleUrl)}$2`
 
-            );
+updatedHtml =
+    updatedHtml.replace(
+
+        canonicalRegex,
+
+        function (match, attributes) {
+
+            const hrefRegex =
+                /\bhref=["'][^"']*["']/i;
+
+
+
+            if (
+                hrefRegex.test(attributes)
+            ) {
+
+                attributes =
+                    attributes.replace(
+
+                        hrefRegex,
+
+                        `href="${escapeHTML(articleUrl)}"`
+
+                    );
+
+            } else {
+
+                attributes +=
+                    ` href="${escapeHTML(articleUrl)}"`;
+
+            }
+
+
+
+            return `<link${attributes}>`;
+
+        }
+
+    );
 
 
         /* =================================
