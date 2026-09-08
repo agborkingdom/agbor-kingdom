@@ -8,13 +8,15 @@
    X / Twitter
 ========================================= */
 
+
 export default async function (
     request,
     context
 ) {
 
-    const url =
-        new URL(request.url);
+    const url = new URL(
+        request.url
+    );
 
 
     /* =====================================
@@ -25,11 +27,7 @@ export default async function (
         url.searchParams.get("id");
 
 
-    /* =====================================
-       NO ID
-
-       Continue normally.
-    ===================================== */
+    /* No ID → load normally */
 
     if (!publicationId) {
 
@@ -40,9 +38,9 @@ export default async function (
 
     try {
 
-        /* =====================================
-           SUPABASE ENVIRONMENT VARIABLES
-        ===================================== */
+        /* =================================
+           SUPABASE SETTINGS
+        ================================= */
 
         const supabaseUrl =
             Netlify.env.get(
@@ -70,25 +68,28 @@ export default async function (
         }
 
 
-        /* =====================================
-           LOAD PUBLICATION
-
-           Only active publications.
-        ===================================== */
+        /* =================================
+           GET PUBLICATION
+        ================================= */
 
         const publicationUrl =
+
             `${supabaseUrl}/rest/v1/publications` +
+
             `?select=*` +
-            `&id=eq.${encodeURIComponent(
-                publicationId
-            )}` +
+
+            `&id=eq.${encodeURIComponent(publicationId)}` +
+
             `&is_active=eq.true` +
+
             `&limit=1`;
 
 
         const publicationResponse =
             await fetch(
+
                 publicationUrl,
+
                 {
                     headers: {
 
@@ -100,6 +101,7 @@ export default async function (
 
                     }
                 }
+
             );
 
 
@@ -123,9 +125,7 @@ export default async function (
             publicationData?.[0];
 
 
-        /* =====================================
-           PUBLICATION NOT FOUND
-        ===================================== */
+        /* Publication not found */
 
         if (!publication) {
 
@@ -134,35 +134,43 @@ export default async function (
         }
 
 
-        /* =====================================
+        /* =================================
            PUBLICATION DATA
-        ===================================== */
+        ================================= */
 
         const publicationTitle =
+
             publication.title ||
+
             "Agbor Kingdom Publication";
 
 
         const publicationDescription =
+
             publication.description ||
-            "Official publications from the Royal Kingdom of Agbor.";
+
+            "Publications, books, reports and documents from the Royal Kingdom of Agbor.";
 
 
         const publicationImage =
+
             publication.cover_image_url ||
+
             "";
 
 
         const canonicalUrl =
+
             `${url.origin}/publication-details.html?id=` +
+
             encodeURIComponent(
                 publicationId
             );
 
 
-        /* =====================================
-           GET ORIGINAL HTML PAGE
-        ===================================== */
+        /* =================================
+           GET ORIGINAL HTML
+        ================================= */
 
         const response =
             await context.next();
@@ -172,9 +180,9 @@ export default async function (
             await response.text();
 
 
-        /* =====================================
+        /* =================================
            ESCAPE HTML
-        ===================================== */
+        ================================= */
 
         function escapeHTML(value) {
 
@@ -203,17 +211,13 @@ export default async function (
         }
 
 
-        /* =====================================
-           UPDATE HTML
-        ===================================== */
-
         let updatedHtml =
             html;
 
 
-        /* =====================================
-           UPDATE META BY ID
-        ===================================== */
+        /* =================================
+           UPDATE META TAG BY ID
+        ================================= */
 
         function updateMetaById(
             id,
@@ -222,105 +226,136 @@ export default async function (
 
             const regex =
                 new RegExp(
+
                     `(<meta[^>]*id=["']${id}["'][^>]*content=["'])[^"']*(["'][^>]*>)`,
+
                     "i"
+
                 );
 
 
             updatedHtml =
                 updatedHtml.replace(
+
                     regex,
+
                     `$1${escapeHTML(value)}$2`
+
                 );
 
         }
 
 
-        /* =====================================
-           SEO DESCRIPTION
-        ===================================== */
+        /* =================================
+           SEO
+        ================================= */
 
         updateMetaById(
+
             "publicationMetaDescription",
+
             publicationDescription
+
         );
 
 
-        /* =====================================
+        /* =================================
            OPEN GRAPH
-        ===================================== */
+        ================================= */
 
         updateMetaById(
+
             "publicationOgTitle",
+
             publicationTitle
+
         );
 
 
         updateMetaById(
+
             "publicationOgDescription",
+
             publicationDescription
+
         );
 
 
         updateMetaById(
+
             "publicationOgUrl",
+
             canonicalUrl
+
         );
 
 
         updateMetaById(
+
             "publicationOgImage",
+
             publicationImage
+
         );
 
 
         updateMetaById(
+
             "publicationOgImageAlt",
+
             publicationTitle
+
         );
 
 
-        /* =====================================
+        /* =================================
            X / TWITTER
-        ===================================== */
+        ================================= */
 
         updateMetaById(
+
             "publicationTwitterTitle",
+
             publicationTitle
+
         );
 
 
         updateMetaById(
+
             "publicationTwitterDescription",
+
             publicationDescription
+
         );
 
 
         updateMetaById(
+
             "publicationTwitterImage",
+
             publicationImage
+
         );
 
 
-        /* =====================================
-           UPDATE CANONICAL URL
-        ===================================== */
+        /* =================================
+           CANONICAL URL
+        ================================= */
 
         updatedHtml =
             updatedHtml.replace(
 
                 /(<link[^>]*id=["']publicationCanonical["'][^>]*href=["'])[^"']*(["'][^>]*>)/i,
 
-                `$1${escapeHTML(
-                    canonicalUrl
-                )}$2`
+                `$1${escapeHTML(canonicalUrl)}$2`
 
             );
 
 
-        /* =====================================
+        /* =================================
            RESPONSE HEADERS
-        ===================================== */
+        ================================= */
 
         const headers =
             new Headers(
@@ -329,25 +364,29 @@ export default async function (
 
 
         headers.set(
+
             "content-type",
+
             "text/html; charset=UTF-8"
+
         );
 
 
-        /*
-           Prevent metadata from one publication
-           being cached for another publication.
-        */
+        /* Prevent one publication preview
+           from being cached for another */
 
         headers.set(
+
             "Cache-Control",
+
             "no-store"
+
         );
 
 
-        /* =====================================
-           RETURN UPDATED PAGE
-        ===================================== */
+        /* =================================
+           RETURN UPDATED HTML
+        ================================= */
 
         return new Response(
 
@@ -371,14 +410,13 @@ export default async function (
     } catch (error) {
 
         console.error(
+
             "Agbor Kingdom publication social preview error:",
+
             error
+
         );
 
-
-        /*
-           Never break the publication page.
-        */
 
         return context.next();
 
