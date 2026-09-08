@@ -106,6 +106,184 @@ function renderPublicationDetails(publication) {
         publication.title ||
         "Agbor Kingdom Publication";
 
+        /* =========================================
+   SEO & SOCIAL MEDIA META DATA
+========================================= */
+
+const publicationDescription =
+    publication.description ||
+    "Official publications from the Royal Kingdom of Agbor.";
+
+const publicationUrl =
+    "https://agborkingdom.netlify.app/publication-details.html?id=" +
+    encodeURIComponent(publication.id);
+
+const publicationImage =
+    publication.cover_image_url || "";
+
+
+/* SEO DESCRIPTION */
+
+const metaDescription =
+    document.getElementById(
+        "publicationMetaDescription"
+    );
+
+if (metaDescription) {
+
+    metaDescription.setAttribute(
+        "content",
+        publicationDescription
+    );
+
+}
+
+
+/* OPEN GRAPH */
+
+const ogTitle =
+    document.getElementById(
+        "publicationOgTitle"
+    );
+
+const ogDescription =
+    document.getElementById(
+        "publicationOgDescription"
+    );
+
+const ogUrl =
+    document.getElementById(
+        "publicationOgUrl"
+    );
+
+const ogImage =
+    document.getElementById(
+        "publicationOgImage"
+    );
+
+const ogImageAlt =
+    document.getElementById(
+        "publicationOgImageAlt"
+    );
+
+
+if (ogTitle) {
+
+    ogTitle.setAttribute(
+        "content",
+        title
+    );
+
+}
+
+
+if (ogDescription) {
+
+    ogDescription.setAttribute(
+        "content",
+        publicationDescription
+    );
+
+}
+
+
+if (ogUrl) {
+
+    ogUrl.setAttribute(
+        "content",
+        publicationUrl
+    );
+
+}
+
+
+if (ogImage) {
+
+    ogImage.setAttribute(
+        "content",
+        publicationImage
+    );
+
+}
+
+
+if (ogImageAlt) {
+
+    ogImageAlt.setAttribute(
+        "content",
+        title
+    );
+
+}
+
+
+/* X / TWITTER */
+
+const twitterTitle =
+    document.getElementById(
+        "publicationTwitterTitle"
+    );
+
+const twitterDescription =
+    document.getElementById(
+        "publicationTwitterDescription"
+    );
+
+const twitterImage =
+    document.getElementById(
+        "publicationTwitterImage"
+    );
+
+
+if (twitterTitle) {
+
+    twitterTitle.setAttribute(
+        "content",
+        title
+    );
+
+}
+
+
+if (twitterDescription) {
+
+    twitterDescription.setAttribute(
+        "content",
+        publicationDescription
+    );
+
+}
+
+
+if (twitterImage) {
+
+    twitterImage.setAttribute(
+        "content",
+        publicationImage
+    );
+
+}
+
+
+/* CANONICAL URL */
+
+const canonical =
+    document.getElementById(
+        "publicationCanonical"
+    );
+
+if (canonical) {
+
+    canonical.setAttribute(
+        "href",
+        publicationUrl
+    );
+
+}
+
+
+document.title =
+    title + " | Agbor Kingdom";
 
     document.getElementById(
         "publicationTitle"
