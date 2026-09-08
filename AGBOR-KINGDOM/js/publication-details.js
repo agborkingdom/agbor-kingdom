@@ -382,6 +382,21 @@ document.title =
 
     }
 
+    /* =========================================
+   SETUP PUBLICATION SHARING
+========================================= */
+
+if (
+    typeof setupPublicationSharing ===
+    "function"
+) {
+
+    setupPublicationSharing(
+        publication
+    );
+
+}
+
 }
 
 
