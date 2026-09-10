@@ -122,7 +122,10 @@ export default async function (
         const news =
             newsData?.[0];
 
-
+console.log("NEWS SLUG:", slug);
+console.log("NEWS FOUND:", !!news);
+console.log("NEWS IMAGE URL:", news?.image_url);
+console.log("NEWS TITLE:", news?.title);
         /*
            Article not found.
            Continue normally so your
@@ -210,8 +213,12 @@ export default async function (
 
         let updatedHtml =
             html;
+            
 
-
+updatedHtml = updatedHtml.replace(
+    "</head>",
+    "<!-- NEWS EDGE FUNCTION ACTIVE -->\n</head>"
+);
         /*
            Helper function that updates
            content="" for a tag with an ID.
