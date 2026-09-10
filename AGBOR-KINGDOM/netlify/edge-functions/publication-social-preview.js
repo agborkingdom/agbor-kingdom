@@ -1,21 +1,16 @@
 /* =========================================
    AGBOR KINGDOM
-
    DYNAMIC PUBLICATION SOCIAL PREVIEW
-
    WhatsApp
    Facebook
    X / Twitter
 ========================================= */
 
+export default async function (request, context) {
 
-export default async function (
-    request,
-    context
-) {
     console.log(
-    "PUBLICATION SOCIAL PREVIEW FUNCTION STARTED"
-);
+        "PUBLICATION SOCIAL PREVIEW FUNCTION STARTED"
+    );
 
     const url = new URL(
         request.url
@@ -29,10 +24,12 @@ export default async function (
     const publicationId =
         url.searchParams.get("id");
 
-        console.log(
-    "Publication ID:",
-    publicationId
-);
+
+    console.log(
+        "Publication ID:",
+        publicationId
+    );
+
 
     /* No ID → load normally */
 
@@ -44,6 +41,7 @@ export default async function (
 
 
     try {
+
 
         /* =================================
            SUPABASE SETTINGS
@@ -79,24 +77,42 @@ export default async function (
            GET PUBLICATION
         ================================= */
 
+        const params =
+            new URLSearchParams();
+
+        params.set(
+            "select",
+            "*"
+        );
+
+        params.set(
+            "id",
+            `eq.${publicationId}`
+        );
+
+        params.set(
+            "is_active",
+            "eq.true"
+        );
+
+        params.set(
+            "limit",
+            "1"
+        );
+
+
         const publicationUrl =
+            `${supabaseUrl}/rest/v1/publications?${params.toString()}`;
 
-            `${supabaseUrl}/rest/v1/publications` +
 
-            `?select=*` +
-
-            `&id=eq.${encodeURIComponent(publicationId)}` +
-
-            `&is_active=eq.true` +
-
-            `&limit=1`;
+        console.log(
+            "Loading publication from Supabase"
+        );
 
 
         const publicationResponse =
             await fetch(
-
                 publicationUrl,
-
                 {
                     headers: {
 
@@ -108,7 +124,6 @@ export default async function (
 
                     }
                 }
-
             );
 
 
@@ -136,9 +151,25 @@ export default async function (
 
         if (!publication) {
 
+            console.error(
+                "Publication not found."
+            );
+
             return context.next();
 
         }
+
+
+        console.log(
+            "Publication found:",
+            publication.title
+        );
+
+
+        console.log(
+            "Publication image:",
+            publication.cover_image_url
+        );
 
 
         /* =================================
@@ -146,30 +177,22 @@ export default async function (
         ================================= */
 
         const publicationTitle =
-
             publication.title ||
-
             "Agbor Kingdom Publication";
 
 
         const publicationDescription =
-
             publication.description ||
-
-            "Publications, books, reports and documents from the Royal Kingdom of Agbor.";
+            "Official publications from the Royal Kingdom of Agbor.";
 
 
         const publicationImage =
-
             publication.cover_image_url ||
-
             "";
 
 
         const canonicalUrl =
-
             `${url.origin}/publication-details.html?id=` +
-
             encodeURIComponent(
                 publicationId
             );
@@ -187,8 +210,28 @@ export default async function (
             await response.text();
 
 
+        let updatedHtml =
+            html;
+
+
         /* =================================
-           ESCAPE HTML
+           HELPER:
+           ESCAPE REGEX TEXT
+        ================================= */
+
+        function escapeRegex(value) {
+
+            return String(value).replace(
+                /[.*+?^${}()|[\]\\]/g,
+                "\\$&"
+            );
+
+        }
+
+
+        /* =================================
+           HELPER:
+           ESCAPE HTML ATTRIBUTE
         ================================= */
 
         function escapeHTML(value) {
@@ -218,18 +261,11 @@ export default async function (
         }
 
 
-        let updatedHtml =
-            html;
-
-            updatedHtml =
-    updatedHtml.replace(
-        "</head>",
-        `<!-- PUBLICATION EDGE FUNCTION ACTIVE -->
-</head>`
-    );
-
         /* =================================
            UPDATE META TAG BY ID
+
+           Works regardless of the order
+           of attributes inside the tag.
         ================================= */
 
         function updateMetaById(
@@ -237,23 +273,82 @@ export default async function (
             value
         ) {
 
-            const regex =
+            const idPattern =
+                escapeRegex(id);
+
+
+            const tagRegex =
                 new RegExp(
-
-                    `(<meta[^>]*id=["']${id}["'][^>]*content=["'])[^"']*(["'][^>]*>)`,
-
+                    `<meta\\b[^>]*\\bid=["']${idPattern}["'][^>]*>`,
                     "i"
-
                 );
 
 
             updatedHtml =
                 updatedHtml.replace(
+                    tagRegex,
+                    function (tag) {
 
-                    regex,
+                        /* Replace existing content */
 
-                    `$1${escapeHTML(value)}$2`
+                        if (
+                            /\bcontent=["'][^"']*["']/i.test(tag)
+                        ) {
 
+                            return tag.replace(
+                                /\bcontent=(["'])[^"']*\1/i,
+                                `content="${escapeHTML(value)}"`
+                            );
+
+                        }
+
+
+                        /* Add content if missing */
+
+                        return tag.replace(
+                            ">",
+                            ` content="${escapeHTML(value)}">`
+                        );
+
+                    }
+                );
+
+        }
+
+
+        /* =================================
+           UPDATE CANONICAL URL
+        ================================= */
+
+        function updateCanonicalUrl(value) {
+
+            const tagRegex =
+                /<link\b[^>]*\bid=["']publicationCanonical["'][^>]*>/i;
+
+
+            updatedHtml =
+                updatedHtml.replace(
+                    tagRegex,
+                    function (tag) {
+
+                        if (
+                            /\bhref=["'][^"']*["']/i.test(tag)
+                        ) {
+
+                            return tag.replace(
+                                /\bhref=(["'])[^"']*\1/i,
+                                `href="${escapeHTML(value)}"`
+                            );
+
+                        }
+
+
+                        return tag.replace(
+                            ">",
+                            ` href="${escapeHTML(value)}">`
+                        );
+
+                    }
                 );
 
         }
@@ -264,11 +359,8 @@ export default async function (
         ================================= */
 
         updateMetaById(
-
             "publicationMetaDescription",
-
             publicationDescription
-
         );
 
 
@@ -277,47 +369,32 @@ export default async function (
         ================================= */
 
         updateMetaById(
-
             "publicationOgTitle",
-
             publicationTitle
-
         );
 
 
         updateMetaById(
-
             "publicationOgDescription",
-
             publicationDescription
-
         );
 
 
         updateMetaById(
-
             "publicationOgUrl",
-
             canonicalUrl
-
         );
 
 
         updateMetaById(
-
             "publicationOgImage",
-
             publicationImage
-
         );
 
 
         updateMetaById(
-
             "publicationOgImageAlt",
-
             publicationTitle
-
         );
 
 
@@ -326,29 +403,20 @@ export default async function (
         ================================= */
 
         updateMetaById(
-
             "publicationTwitterTitle",
-
             publicationTitle
-
         );
 
 
         updateMetaById(
-
             "publicationTwitterDescription",
-
             publicationDescription
-
         );
 
 
         updateMetaById(
-
             "publicationTwitterImage",
-
             publicationImage
-
         );
 
 
@@ -356,14 +424,32 @@ export default async function (
            CANONICAL URL
         ================================= */
 
+        updateCanonicalUrl(
+            canonicalUrl
+        );
+
+
+        /* =================================
+           DEBUG MARKER
+
+           This confirms that the Edge
+           Function modified the HTML.
+        ================================= */
+
         updatedHtml =
             updatedHtml.replace(
+                "</head>",
+                `
 
-                /(<link[^>]*id=["']publicationCanonical["'][^>]*href=["'])[^"']*(["'][^>]*>)/i,
+<!-- PUBLICATION EDGE FUNCTION ACTIVE -->
 
-                `$1${escapeHTML(canonicalUrl)}$2`
-
+</head>`
             );
+
+
+        console.log(
+            "Publication social preview HTML updated successfully."
+        );
 
 
         /* =================================
@@ -377,23 +463,14 @@ export default async function (
 
 
         headers.set(
-
             "content-type",
-
             "text/html; charset=UTF-8"
-
         );
 
 
-        /* Prevent one publication preview
-           from being cached for another */
-
         headers.set(
-
             "Cache-Control",
-
-            "no-store"
-
+            "no-store, no-cache, must-revalidate"
         );
 
 
@@ -402,11 +479,8 @@ export default async function (
         ================================= */
 
         return new Response(
-
             updatedHtml,
-
             {
-
                 status:
                     response.status,
 
@@ -414,20 +488,15 @@ export default async function (
                     response.statusText,
 
                 headers
-
             }
-
         );
 
 
     } catch (error) {
 
         console.error(
-
             "Agbor Kingdom publication social preview error:",
-
             error
-
         );
 
 
