@@ -1327,17 +1327,65 @@ async function loadSingleNews() {
 
     }
 
-}
-
-/* =========================================
+}/* =========================================================
    AGBOR KINGDOM
    NEWS SOCIAL SHARING
-========================================= */
+   ========================================================= */
 
 
-/* =========================================
+/* =========================================================
+   GET PUBLIC NEWS URL
+   ========================================================= */
+
+function getNewsArticleUrl(news) {
+
+    if (!news || !news.slug) {
+        return window.location.href;
+    }
+
+    return (
+        window.location.origin +
+        "/news.html?slug=" +
+        encodeURIComponent(news.slug)
+    );
+
+}
+
+
+/* =========================================================
+   GET NEWS IMAGE URL
+   ========================================================= */
+
+function getNewsImageUrl(imageUrl) {
+
+    if (!imageUrl) {
+        return "";
+    }
+
+    try {
+
+        return new URL(
+            imageUrl,
+            window.location.origin
+        ).href;
+
+    } catch (error) {
+
+        console.warn(
+            "Unable to normalize news image URL:",
+            imageUrl
+        );
+
+        return imageUrl;
+
+    }
+
+}
+
+
+/* =========================================================
    INCREMENT NEWS SHARE
-========================================= */
+   ========================================================= */
 
 async function incrementNewsShare(
     newsId,
@@ -1345,55 +1393,34 @@ async function incrementNewsShare(
 ) {
 
     if (!newsId) {
-
         return null;
-
     }
-
 
     try {
 
         const {
-
             data,
-
             error
-
         } = await kingdomSupabase.rpc(
-
             "increment_share_count",
-
             {
-
                 p_content_type: "news",
-
                 p_content_id: newsId,
-
                 p_platform: platform
-
             }
-
         );
 
-
         if (error) {
-
             throw error;
-
         }
 
-
         return data;
-
 
     } catch (error) {
 
         console.error(
-
             "Unable to increment news share count:",
-
             error
-
         );
 
         return null;
@@ -1403,36 +1430,28 @@ async function incrementNewsShare(
 }
 
 
-/* =========================================
+/* =========================================================
    LOAD TOTAL NEWS SHARES
-========================================= */
+   ========================================================= */
 
 async function loadNewsShareCount(
     newsId
 ) {
 
     const totalElement =
-
         document.getElementById(
             "newsShareTotal"
         );
 
-
     if (!totalElement || !newsId) {
-
         return;
-
     }
-
 
     try {
 
         const {
-
             data,
-
             error
-
         } = await kingdomSupabase
 
             .from("share_counts")
@@ -1451,51 +1470,38 @@ async function loadNewsShareCount(
 
 
         if (error) {
-
             throw error;
-
         }
 
 
         const totalShares =
-
             (data || []).reduce(
-
                 (
                     total,
                     item
                 ) => {
 
                     return (
-
                         total +
-
                         Number(
                             item.share_count || 0
                         )
-
                     );
 
                 },
-
                 0
-
             );
 
 
         totalElement.textContent =
-
             totalShares;
 
 
     } catch (error) {
 
         console.error(
-
             "Unable to load news share count:",
-
             error
-
         );
 
     }
@@ -1503,308 +1509,449 @@ async function loadNewsShareCount(
 }
 
 
-/* =========================================
+/* =========================================================
+   SET SHARE BUTTON LOADING STATE
+   ========================================================= */
+
+function setNewsShareButtonLoading(
+    button,
+    loading
+) {
+
+    if (!button) {
+        return;
+    }
+
+    button.disabled = loading;
+
+}
+
+
+/* =========================================================
    SETUP NEWS SHARING
-========================================= */
+   ========================================================= */
 
 function setupNewsSharing(news) {
 
+    if (!news) {
+        return;
+    }
+
+
+    /* =====================================================
+       GET BUTTONS
+       ===================================================== */
 
     const whatsappButton =
-
         document.getElementById(
             "shareWhatsApp"
         );
 
-
     const facebookButton =
-
         document.getElementById(
             "shareFacebook"
         );
 
-
     const twitterButton =
-
         document.getElementById(
             "shareTwitter"
         );
 
-
     const copyButton =
-
         document.getElementById(
             "shareCopyLink"
         );
 
 
-    /* =====================================
+    /* =====================================================
        ARTICLE INFORMATION
-    ===================================== */
+       ===================================================== */
 
     const articleTitle =
-
         news.title ||
-        "News from Agbor Kingdom";
+        "Agbor Kingdom News";
+
+
+    const articleDescription =
+        news.excerpt ||
+        "Latest news, announcements and stories from the Royal Kingdom of Agbor.";
 
 
     const articleUrl =
+        getNewsArticleUrl(news);
 
-        `${window.location.origin}/news.html?slug=` +
 
-        encodeURIComponent(
-            news.slug
+    const articleImage =
+        getNewsImageUrl(
+            news.image_url
         );
 
 
-    /* =====================================
+    /* =====================================================
        WHATSAPP
-    ===================================== */
+       ===================================================== */
 
     if (whatsappButton) {
 
-        whatsappButton.onclick = async function () {
+        whatsappButton.onclick =
+            async function () {
 
-
-            incrementNewsShare(
-
-                news.id,
-
-                "whatsapp"
-
-            );
-
-
-            loadNewsShareCount(
-
-                news.id
-
-            );
-
-
-            const text =
-
-                `${articleTitle}\n\n${articleUrl}`;
-
-
-            const shareUrl =
-
-                "https://wa.me/?text=" +
-
-                encodeURIComponent(
-                    text
+                setNewsShareButtonLoading(
+                    whatsappButton,
+                    true
                 );
 
 
-            window.open(
+                const text =
+                    `${articleTitle}\n\n` +
+                    `${articleDescription}\n\n` +
+                    `${articleUrl}`;
 
-                shareUrl,
 
-                "_blank"
+                const shareUrl =
+                    "https://wa.me/?text=" +
+                    encodeURIComponent(
+                        text
+                    );
 
-            );
 
-        };
+                /*
+                 * Record the share without making
+                 * the user wait for Supabase.
+                 */
+
+                incrementNewsShare(
+                    news.id,
+                    "whatsapp"
+                ).then(
+                    () => loadNewsShareCount(
+                        news.id
+                    )
+                );
+
+
+                window.open(
+                    shareUrl,
+                    "_blank"
+                );
+
+
+                setTimeout(
+                    function () {
+
+                        setNewsShareButtonLoading(
+                            whatsappButton,
+                            false
+                        );
+
+                    },
+                    500
+                );
+
+            };
 
     }
 
 
-    /* =====================================
+    /* =====================================================
        FACEBOOK
-    ===================================== */
+       ===================================================== */
 
     if (facebookButton) {
 
-        facebookButton.onclick = async function () {
+        facebookButton.onclick =
+            async function () {
 
-
-            incrementNewsShare(
-
-                news.id,
-
-                "facebook"
-
-            );
-
-
-            loadNewsShareCount(
-
-                news.id
-
-            );
-
-
-            const shareUrl =
-
-                "https://www.facebook.com/sharer/sharer.php?u=" +
-
-                encodeURIComponent(
-                    articleUrl
+                setNewsShareButtonLoading(
+                    facebookButton,
+                    true
                 );
 
 
-            window.open(
+                const shareUrl =
+                    "https://www.facebook.com/sharer/sharer.php?u=" +
+                    encodeURIComponent(
+                        articleUrl
+                    );
 
-                shareUrl,
 
-                "_blank",
+                incrementNewsShare(
+                    news.id,
+                    "facebook"
+                ).then(
+                    () => loadNewsShareCount(
+                        news.id
+                    )
+                );
 
-                "width=650,height=500"
 
-            );
+                window.open(
+                    shareUrl,
+                    "_blank",
+                    "width=650,height=600,resizable=yes,scrollbars=yes"
+                );
 
-        };
+
+                setTimeout(
+                    function () {
+
+                        setNewsShareButtonLoading(
+                            facebookButton,
+                            false
+                        );
+
+                    },
+                    500
+                );
+
+            };
 
     }
 
 
-    /* =====================================
+    /* =====================================================
        X / TWITTER
-    ===================================== */
+       ===================================================== */
 
     if (twitterButton) {
 
-        twitterButton.onclick = async function () {
+        twitterButton.onclick =
+            async function () {
 
-
-            incrementNewsShare(
-
-                news.id,
-
-                "twitter"
-
-            );
-
-
-            loadNewsShareCount(
-
-                news.id
-
-            );
-
-
-            const shareUrl =
-
-                "https://twitter.com/intent/tweet?text=" +
-
-                encodeURIComponent(
-                    articleTitle
-                ) +
-
-                "&url=" +
-
-                encodeURIComponent(
-                    articleUrl
+                setNewsShareButtonLoading(
+                    twitterButton,
+                    true
                 );
 
 
-            window.open(
+                const shareUrl =
+                    "https://twitter.com/intent/tweet?text=" +
+                    encodeURIComponent(
+                        articleTitle
+                    ) +
+                    "&url=" +
+                    encodeURIComponent(
+                        articleUrl
+                    );
 
-                shareUrl,
 
-                "_blank",
+                incrementNewsShare(
+                    news.id,
+                    "twitter"
+                ).then(
+                    () => loadNewsShareCount(
+                        news.id
+                    )
+                );
 
-                "width=650,height=500"
 
-            );
+                window.open(
+                    shareUrl,
+                    "_blank",
+                    "width=650,height=600,resizable=yes,scrollbars=yes"
+                );
 
-        };
+
+                setTimeout(
+                    function () {
+
+                        setNewsShareButtonLoading(
+                            twitterButton,
+                            false
+                        );
+
+                    },
+                    500
+                );
+
+            };
 
     }
 
 
-    /* =====================================
+    /* =====================================================
        COPY LINK
-    ===================================== */
+       ===================================================== */
 
     if (copyButton) {
 
-        copyButton.onclick = async function () {
-
-
-            try {
-
-                await navigator.clipboard.writeText(
-
-                    articleUrl
-
-                );
-
-
-                await incrementNewsShare(
-
-                    news.id,
-
-                    "copy"
-
-                );
-
-
-                await loadNewsShareCount(
-
-                    news.id
-
-                );
-
+        copyButton.onclick =
+            async function () {
 
                 const copyText =
-
                     document.getElementById(
                         "shareCopyText"
                     );
 
 
-                if (copyText) {
+                const originalText =
+                    copyText
+                        ? copyText.textContent
+                        : "Copy Link";
 
 
-                    const originalText =
+                try {
 
-                        copyText.textContent;
+                    setNewsShareButtonLoading(
+                        copyButton,
+                        true
+                    );
 
 
-                    copyText.textContent =
+                    /*
+                     * Modern clipboard API
+                     */
 
-                        "Copied!";
+                    if (
+                        navigator.clipboard &&
+                        window.isSecureContext
+                    ) {
+
+                        await navigator.clipboard.writeText(
+                            articleUrl
+                        );
+
+                    }
+
+                    /*
+                     * Fallback for browsers where
+                     * navigator.clipboard is unavailable.
+                     */
+
+                    else {
+
+                        const textarea =
+                            document.createElement(
+                                "textarea"
+                            );
+
+                        textarea.value =
+                            articleUrl;
+
+                        textarea.style.position =
+                            "fixed";
+
+                        textarea.style.left =
+                            "-9999px";
+
+                        textarea.style.top =
+                            "-9999px";
+
+                        document.body.appendChild(
+                            textarea
+                        );
+
+                        textarea.focus();
+                        textarea.select();
+
+                        document.execCommand(
+                            "copy"
+                        );
+
+                        textarea.remove();
+
+                    }
+
+
+                    /*
+                     * Record copy as a share.
+                     */
+
+                    await incrementNewsShare(
+                        news.id,
+                        "copy"
+                    );
+
+
+                    await loadNewsShareCount(
+                        news.id
+                    );
+
+
+                    /*
+                     * Visual success state.
+                     */
+
+                    if (copyText) {
+
+                        copyText.textContent =
+                            "Copied!";
+
+                    }
+
+
+                    copyButton.classList.add(
+                        "is-copied"
+                    );
 
 
                     setTimeout(
-
                         function () {
 
-                            copyText.textContent =
+                            if (copyText) {
 
-                                originalText;
+                                copyText.textContent =
+                                    originalText;
+
+                            }
+
+                            copyButton.classList.remove(
+                                "is-copied"
+                            );
 
                         },
-
                         2000
+                    );
 
+
+                } catch (error) {
+
+                    console.error(
+                        "Unable to copy news link:",
+                        error
+                    );
+
+
+                    if (copyText) {
+
+                        copyText.textContent =
+                            "Copy failed";
+
+                    }
+
+
+                    setTimeout(
+                        function () {
+
+                            if (copyText) {
+
+                                copyText.textContent =
+                                    originalText;
+
+                            }
+
+                        },
+                        2000
+                    );
+
+
+                } finally {
+
+                    setNewsShareButtonLoading(
+                        copyButton,
+                        false
                     );
 
                 }
 
-
-            } catch (error) {
-
-
-                console.error(
-
-                    "Unable to copy news link:",
-
-                    error
-
-                );
-
-            }
-
-        };
+            };
 
     }
 
 
-    /* =====================================
-       LOAD INITIAL COUNT
-    ===================================== */
+    /* =====================================================
+       LOAD INITIAL SHARE COUNT
+       ===================================================== */
 
     loadNewsShareCount(
         news.id
@@ -1927,13 +2074,12 @@ const articleDescription =
     "Latest news, announcements and stories from Agbor Kingdom.";
 
 const articleUrl =
-    "https://agborkingdom.netlify.app/news.html?slug=" +
-    encodeURIComponent(news.slug);
-
+    getNewsArticleUrl(news);
 
 
 const articleImage =
-    news.image_url || "";
+    getNewsImageUrl(news.image_url);
+
     
 // SEO description
 const metaDescription =
@@ -1987,6 +2133,20 @@ if (ogImage) {
     );
 }
 
+const ogImageAlt =
+    document.getElementById(
+        "ogImageAlt"
+    );
+
+if (ogImageAlt) {
+
+    ogImageAlt.setAttribute(
+        "content",
+        articleTitle
+    );
+
+}
+
 // X / Twitter
 const twitterTitle =
     document.getElementById("twitterTitle");
@@ -2016,6 +2176,23 @@ if (twitterImage) {
         "content",
         articleImage
     );
+}
+
+
+
+
+const twitterImageAlt =
+    document.getElementById(
+        "twitterImageAlt"
+    );
+
+if (twitterImageAlt) {
+
+    twitterImageAlt.setAttribute(
+        "content",
+        articleTitle
+    );
+
 }
 
 // Canonical URL

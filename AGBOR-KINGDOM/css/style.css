@@ -4817,245 +4817,403 @@ justify-content: flex-start;
     }
 
 }
-
-/* =========================================
-   AGBOR KINGDOM
-   SINGLE NEWS SOCIAL SHARING
-========================================= */
+/* =========================================================
+   NEWS ARTICLE — SOCIAL SHARING
+   Scoped ONLY to .single-news-share
+   ========================================================= */
 
 .single-news-share {
+    width: 100%;
+    margin: 50px 0 20px;
+    padding: 30px;
+    box-sizing: border-box;
 
-    margin-top: 50px;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 18px;
 
-    padding-top: 35px;
-
-    border-top: 1px solid
-        rgba(0, 0, 0, 0.12);
-
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.06);
 }
 
 
-/* =========================================
+/* =========================================================
    SHARE HEADING
-========================================= */
+   ========================================================= */
 
-.single-news-share-heading {
-
-    margin-bottom: 22px;
-
+.single-news-share .single-news-share-heading {
+    margin-bottom: 24px;
 }
 
-
-.single-news-share-label {
-
-    display: block;
+.single-news-share .single-news-share-label {
+    display: inline-block;
 
     margin-bottom: 7px;
 
     font-size: 11px;
-
-    font-weight: 700;
+    font-weight: 800;
+    line-height: 1.2;
 
     letter-spacing: 1.8px;
+    text-transform: uppercase;
 
-    color: #9b7a2f;
-
+    color: #8a6a2f;
 }
 
-
-.single-news-share-heading h3 {
-
+.single-news-share .single-news-share-heading h3 {
     margin: 0;
 
     font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
 
-    font-weight: 600;
-
-    color: #222;
-
+    color: #252525;
 }
 
 
-/* =========================================
-   SHARE BUTTONS
-========================================= */
+/* =========================================================
+   SHARE BUTTON CONTAINER
+   ========================================================= */
 
-.single-news-share-buttons {
+.single-news-share .single-news-share-buttons {
+    display: grid;
 
-    display: flex;
-
-    flex-wrap: wrap;
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
 
     gap: 12px;
 
+    width: 100%;
 }
 
 
-.single-news-share-button {
+/* =========================================================
+   ALL SHARE BUTTONS
+   ========================================================= */
 
-    display: inline-flex;
+.single-news-share .single-news-share-button {
+    appearance: none;
+    -webkit-appearance: none;
 
+    display: flex;
     align-items: center;
-
     justify-content: center;
 
     gap: 9px;
 
-    min-height: 46px;
+    min-height: 52px;
+    width: 100%;
 
-    padding: 0 18px;
+    padding: 12px 15px;
 
-    border: 1px solid
-        rgba(0, 0, 0, 0.14);
+    border: 1px solid transparent;
+    border-radius: 12px;
 
-    background: #ffffff;
+    background: #f7f7f7;
 
-    color: #222;
+    color: #333333;
 
-    font: inherit;
-
+    font-family: inherit;
     font-size: 14px;
+    font-weight: 700;
 
-    font-weight: 600;
+    line-height: 1;
 
     cursor: pointer;
 
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
-        border-color 0.2s ease;
-
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
 }
 
 
-.single-news-share-button:hover {
+/* =========================================================
+   BUTTON HOVER / FOCUS
+   ========================================================= */
 
+.single-news-share .single-news-share-button:hover {
     transform: translateY(-2px);
 
-    border-color: #9b7a2f;
-
     box-shadow:
-        0 8px 20px
-        rgba(0, 0, 0, 0.10);
-
+        0 7px 18px rgba(0, 0, 0, 0.10);
 }
 
-
-.single-news-share-button:active {
-
+.single-news-share .single-news-share-button:active {
     transform: translateY(0);
 
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.single-news-share .single-news-share-button:focus-visible {
+    outline: 3px solid rgba(138, 106, 47, 0.25);
+    outline-offset: 2px;
 }
 
 
-/* =========================================
-   ICON
-========================================= */
+/* =========================================================
+   SHARE ICON
+   ========================================================= */
 
-.share-icon {
-
+.single-news-share .share-icon {
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
 
-    width: 10px;
+    width: 27px;
+    height: 27px;
 
-    height: 10px;
+    flex: 0 0 27px;
 
-    font-size: 17px;
+    border-radius: 50%;
 
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 800;
 
+    line-height: 1;
 }
 
 
-/* =========================================
+/* =========================================================
    WHATSAPP
-========================================= */
+   ========================================================= */
 
-.single-news-share-button.whatsapp:hover {
+.single-news-share .single-news-share-button.whatsapp {
+    color: #167c45;
+    background: #f0faf4;
+    border-color: #d6efdf;
+}
 
-    border-color: #25D366;
+.single-news-share .single-news-share-button.whatsapp
+.share-icon {
+    background: #25d366;
+    color: #ffffff;
+}
 
+.single-news-share .single-news-share-button.whatsapp:hover {
+    background: #e5f8ed;
+    border-color: #bfe5ce;
 }
 
 
-/* =========================================
+/* =========================================================
    FACEBOOK
-========================================= */
+   ========================================================= */
 
-.single-news-share-button.facebook:hover {
+.single-news-share .single-news-share-button.facebook {
+    color: #2457a6;
+    background: #f1f5fc;
+    border-color: #dbe5f7;
+}
 
-    border-color: #1877F2;
+.single-news-share .single-news-share-button.facebook
+.share-icon {
+    background: #1877f2;
+    color: #ffffff;
 
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+}
+
+.single-news-share .single-news-share-button.facebook:hover {
+    background: #e8f0fc;
+    border-color: #c7d8f2;
 }
 
 
-/* =========================================
-   X
-========================================= */
+/* =========================================================
+   X / TWITTER
+   ========================================================= */
 
-.single-news-share-button.twitter:hover {
+.single-news-share .single-news-share-button.twitter {
+    color: #111111;
+    background: #f5f5f5;
+    border-color: #dddddd;
+}
 
-    border-color: #000000;
+.single-news-share .single-news-share-button.twitter
+.share-icon {
+    background: #111111;
+    color: #ffffff;
 
+    font-size: 13px;
+}
+
+.single-news-share .single-news-share-button.twitter:hover {
+    background: #ebebeb;
+    border-color: #cccccc;
 }
 
 
-/* =========================================
+/* =========================================================
    COPY LINK
-========================================= */
+   ========================================================= */
 
-.single-news-share-button.copy:hover {
+.single-news-share .single-news-share-button.copy {
+    color: #765a28;
+    background: #fbf8f1;
+    border-color: #eadfca;
+}
 
-    border-color: #9b7a2f;
+.single-news-share .single-news-share-button.copy
+.share-icon {
+    background: #8a6a2f;
+    color: #ffffff;
 
+    font-size: 16px;
+}
+
+.single-news-share .single-news-share-button.copy:hover {
+    background: #f6f0e3;
+    border-color: #dcccae;
 }
 
 
-/* =========================================
-   MOBILE
-========================================= */
+/* =========================================================
+   SHARE COUNT
+   ========================================================= */
 
-@media (max-width: 600px) {
+.single-news-share .single-news-share-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    margin-top: 22px;
+    padding-top: 18px;
+
+    border-top: 1px solid #eeeeee;
+
+    color: #777777;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.single-news-share .single-news-share-count strong {
+    color: #333333;
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   COPY SUCCESS STATE
+   ========================================================= */
+
+.single-news-share .single-news-share-button.copy.is-copied {
+    color: #167c45;
+    background: #f0faf4;
+    border-color: #cfe9d9;
+}
+
+.single-news-share .single-news-share-button.copy.is-copied
+.share-icon {
+    background: #25a866;
+}
+
+
+/* =========================================================
+   DISABLED STATE
+   ========================================================= */
+
+.single-news-share .single-news-share-button:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 800px) {
 
     .single-news-share {
-
-        margin-top: 35px;
-
-        padding-top: 28px;
-
+        margin-top: 40px;
+        padding: 24px;
+        border-radius: 16px;
     }
 
-
-    .single-news-share-heading h3 {
-
-        font-size: 21px;
-
-    }
-
-
-    .single-news-share-buttons {
-
-        display: grid;
-
+    .single-news-share .single-news-share-buttons {
         grid-template-columns:
-            repeat(2, 1fr);
-
-        gap: 10px;
-
+            repeat(2, minmax(0, 1fr));
     }
 
+}
 
-    .single-news-share-button {
 
-        width: 100%;
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
-        padding: 0 12px;
+@media (max-width: 520px) {
 
+    .single-news-share {
+        margin-top: 35px;
+        padding: 20px 16px;
+
+        border-radius: 14px;
     }
 
-    
+    .single-news-share .single-news-share-heading {
+        margin-bottom: 20px;
+    }
+
+    .single-news-share .single-news-share-heading h3 {
+        font-size: 20px;
+    }
+
+    .single-news-share .single-news-share-buttons {
+        grid-template-columns: 1fr;
+
+        gap: 9px;
+    }
+
+    .single-news-share .single-news-share-button {
+        justify-content: flex-start;
+
+        min-height: 50px;
+
+        padding: 11px 14px;
+    }
+
+    .single-news-share .share-icon {
+        width: 29px;
+        height: 29px;
+        flex-basis: 29px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .single-news-share {
+        padding: 18px 13px;
+    }
+
+    .single-news-share .single-news-share-label {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+    }
+
+    .single-news-share .single-news-share-heading h3 {
+        font-size: 18px;
+    }
+
 }
