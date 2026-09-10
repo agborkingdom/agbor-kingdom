@@ -457,10 +457,3 @@ export default async function (request, context) {
 /* =========================================
    NETLIFY EDGE FUNCTION CONFIG
 ========================================= */
-
-export const config = {
-
-    path:
-        "/publication-details.html"
-
-};
