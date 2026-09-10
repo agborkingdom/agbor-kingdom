@@ -22,7 +22,7 @@ const SUPABASE_URL =
     "https://flhorvkvkxbodappjspg.supabase.co";
 
 const SUPABASE_ANON_KEY =
-    "xxxxxxxxxxxxxxx";
+    "sb_publishable_6VtnjF-OR6pIJZS59we_sQ_uZ3XlWFs";
 
 
 /* =========================================================
