@@ -1328,148 +1328,478 @@ async function loadSingleNews() {
 
 }
 
+/* =========================================
+   AGBOR KINGDOM
+   NEWS SOCIAL SHARING
+========================================= */
+
+async function incrementNewsShare(
+
+    newsId,
+
+    platform
+
+) {
+
+    try {
+
+        const {
+
+            data,
+
+            error
+
+        } = await kingdomSupabase.rpc(
+
+            "increment_share_count",
+
+            {
+
+                p_content_type: "news",
+
+                p_content_id: newsId,
+
+                p_platform: platform
+
+            }
+
+        );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        return data;
+
+    } catch (error) {
+
+        console.error(
+
+            "Unable to increment news share count:",
+
+            error
+
+        );
+
+        return null;
+
+    }
+
+}
 
 
 /* =========================================
-   AGBOR KINGDOM
-   NEWS ARTICLE SOCIAL SHARING
+   GET TOTAL NEWS SHARES
 ========================================= */
-function setupNewsSharing(news) {
-  const whatsappButton = document.getElementById("shareWhatsApp");
-  const facebookButton = document.getElementById("shareFacebook");
-  const twitterButton = document.getElementById("shareTwitter");
-  const copyButton = document.getElementById("shareCopyLink");
 
-  // Get the article title directly from Supabase
-  const articleTitle =
-    news?.title || "News from Agbor Kingdom";
+async function loadNewsShareCount(newsId) {
 
-  // Build the correct article URL
-  const articleUrl =
-    "https://agborkingdom.netlify.app/news.html?slug=" +
-    encodeURIComponent(news?.slug || "");
+    const totalElement =
 
-  // WhatsApp
-  if (whatsappButton) {
-    whatsappButton.addEventListener("click", function () {
-      const text = `${articleTitle}\n\n${articleUrl}`;
+        document.getElementById(
+            "newsShareTotal"
+        );
 
-      const shareUrl =
-        "https://wa.me/?text=" + encodeURIComponent(text);
 
-      window.open(shareUrl, "_blank");
-    });
-  }
+    if (!totalElement) {
 
-  // Facebook
-  if (facebookButton) {
-    facebookButton.addEventListener("click", function () {
-      const shareUrl =
-        "https://www.facebook.com/sharer/sharer.php?u=" +
-        encodeURIComponent(articleUrl);
+        return;
 
-      window.open(
-        shareUrl,
-        "_blank",
-        "width=650,height=500"
-      );
-    });
-  }
+    }
 
-  // X / Twitter
-  if (twitterButton) {
-    twitterButton.addEventListener("click", function () {
-      const shareUrl =
-        "https://twitter.com/intent/tweet?text=" +
-        encodeURIComponent(articleTitle) +
-        "&url=" +
-        encodeURIComponent(articleUrl);
 
-      window.open(
-        shareUrl,
-        "_blank",
-        "width=650,height=500"
-      );
-    });
-  }
+    try {
 
-  // Copy link
-  if (copyButton) {
-    copyButton.addEventListener("click", async function () {
+        const {
 
-        try {
-            await navigator.clipboard.writeText(articleUrl);
+            data,
 
-            const copyText =
-                document.getElementById("shareCopyText");
+            error
 
-            if (copyText) {
-                const previousText = copyText.textContent;
+        } = await kingdomSupabase
 
-                copyText.textContent = "Copied!";
+            .from("share_counts")
 
-                setTimeout(function () {
-                    copyText.textContent = previousText;
-                }, 2000);
-            }
+            .select("share_count")
 
-        } catch (error) {
+            .eq(
+                "content_type",
+                "news"
+            )
 
-            console.error(
-                "Unable to copy news link:",
-                error
+            .eq(
+                "content_id",
+                newsId
             );
 
-            // Fallback
-            const textArea =
-                document.createElement("textarea");
 
-            textArea.value = articleUrl;
+        if (error) {
 
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
+            throw error;
 
-            document.body.appendChild(textArea);
+        }
 
-            textArea.focus();
-            textArea.select();
+
+        const totalShares =
+
+            (data || []).reduce(
+
+                function (
+
+                    total,
+
+                    item
+
+                ) {
+
+                    return (
+
+                        total +
+
+                        Number(
+                            item.share_count || 0
+                        )
+
+                    );
+
+                },
+
+                0
+
+            );
+
+
+        totalElement.textContent =
+
+            totalShares;
+
+    } catch (error) {
+
+        console.error(
+
+            "Unable to load news share count:",
+
+            error
+
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SETUP NEWS SHARING
+========================================= */
+
+function setupNewsSharing(news) {
+
+
+    const whatsappButton =
+
+        document.getElementById(
+            "shareWhatsApp"
+        );
+
+
+    const facebookButton =
+
+        document.getElementById(
+            "shareFacebook"
+        );
+
+
+    const twitterButton =
+
+        document.getElementById(
+            "shareTwitter"
+        );
+
+
+    const copyButton =
+
+        document.getElementById(
+            "shareCopyLink"
+        );
+
+
+    /* =====================================
+       ARTICLE INFORMATION
+    ===================================== */
+
+    const articleTitle =
+
+        news.title ||
+
+        "News from Agbor Kingdom";
+
+
+    const articleUrl =
+
+        window.location.href;
+
+
+    /* =====================================
+       WHATSAPP
+    ===================================== */
+
+    if (whatsappButton) {
+
+        whatsappButton.onclick = async function () {
+
+
+            await incrementNewsShare(
+
+                news.id,
+
+                "whatsapp"
+
+            );
+
+
+            await loadNewsShareCount(
+
+                news.id
+
+            );
+
+
+            const text =
+
+                `${articleTitle}\n\n${articleUrl}`;
+
+
+            const shareUrl =
+
+                "https://wa.me/?text=" +
+
+                encodeURIComponent(
+                    text
+                );
+
+
+            window.open(
+
+                shareUrl,
+
+                "_blank"
+
+            );
+
+        };
+
+    }
+
+
+    /* =====================================
+       FACEBOOK
+    ===================================== */
+
+    if (facebookButton) {
+
+        facebookButton.onclick = async function () {
+
+
+            await incrementNewsShare(
+
+                news.id,
+
+                "facebook"
+
+            );
+
+
+            await loadNewsShareCount(
+
+                news.id
+
+            );
+
+
+            const shareUrl =
+
+                "https://www.facebook.com/sharer/sharer.php?u=" +
+
+                encodeURIComponent(
+                    articleUrl
+                );
+
+
+            window.open(
+
+                shareUrl,
+
+                "_blank",
+
+                "width=650,height=500"
+
+            );
+
+        };
+
+    }
+
+
+    /* =====================================
+       X / TWITTER
+    ===================================== */
+
+    if (twitterButton) {
+
+        twitterButton.onclick = async function () {
+
+
+            await incrementNewsShare(
+
+                news.id,
+
+                "twitter"
+
+            );
+
+
+            await loadNewsShareCount(
+
+                news.id
+
+            );
+
+
+            const shareUrl =
+
+                "https://twitter.com/intent/tweet?text=" +
+
+                encodeURIComponent(
+                    articleTitle
+                ) +
+
+                "&url=" +
+
+                encodeURIComponent(
+                    articleUrl
+                );
+
+
+            window.open(
+
+                shareUrl,
+
+                "_blank",
+
+                "width=650,height=500"
+
+            );
+
+        };
+
+    }
+
+
+    /* =====================================
+       COPY LINK
+    ===================================== */
+
+    if (copyButton) {
+
+        copyButton.onclick = async function () {
+
 
             try {
-                document.execCommand("copy");
+
+
+                await navigator.clipboard.writeText(
+
+                    articleUrl
+
+                );
+
+
+                await incrementNewsShare(
+
+                    news.id,
+
+                    "copy"
+
+                );
+
+
+                await loadNewsShareCount(
+
+                    news.id
+
+                );
+
 
                 const copyText =
-                    document.getElementById("shareCopyText");
+
+                    document.getElementById(
+                        "shareCopyText"
+                    );
+
 
                 if (copyText) {
-                    const previousText =
+
+
+                    const originalText =
+
                         copyText.textContent;
 
-                    copyText.textContent = "Copied!";
 
-                    setTimeout(function () {
-                        copyText.textContent =
-                            previousText;
-                    }, 2000);
+                    copyText.textContent =
+
+                        "Copied!";
+
+
+                    setTimeout(
+
+                        function () {
+
+                            copyText.textContent =
+
+                                originalText;
+
+                        },
+
+                        2000
+
+                    );
+
                 }
 
-            } catch (fallbackError) {
+
+            } catch (error) {
 
                 console.error(
-                    "Fallback copy failed:",
-                    fallbackError
+
+                    "Unable to copy news link:",
+
+                    error
+
                 );
 
-                alert(
-                    "Unable to copy the link. Please copy it manually."
-                );
-
-            } finally {
-                document.body.removeChild(textArea);
             }
-        }
-    });
+
+        };
+
+    }
+
+
+    /* =====================================
+       LOAD INITIAL SHARE COUNT
+    ===================================== */
+
+    loadNewsShareCount(
+
+        news.id
+
+    );
+
 }
-}
+
 
 /* =========================================
    RENDER SINGLE NEWS

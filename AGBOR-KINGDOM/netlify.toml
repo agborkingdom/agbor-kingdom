@@ -1,7 +1,9 @@
 [build]
-  publish = "."
-  edge_functions = "netlify/edge-functions"
 
-[[edge_functions]]
-  function = "publication-social-preview"
-  path = "/publication-details.html"
+  publish = "."
+
+
+
+[edge_functions]
+
+  directory = "netlify/edge-functions"
