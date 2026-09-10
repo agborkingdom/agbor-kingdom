@@ -1,9 +1,7 @@
 /* =========================================
    AGBOR KINGDOM
    DYNAMIC PUBLICATION SOCIAL PREVIEW
-   WhatsApp
-   Facebook
-   X / Twitter
+   WhatsApp / Facebook / X
 ========================================= */
 
 export default async function (request, context) {
@@ -12,52 +10,36 @@ export default async function (request, context) {
         "PUBLICATION SOCIAL PREVIEW FUNCTION STARTED"
     );
 
-    const url = new URL(
-        request.url
-    );
-
-
-    /* =====================================
-       GET PUBLICATION ID
-    ===================================== */
+    const url = new URL(request.url);
 
     const publicationId =
         url.searchParams.get("id");
-
 
     console.log(
         "Publication ID:",
         publicationId
     );
 
-
-    /* No ID → load normally */
+    /*
+       No publication ID.
+       Let Netlify serve the page normally.
+    */
 
     if (!publicationId) {
-
         return context.next();
-
     }
-
 
     try {
 
-
-        /* =================================
-           SUPABASE SETTINGS
-        ================================= */
+        /* =====================================
+           SUPABASE
+        ===================================== */
 
         const supabaseUrl =
-            Netlify.env.get(
-                "SUPABASE_URL"
-            );
-
+            Netlify.env.get("SUPABASE_URL");
 
         const supabaseAnonKey =
-            Netlify.env.get(
-                "SUPABASE_ANON_KEY"
-            );
-
+            Netlify.env.get("SUPABASE_ANON_KEY");
 
         if (
             !supabaseUrl ||
@@ -65,63 +47,56 @@ export default async function (request, context) {
         ) {
 
             console.error(
-                "Supabase environment variables are missing."
+                "Missing Supabase environment variables."
             );
 
             return context.next();
-
         }
 
 
-        /* =================================
-           GET PUBLICATION
-        ================================= */
+        /* =====================================
+           LOAD PUBLICATION
+        ===================================== */
 
-        const params =
-            new URLSearchParams();
+        const publicationUrl =
+            new URL(
+                `${supabaseUrl}/rest/v1/publications`
+            );
 
-        params.set(
+        publicationUrl.searchParams.set(
             "select",
             "*"
         );
 
-        params.set(
+        publicationUrl.searchParams.set(
             "id",
             `eq.${publicationId}`
         );
 
-        params.set(
+        publicationUrl.searchParams.set(
             "is_active",
             "eq.true"
         );
 
-        params.set(
+        publicationUrl.searchParams.set(
             "limit",
             "1"
         );
 
 
-        const publicationUrl =
-            `${supabaseUrl}/rest/v1/publications?${params.toString()}`;
-
-
-        console.log(
-            "Loading publication from Supabase"
-        );
-
-
         const publicationResponse =
             await fetch(
-                publicationUrl,
+                publicationUrl.toString(),
                 {
                     headers: {
-
                         apikey:
                             supabaseAnonKey,
 
                         Authorization:
-                            `Bearer ${supabaseAnonKey}`
+                            `Bearer ${supabaseAnonKey}`,
 
+                        Accept:
+                            "application/json"
                     }
                 }
             );
@@ -130,12 +105,12 @@ export default async function (request, context) {
         if (!publicationResponse.ok) {
 
             console.error(
-                "Unable to load publication:",
-                publicationResponse.status
+                "Supabase request failed:",
+                publicationResponse.status,
+                await publicationResponse.text()
             );
 
             return context.next();
-
         }
 
 
@@ -147,16 +122,14 @@ export default async function (request, context) {
             publicationData?.[0];
 
 
-        /* Publication not found */
-
         if (!publication) {
 
             console.error(
-                "Publication not found."
+                "Publication not found:",
+                publicationId
             );
 
             return context.next();
-
         }
 
 
@@ -166,300 +139,276 @@ export default async function (request, context) {
         );
 
 
-        console.log(
-            "Publication image:",
-            publication.cover_image_url
-        );
-
-
-        /* =================================
+        /* =====================================
            PUBLICATION DATA
-        ================================= */
+        ===================================== */
 
-        const publicationTitle =
+        const title =
             publication.title ||
             "Agbor Kingdom Publication";
 
 
-        const publicationDescription =
+        const description =
             publication.description ||
             "Official publications from the Royal Kingdom of Agbor.";
 
 
-        const publicationImage =
+        const image =
             publication.cover_image_url ||
             "";
 
 
         const canonicalUrl =
-            `${url.origin}/publication-details.html?id=` +
-            encodeURIComponent(
+            `${url.origin}/publication-details.html?id=${encodeURIComponent(
                 publicationId
-            );
+            )}`;
 
 
-        /* =================================
-           GET ORIGINAL HTML
-        ================================= */
+        console.log(
+            "Title:",
+            title
+        );
+
+        console.log(
+            "Description:",
+            description
+        );
+
+        console.log(
+            "Image:",
+            image
+        );
+
+        console.log(
+            "Canonical:",
+            canonicalUrl
+        );
+
+
+        /* =====================================
+           GET ORIGINAL PAGE
+        ===================================== */
 
         const response =
             await context.next();
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Original page request failed:",
+                response.status
+            );
+
+            return response;
+        }
 
 
         const html =
             await response.text();
 
 
-        let updatedHtml =
-            html;
-
-
-        /* =================================
-           HELPER:
-           ESCAPE REGEX TEXT
-        ================================= */
-
-        function escapeRegex(value) {
-
-            return String(value).replace(
-                /[.*+?^${}()|[\]\\]/g,
-                "\\$&"
-            );
-
-        }
-
-
-        /* =================================
-           HELPER:
-           ESCAPE HTML ATTRIBUTE
-        ================================= */
+        /* =====================================
+           HTML ESCAPING
+        ===================================== */
 
         function escapeHTML(value) {
 
-            return String(value || "")
-
-                .replaceAll(
-                    "&",
-                    "&amp;"
-                )
-
-                .replaceAll(
-                    '"',
-                    "&quot;"
-                )
-
-                .replaceAll(
-                    "<",
-                    "&lt;"
-                )
-
-                .replaceAll(
-                    ">",
-                    "&gt;"
-                );
-
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
         }
 
 
-        /* =================================
-           UPDATE META TAG BY ID
+        /* =====================================
+           UPDATE META TAG
+        ===================================== */
 
-           Works regardless of the order
-           of attributes inside the tag.
-        ================================= */
+        function updateMeta(id, value) {
 
-        function updateMetaById(
-            id,
-            value
-        ) {
-
-            const idPattern =
-                escapeRegex(id);
+            const escapedId =
+                id.replace(
+                    /[.*+?^${}()|[\]\\]/g,
+                    "\\$&"
+                );
 
 
-            const tagRegex =
+            const regex =
                 new RegExp(
-                    `<meta\\b[^>]*\\bid=["']${idPattern}["'][^>]*>`,
+                    `<meta\\b[^>]*\\bid=["']${escapedId}["'][^>]*>`,
                     "i"
                 );
 
 
+            const escapedValue =
+                escapeHTML(value);
+
+
+            if (!regex.test(html)) {
+
+                console.error(
+                    `Meta tag not found: ${id}`
+                );
+
+                return;
+            }
+
+
             updatedHtml =
                 updatedHtml.replace(
-                    tagRegex,
+                    regex,
                     function (tag) {
 
-                        /* Replace existing content */
+                        const contentRegex =
+                            /\bcontent=(["'])[^"']*\1/i;
+
 
                         if (
-                            /\bcontent=["'][^"']*["']/i.test(tag)
+                            contentRegex.test(tag)
                         ) {
 
                             return tag.replace(
-                                /\bcontent=(["'])[^"']*\1/i,
-                                `content="${escapeHTML(value)}"`
+                                contentRegex,
+                                `content="${escapedValue}"`
                             );
-
                         }
 
 
-                        /* Add content if missing */
-
                         return tag.replace(
                             ">",
-                            ` content="${escapeHTML(value)}">`
+                            ` content="${escapedValue}">`
                         );
-
                     }
                 );
-
         }
 
 
-        /* =================================
-           UPDATE CANONICAL URL
-        ================================= */
+        /* =====================================
+           UPDATE CANONICAL
+        ===================================== */
 
-        function updateCanonicalUrl(value) {
+        function updateCanonical(value) {
 
-            const tagRegex =
+            const regex =
                 /<link\b[^>]*\bid=["']publicationCanonical["'][^>]*>/i;
 
 
-            updatedHtml =
-                updatedHtml.replace(
-                    tagRegex,
-                    function (tag) {
+            if (!regex.test(updatedHtml)) {
 
-                        if (
-                            /\bhref=["'][^"']*["']/i.test(tag)
-                        ) {
-
-                            return tag.replace(
-                                /\bhref=(["'])[^"']*\1/i,
-                                `href="${escapeHTML(value)}"`
-                            );
-
-                        }
-
-
-                        return tag.replace(
-                            ">",
-                            ` href="${escapeHTML(value)}">`
-                        );
-
-                    }
+                console.error(
+                    "Canonical tag not found."
                 );
 
+                return;
+            }
+
+
+            updatedHtml =
+                updatedHtml.replace(
+                    regex,
+                    function (tag) {
+
+                        return tag.replace(
+                            /\bhref=(["'])[^"']*\1/i,
+                            `href="${escapeHTML(value)}"`
+                        );
+                    }
+                );
         }
 
 
-        /* =================================
-           SEO
-        ================================= */
+        /* =====================================
+           MODIFY HTML
+        ===================================== */
 
-        updateMetaById(
+        let updatedHtml = html;
+
+
+        updateMeta(
             "publicationMetaDescription",
-            publicationDescription
+            description
         );
 
 
-        /* =================================
-           OPEN GRAPH
-        ================================= */
-
-        updateMetaById(
+        updateMeta(
             "publicationOgTitle",
-            publicationTitle
+            title
         );
 
 
-        updateMetaById(
+        updateMeta(
             "publicationOgDescription",
-            publicationDescription
+            description
         );
 
 
-        updateMetaById(
+        updateMeta(
             "publicationOgUrl",
             canonicalUrl
         );
 
 
-        updateMetaById(
+        updateMeta(
             "publicationOgImage",
-            publicationImage
+            image
         );
 
 
-        updateMetaById(
+        updateMeta(
             "publicationOgImageAlt",
-            publicationTitle
+            title
         );
 
 
-        /* =================================
-           X / TWITTER
-        ================================= */
-
-        updateMetaById(
+        updateMeta(
             "publicationTwitterTitle",
-            publicationTitle
+            title
         );
 
 
-        updateMetaById(
+        updateMeta(
             "publicationTwitterDescription",
-            publicationDescription
+            description
         );
 
 
-        updateMetaById(
+        updateMeta(
             "publicationTwitterImage",
-            publicationImage
+            image
         );
 
 
-        /* =================================
-           CANONICAL URL
-        ================================= */
-
-        updateCanonicalUrl(
+        updateCanonical(
             canonicalUrl
         );
 
 
-        /* =================================
-           DEBUG MARKER
-
-           This confirms that the Edge
-           Function modified the HTML.
-        ================================= */
+        /* =====================================
+           DEBUG
+        ===================================== */
 
         updatedHtml =
             updatedHtml.replace(
                 "</head>",
                 `
-
 <!-- PUBLICATION EDGE FUNCTION ACTIVE -->
-
 </head>`
             );
 
 
         console.log(
-            "Publication social preview HTML updated successfully."
+            "HTML successfully modified."
         );
 
 
-        /* =================================
-           RESPONSE HEADERS
-        ================================= */
+        /* =====================================
+           RESPONSE
+        ===================================== */
 
         const headers =
-            new Headers(
-                response.headers
-            );
+            new Headers(response.headers);
 
 
         headers.set(
@@ -468,15 +417,16 @@ export default async function (request, context) {
         );
 
 
+        /*
+           Prevent cached generic metadata
+           from being served.
+        */
+
         headers.set(
             "Cache-Control",
-            "no-store, no-cache, must-revalidate"
+            "no-store"
         );
 
-
-        /* =================================
-           RETURN UPDATED HTML
-        ================================= */
 
         return new Response(
             updatedHtml,
@@ -495,20 +445,17 @@ export default async function (request, context) {
     } catch (error) {
 
         console.error(
-            "Agbor Kingdom publication social preview error:",
+            "Publication social preview error:",
             error
         );
 
-
         return context.next();
-
     }
-
 }
 
 
 /* =========================================
-   NETLIFY EDGE FUNCTION CONFIGURATION
+   NETLIFY EDGE FUNCTION CONFIG
 ========================================= */
 
 export const config = {
