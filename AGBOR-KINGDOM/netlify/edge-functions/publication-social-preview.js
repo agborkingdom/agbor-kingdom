@@ -13,6 +13,9 @@ export default async function (
     request,
     context
 ) {
+    console.log(
+    "PUBLICATION SOCIAL PREVIEW FUNCTION STARTED"
+);
 
     const url = new URL(
         request.url
@@ -26,6 +29,10 @@ export default async function (
     const publicationId =
         url.searchParams.get("id");
 
+        console.log(
+    "Publication ID:",
+    publicationId
+);
 
     /* No ID → load normally */
 
