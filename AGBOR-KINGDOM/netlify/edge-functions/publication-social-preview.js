@@ -41,6 +41,9 @@ export default async function (request, context) {
         const supabaseAnonKey =
             Netlify.env.get("SUPABASE_ANON_KEY");
 
+            console.log("SUPABASE_URL available:", !!supabaseUrl);
+console.log("SUPABASE_ANON_KEY available:", !!supabaseAnonKey);
+
         if (
             !supabaseUrl ||
             !supabaseAnonKey
