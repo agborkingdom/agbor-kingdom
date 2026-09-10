@@ -1,3 +1,13 @@
-[[edge_functions]]
+[build]
+
+  publish = "."
+
+
+
+[edge_functions]
+
+  directory = "netlify/edge-functions"
+
+  [[edge_functions]]
   function = "news-social-preview"
   path = "/news.html"
