@@ -286,183 +286,55 @@ export default async function (
        ===================================================== */
 
     const socialMeta = `
-
 <!-- =====================================================
      AGBOR KINGDOM — DYNAMIC NEWS SOCIAL META
      ===================================================== -->
+<meta name="description" content="${escapeHtml(articleDescription)}">
+<link rel="canonical" href="${escapeHtml(articleUrl)}">
 
-<meta
-    name="description"
-    id="newsMetaDescription"
-    content="${escapeHtml(articleDescription)}"
->
+<!-- OPEN GRAPH / FACEBOOK / WHATSAPP -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="${escapeHtml(articleTitle)}">
+<meta property="og:description" content="${escapeHtml(articleDescription)}">
+<meta property="og:url" content="${escapeHtml(articleUrl)}">
+<meta property="og:site_name" content="The Royal Kingdom of Agbor">
+<meta property="og:image" content="${escapeHtml(articleImage)}">
+<meta property="og:image:secure_url" content="${escapeHtml(articleImage)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${escapeHtml(articleTitle)}">
+<meta property="og:locale" content="en_US">
 
-<link
-    rel="canonical"
-    id="newsCanonical"
-    href="${escapeHtml(articleUrl)}"
->
+<!-- ARTICLE INFORMATION -->
+<meta property="article:section" content="${escapeHtml(articleCategory)}">
+<meta property="article:author" content="${escapeHtml(articleAuthor)}">
+${news.published_at ? `<meta property="article:published_time" content="${escapeHtml(news.published_at)}">` : ""}
 
-
-<!-- =====================================================
-     OPEN GRAPH
-     ===================================================== -->
-
-<meta
-    property="og:type"
-    content="article"
->
-
-<meta
-    property="og:title"
-    id="ogTitle"
-    content="${escapeHtml(articleTitle)}"
->
-
-<meta
-    property="og:description"
-    id="ogDescription"
-    content="${escapeHtml(articleDescription)}"
->
-
-<meta
-    property="og:url"
-    id="ogUrl"
-    content="${escapeHtml(articleUrl)}"
->
-
-<meta
-    property="og:site_name"
-    content="The Royal Kingdom of Agbor"
->
-
-<meta
-    property="og:image"
-    id="ogImage"
-    content="${escapeHtml(articleImage)}"
->
-
-<meta
-    property="og:image:alt"
-    id="ogImageAlt"
-    content="${escapeHtml(articleTitle)}"
->
-
-<meta
-    property="og:locale"
-    content="en_US"
->
-
-
-<!-- =====================================================
-     ARTICLE INFORMATION
-     ===================================================== -->
-
-<meta
-    property="article:section"
-    content="${escapeHtml(articleCategory)}"
->
-
-<meta
-    property="article:author"
-    content="${escapeHtml(articleAuthor)}"
->
-
-${news.published_at ? `
-<meta
-    property="article:published_time"
-    content="${escapeHtml(news.published_at)}"
->
-` : ""}
-
-
-<!-- =====================================================
-     X / TWITTER
-     ===================================================== -->
-
-<meta
-    name="twitter:card"
-    content="summary_large_image"
->
-
-<meta
-    name="twitter:title"
-    id="twitterTitle"
-    content="${escapeHtml(articleTitle)}"
->
-
-<meta
-    name="twitter:description"
-    id="twitterDescription"
-    content="${escapeHtml(articleDescription)}"
->
-
-<meta
-    name="twitter:image"
-    id="twitterImage"
-    content="${escapeHtml(articleImage)}"
->
-
-<meta
-    name="twitter:image:alt"
-    content="${escapeHtml(articleTitle)}"
->
-
+<!-- X / TWITTER -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${escapeHtml(articleTitle)}">
+<meta name="twitter:description" content="${escapeHtml(articleDescription)}">
+<meta name="twitter:image" content="${escapeHtml(articleImage)}">
+<meta name="twitter:image:alt" content="${escapeHtml(articleTitle)}">
 `;
 
-
     /* =====================================================
-       REMOVE OLD DYNAMIC META TAGS
+       REMOVE ALL EXISTING OG / TWITTER / SEO META TAGS
        ===================================================== */
 
-    const metaIds = [
-        "newsMetaDescription",
-        "newsCanonical",
-        "ogTitle",
-        "ogDescription",
-        "ogUrl",
-        "ogImage",
-        "ogImageAlt",
-        "twitterTitle",
-        "twitterDescription",
-        "twitterImage"
-    ];
-
-
-    for (
-        const id of metaIds
-    ) {
-
-        const pattern =
-            new RegExp(
-                `<(?:meta|link)[^>]+id=["']${id}["'][^>]*>`,
-                "gi"
-            );
-
-        html =
-            html.replace(
-                pattern,
-                ""
-            );
-
-    }
-
+    // Strip out default/hardcoded social tags so they don't conflict
+    html = html.replace(/<meta\s+(?:property|name)=["'](?:og:|twitter:|description)[^"']*["'][^>]*>/gi, "");
+    html = html.replace(/<link\s+rel=["']canonical["'][^>]*>/gi, "");
 
     /* =====================================================
        INJECT REAL SOCIAL META BEFORE </head>
        ===================================================== */
 
-    if (
-        html.includes("</head>")
-    ) {
-
-        html =
-            html.replace(
-                "</head>",
-                `${socialMeta}\n</head>`
-            );
-
+    if (html.includes("</head>")) {
+        html = html.replace("</head>", `${socialMeta}\n</head>`);
     }
+
+    
 
 
     /* =====================================================
