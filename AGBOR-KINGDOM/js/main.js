@@ -1183,8 +1183,9 @@ function renderLatestNews(newsItems) {
                             src="${escapeSearchText(image)}"
                             alt="${escapeSearchText(news.title)}"
                             loading="lazy"
-                            onerror="
-                                this.style.display='none';
+                                 onerror="
+                                this.onerror=null;
+                                this.src='images/news/news-default.jpg';
                             "
                         >
 
@@ -1333,13 +1334,22 @@ async function loadSingleNews() {
    NEWS SOCIAL SHARING
 ========================================= */
 
+
+/* =========================================
+   INCREMENT NEWS SHARE
+========================================= */
+
 async function incrementNewsShare(
-
     newsId,
-
     platform
-
 ) {
+
+    if (!newsId) {
+
+        return null;
+
+    }
+
 
     try {
 
@@ -1375,6 +1385,7 @@ async function incrementNewsShare(
 
         return data;
 
+
     } catch (error) {
 
         console.error(
@@ -1393,10 +1404,12 @@ async function incrementNewsShare(
 
 
 /* =========================================
-   GET TOTAL NEWS SHARES
+   LOAD TOTAL NEWS SHARES
 ========================================= */
 
-async function loadNewsShareCount(newsId) {
+async function loadNewsShareCount(
+    newsId
+) {
 
     const totalElement =
 
@@ -1405,7 +1418,7 @@ async function loadNewsShareCount(newsId) {
         );
 
 
-    if (!totalElement) {
+    if (!totalElement || !newsId) {
 
         return;
 
@@ -1448,13 +1461,10 @@ async function loadNewsShareCount(newsId) {
 
             (data || []).reduce(
 
-                function (
-
+                (
                     total,
-
                     item
-
-                ) {
+                ) => {
 
                     return (
 
@@ -1476,6 +1486,7 @@ async function loadNewsShareCount(newsId) {
         totalElement.textContent =
 
             totalShares;
+
 
     } catch (error) {
 
@@ -1534,13 +1545,16 @@ function setupNewsSharing(news) {
     const articleTitle =
 
         news.title ||
-
         "News from Agbor Kingdom";
 
 
     const articleUrl =
 
-        window.location.href;
+        `${window.location.origin}/news.html?slug=` +
+
+        encodeURIComponent(
+            news.slug
+        );
 
 
     /* =====================================
@@ -1552,7 +1566,7 @@ function setupNewsSharing(news) {
         whatsappButton.onclick = async function () {
 
 
-            await incrementNewsShare(
+            incrementNewsShare(
 
                 news.id,
 
@@ -1561,7 +1575,7 @@ function setupNewsSharing(news) {
             );
 
 
-            await loadNewsShareCount(
+            loadNewsShareCount(
 
                 news.id
 
@@ -1604,7 +1618,7 @@ function setupNewsSharing(news) {
         facebookButton.onclick = async function () {
 
 
-            await incrementNewsShare(
+            incrementNewsShare(
 
                 news.id,
 
@@ -1613,7 +1627,7 @@ function setupNewsSharing(news) {
             );
 
 
-            await loadNewsShareCount(
+            loadNewsShareCount(
 
                 news.id
 
@@ -1653,7 +1667,7 @@ function setupNewsSharing(news) {
         twitterButton.onclick = async function () {
 
 
-            await incrementNewsShare(
+            incrementNewsShare(
 
                 news.id,
 
@@ -1662,7 +1676,7 @@ function setupNewsSharing(news) {
             );
 
 
-            await loadNewsShareCount(
+            loadNewsShareCount(
 
                 news.id
 
@@ -1709,7 +1723,6 @@ function setupNewsSharing(news) {
 
 
             try {
-
 
                 await navigator.clipboard.writeText(
 
@@ -1773,6 +1786,7 @@ function setupNewsSharing(news) {
 
             } catch (error) {
 
+
                 console.error(
 
                     "Unable to copy news link:",
@@ -1789,13 +1803,11 @@ function setupNewsSharing(news) {
 
 
     /* =====================================
-       LOAD INITIAL SHARE COUNT
+       LOAD INITIAL COUNT
     ===================================== */
 
     loadNewsShareCount(
-
         news.id
-
     );
 
 }
