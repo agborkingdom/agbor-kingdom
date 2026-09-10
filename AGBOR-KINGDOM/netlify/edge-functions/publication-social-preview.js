@@ -214,6 +214,12 @@ export default async function (
         let updatedHtml =
             html;
 
+            updatedHtml =
+    updatedHtml.replace(
+        "</head>",
+        `<!-- PUBLICATION EDGE FUNCTION ACTIVE -->
+</head>`
+    );
 
         /* =================================
            UPDATE META TAG BY ID
