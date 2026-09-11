@@ -1,7 +1,4 @@
-/* =========================================
-   AGBOR KINGDOM
-   INDIVIDUAL EVENT PAGE
-========================================= */
+
 
 /* =========================================
    MOBILE MENU
@@ -368,6 +365,16 @@ function renderEventDetails(
         `${event.title} | Agbor Kingdom`;
 
         setupEventSharing(event);
+
+        const shareSection =
+    document.getElementById("eventDetailsShare");
+
+const eventWrapper =
+    container.querySelector(".event-detail-wrapper");
+
+if (shareSection && eventWrapper) {
+    eventWrapper.appendChild(shareSection);
+}
 
 }
 
