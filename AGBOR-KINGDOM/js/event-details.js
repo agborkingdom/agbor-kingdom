@@ -431,12 +431,11 @@ function setupEventSharing(event) {
         shareWhatsApp.addEventListener(
             "click",
             async () => {
-
                 const url =
-                    `https://wa.me/?text=` +
-                    encodeURIComponent(
-                        `${shareText}\n${eventUrl}`
-                    );
+    `https://wa.me/?text=` +
+    encodeURIComponent(
+        `${shareText}\n${eventUrl}`
+    );
 
                 await recordEventShare(
                     event.id,
@@ -465,9 +464,9 @@ function setupEventSharing(event) {
             "click",
             async () => {
 
-                const url =
-                    `https://www.facebook.com/sharer/sharer.php?u=` +
-                    encodeURIComponent(eventUrl);
+               const url =
+    `https://www.facebook.com/sharer/sharer.php?u=` +
+    encodeURIComponent(eventUrl);
 
                 await recordEventShare(
                     event.id,
@@ -496,11 +495,11 @@ function setupEventSharing(event) {
             "click",
             async () => {
 
-                const url =
-                    `https://twitter.com/intent/tweet?text=` +
-                    encodeURIComponent(shareText) +
-                    `&url=` +
-                    encodeURIComponent(eventUrl);
+          const url =
+    `https://twitter.com/intent/tweet?text=` +
+    encodeURIComponent(shareText) +
+    `&url=` +
+    encodeURIComponent(eventUrl);
 
                 await recordEventShare(
                     event.id,
