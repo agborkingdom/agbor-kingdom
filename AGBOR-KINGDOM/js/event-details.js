@@ -938,7 +938,7 @@ if (eventImage) {
 ========================================= */
 
 document.title =
-    `${event.title} | Agbor Kingdom`;
+    `${event.title}`;
 
 
 /* =====================================
