@@ -1,47 +1,123 @@
-/* =========================================
+/* =========================================================
    AGBOR KINGDOM
    NEWS SOCIAL PREVIEW
+   NETLIFY EDGE FUNCTION
+========================================================= */
 
-   WhatsApp
-   Facebook
-   X / Twitter
-========================================= */
+function escapeHTML(value = "") {
 
-export default async function (request, context) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
-    console.log(
-        "NEWS SOCIAL PREVIEW FUNCTION STARTED"
+}
+
+
+
+/* =========================================================
+   NORMALIZE IMAGE URL
+========================================================= */
+
+function getAbsoluteImageUrl(
+    imageUrl,
+    siteUrl
+) {
+
+    if (!imageUrl) {
+        return "";
+    }
+
+    try {
+
+        return new URL(
+            imageUrl,
+            siteUrl
+        ).href;
+
+    } catch (error) {
+
+        return imageUrl;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   ESCAPE REGULAR EXPRESSION
+========================================================= */
+
+function escapeRegExp(value) {
+
+    return value.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
     );
 
+}
 
-    const url =
+
+
+/* =========================================================
+   MAIN EDGE FUNCTION
+========================================================= */
+
+export default async function (
+    request,
+    context
+) {
+
+    const requestUrl =
         new URL(request.url);
 
 
-    /* =====================================
-       GET NEWS SLUG
-    ===================================== */
+
+    /* =====================================================
+       ONLY HANDLE NEWS PAGES WITH A SLUG
+    ===================================================== */
 
     const slug =
-        url.searchParams.get("slug");
+        requestUrl.searchParams.get("slug");
 
 
-    console.log(
-        "NEWS SLUG:",
-        slug
-    );
-
-
-    /* =====================================
-       NO SLUG
-
-       Load normal page.
-    ===================================== */
 
     if (!slug) {
 
-        console.log(
-            "NO NEWS SLUG FOUND"
+        return context.next();
+
+    }
+
+
+
+    /* =====================================================
+       ENVIRONMENT VARIABLES
+    ===================================================== */
+
+    const supabaseUrl =
+        Netlify.env.get(
+            "SUPABASE_URL"
+        );
+
+
+
+    const supabaseAnonKey =
+        Netlify.env.get(
+            "SUPABASE_ANON_KEY"
+        );
+
+
+
+    if (
+        !supabaseUrl ||
+        !supabaseAnonKey
+    ) {
+
+        console.error(
+            "Missing Supabase environment variables."
         );
 
         return context.next();
@@ -49,56 +125,14 @@ export default async function (request, context) {
     }
 
 
+
     try {
 
+        /* =================================================
+           GET NEWS ARTICLE FROM SUPABASE
+        ================================================= */
 
-        /* =====================================
-           SUPABASE SETTINGS
-        ===================================== */
-
-        const supabaseUrl =
-            Netlify.env.get(
-                "SUPABASE_URL"
-            );
-
-
-        const supabaseAnonKey =
-            Netlify.env.get(
-                "SUPABASE_ANON_KEY"
-            );
-
-
-        console.log(
-            "SUPABASE URL AVAILABLE:",
-            !!supabaseUrl
-        );
-
-
-        console.log(
-            "SUPABASE KEY AVAILABLE:",
-            !!supabaseAnonKey
-        );
-
-
-        if (
-            !supabaseUrl ||
-            !supabaseAnonKey
-        ) {
-
-            console.error(
-                "SUPABASE ENVIRONMENT VARIABLES ARE MISSING"
-            );
-
-            return context.next();
-
-        }
-
-
-        /* =====================================
-           LOAD NEWS ARTICLE FROM SUPABASE
-        ===================================== */
-
-        const newsApiUrl =
+        const apiUrl =
             `${supabaseUrl}/rest/v1/news` +
             `?select=id,title,slug,excerpt,image_url,is_published` +
             `&slug=eq.${encodeURIComponent(slug)}` +
@@ -106,17 +140,11 @@ export default async function (request, context) {
             `&limit=1`;
 
 
-        console.log(
-            "LOADING NEWS ARTICLE:",
-            newsApiUrl
-        );
-
 
         const newsResponse =
             await fetch(
-                newsApiUrl,
+                apiUrl,
                 {
-
                     headers: {
 
                         apikey:
@@ -126,21 +154,16 @@ export default async function (request, context) {
                             `Bearer ${supabaseAnonKey}`
 
                     }
-
                 }
             );
 
-
-        console.log(
-            "SUPABASE RESPONSE:",
-            newsResponse.status
-        );
 
 
         if (!newsResponse.ok) {
 
             console.error(
-                "SUPABASE NEWS REQUEST FAILED"
+                "Unable to fetch news article:",
+                newsResponse.status
             );
 
             return context.next();
@@ -148,49 +171,36 @@ export default async function (request, context) {
         }
 
 
-        const newsData =
+
+        const articles =
             await newsResponse.json();
 
 
-        console.log(
-            "NEWS DATA FOUND:",
-            newsData.length
-        );
 
-
-        const news =
-            newsData?.[0];
-
-
-        /* =====================================
-           ARTICLE NOT FOUND
-        ===================================== */
-
-        if (!news) {
-
-            console.error(
-                "NEWS ARTICLE NOT FOUND FOR SLUG:",
-                slug
-            );
+        if (
+            !articles ||
+            !articles.length
+        ) {
 
             return context.next();
 
         }
 
 
-        console.log(
-            "NEWS ARTICLE FOUND:",
-            news.title
-        );
+
+        const news =
+            articles[0];
 
 
-        /* =====================================
+
+        /* =================================================
            ARTICLE DATA
-        ===================================== */
+        ================================================= */
 
         const articleTitle =
             news.title ||
             "Agbor Kingdom News";
+
 
 
         const articleDescription =
@@ -198,104 +208,77 @@ export default async function (request, context) {
             "Latest news, announcements and stories from the Royal Kingdom of Agbor.";
 
 
-        let articleImage =
-            news.image_url ||
-            "";
 
 
-        /* =====================================
-           MAKE IMAGE URL ABSOLUTE
-        ===================================== */
 
-        if (articleImage) {
-
-            try {
-
-                articleImage =
-                    new URL(
-                        articleImage,
-                        url.origin
-                    ).href;
-
-            } catch (error) {
-
-                console.error(
-                    "INVALID IMAGE URL:",
-                    articleImage
-                );
-
-            }
-
-        }
-
-
-        console.log(
-            "ARTICLE IMAGE:",
-            articleImage
-        );
-
+        /*
+         * IMPORTANT:
+         * This keeps the exact public URL being shared.
+         */
 
         const articleUrl =
-            `${url.origin}/news.html?slug=` +
-            encodeURIComponent(slug);
+            requestUrl.origin +
+            "/news.html?slug=" +
+            encodeURIComponent(
+                news.slug
+            );
 
 
-        /* =====================================
-           GET ORIGINAL PAGE
-        ===================================== */
+
+        const articleImage =
+            getAbsoluteImageUrl(
+                news.image_url,
+                requestUrl.origin
+            );
+
+
+
+        /* =================================================
+           GET THE ORIGINAL news.html RESPONSE
+        ================================================= */
 
         const response =
             await context.next();
 
 
-        const html =
-            await response.text();
+
+        const contentType =
+            response.headers.get(
+                "content-type"
+            ) || "";
 
 
-        /* =====================================
-           ESCAPE HTML
-        ===================================== */
 
-        function escapeHTML(value) {
+        /*
+         * Only modify HTML.
+         */
 
-            return String(value || "")
+        if (
+            !contentType.includes(
+                "text/html"
+            )
+        ) {
 
-                .replaceAll(
-                    "&",
-                    "&amp;"
-                )
-
-                .replaceAll(
-                    '"',
-                    "&quot;"
-                )
-
-                .replaceAll(
-                    "<",
-                    "&lt;"
-                )
-
-                .replaceAll(
-                    ">",
-                    "&gt;"
-                );
+            return response;
 
         }
 
 
-        /* =====================================
-           CREATE SOCIAL META TAGS
 
-           IMPORTANT:
-           These are inserted directly into
-           the HTML BEFORE </head>.
-        ===================================== */
+        let html =
+            await response.text();
 
-        const socialMetaTags = `
 
-<!-- =====================================
-     AGBOR KINGDOM DYNAMIC NEWS PREVIEW
-===================================== -->
+
+        /* =================================================
+           SOCIAL PREVIEW META TAGS
+        ================================================= */
+
+        const socialMeta = `
+
+<!-- NEWS SOCIAL PREVIEW ACTIVE -->
+
+<title>${escapeHTML(articleTitle)} | Agbor Kingdom</title>
 
 <meta
     name="description"
@@ -307,7 +290,6 @@ export default async function (request, context) {
     href="${escapeHTML(articleUrl)}"
 >
 
-
 <!-- OPEN GRAPH -->
 
 <meta
@@ -317,7 +299,7 @@ export default async function (request, context) {
 
 <meta
     property="og:site_name"
-    content="The Royal Kingdom of Agbor"
+    content="Agbor Kingdom"
 >
 
 <meta
@@ -350,8 +332,7 @@ export default async function (request, context) {
     content="${escapeHTML(articleTitle)}"
 >
 
-
-<!-- X / TWITTER -->
+<!-- TWITTER / X -->
 
 <meta
     name="twitter:card"
@@ -378,31 +359,61 @@ export default async function (request, context) {
     content="${escapeHTML(articleTitle)}"
 >
 
-
-<!-- NEWS SOCIAL PREVIEW ACTIVE -->
+<!-- END NEWS SOCIAL PREVIEW -->
 
 `;
 
 
-        /* =====================================
-           INSERT META TAGS
-        ===================================== */
 
-        const updatedHtml =
-            html.replace(
-                "</head>",
-                `${socialMetaTags}</head>`
-            );
+        /* =================================================
+           REMOVE EXISTING DYNAMIC SOCIAL TAGS
+        ================================================= */
+
+        const metaPatterns = [
+
+            /<title[^>]*>[\s\S]*?<\/title>/gi,
+
+            /<meta[^>]+name=["']description["'][^>]*>/gi,
+
+            /<link[^>]+rel=["']canonical["'][^>]*>/gi,
+
+            /<meta[^>]+property=["']og:[^"']+["'][^>]*>/gi,
+
+            /<meta[^>]+name=["']twitter:[^"']+["'][^>]*>/gi
+
+        ];
 
 
-        console.log(
-            "SOCIAL META TAGS INSERTED SUCCESSFULLY"
+
+        metaPatterns.forEach(
+            pattern => {
+
+                html =
+                    html.replace(
+                        pattern,
+                        ""
+                    );
+
+            }
         );
 
 
-        /* =====================================
-           RESPONSE HEADERS
-        ===================================== */
+
+        /* =================================================
+           INSERT META TAGS INTO <head>
+        ================================================= */
+
+        html =
+            html.replace(
+                /<\/head>/i,
+                `${socialMeta}\n</head>`
+            );
+
+
+
+        /* =================================================
+           RETURN THE NEW HTML
+        ================================================= */
 
         const headers =
             new Headers(
@@ -410,26 +421,24 @@ export default async function (request, context) {
             );
 
 
+
         headers.set(
             "content-type",
-            "text/html; charset=UTF-8"
+            "text/html; charset=utf-8"
         );
+
 
 
         headers.set(
-            "Cache-Control",
-            "no-store"
+            "cache-control",
+            "public, max-age=0, must-revalidate"
         );
 
 
-        /* =====================================
-           RETURN PAGE
-        ===================================== */
 
         return new Response(
-            updatedHtml,
+            html,
             {
-
                 status:
                     response.status,
 
@@ -437,18 +446,18 @@ export default async function (request, context) {
                     response.statusText,
 
                 headers
-
             }
         );
 
 
+
     } catch (error) {
 
-
         console.error(
-            "NEWS SOCIAL PREVIEW ERROR:",
+            "News social preview error:",
             error
         );
+
 
 
         return context.next();
@@ -458,13 +467,13 @@ export default async function (request, context) {
 }
 
 
-/* =========================================
-   NETLIFY EDGE FUNCTION CONFIGURATION
-========================================= */
+
+/* =========================================================
+   EDGE FUNCTION ROUTE
+========================================================= */
 
 export const config = {
 
-    path:
-        "/news.html"
+    path: "/news.html"
 
 };
