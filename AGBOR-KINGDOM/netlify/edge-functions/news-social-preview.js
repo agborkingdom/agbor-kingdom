@@ -1,23 +1,21 @@
 /* =========================================
    AGBOR KINGDOM
-
-   DYNAMIC NEWS SOCIAL PREVIEW
+   NEWS SOCIAL PREVIEW
 
    WhatsApp
    Facebook
    X / Twitter
 ========================================= */
 
+export default async function (request, context) {
 
-export default async function (
-    request,
-    context
-) {
+    console.log(
+        "NEWS SOCIAL PREVIEW FUNCTION STARTED"
+    );
+
 
     const url =
-        new URL(
-            request.url
-        );
+        new URL(request.url);
 
 
     /* =====================================
@@ -25,18 +23,26 @@ export default async function (
     ===================================== */
 
     const slug =
-        url.searchParams.get(
-            "slug"
-        );
+        url.searchParams.get("slug");
+
+
+    console.log(
+        "NEWS SLUG:",
+        slug
+    );
 
 
     /* =====================================
        NO SLUG
 
-       Load the normal page.
+       Load normal page.
     ===================================== */
 
     if (!slug) {
+
+        console.log(
+            "NO NEWS SLUG FOUND"
+        );
 
         return context.next();
 
@@ -47,7 +53,7 @@ export default async function (
 
 
         /* =====================================
-           SUPABASE ENVIRONMENT VARIABLES
+           SUPABASE SETTINGS
         ===================================== */
 
         const supabaseUrl =
@@ -62,13 +68,25 @@ export default async function (
             );
 
 
+        console.log(
+            "SUPABASE URL AVAILABLE:",
+            !!supabaseUrl
+        );
+
+
+        console.log(
+            "SUPABASE KEY AVAILABLE:",
+            !!supabaseAnonKey
+        );
+
+
         if (
             !supabaseUrl ||
             !supabaseAnonKey
         ) {
 
             console.error(
-                "NEWS SOCIAL PREVIEW: Missing Supabase environment variables."
+                "SUPABASE ENVIRONMENT VARIABLES ARE MISSING"
             );
 
             return context.next();
@@ -77,25 +95,28 @@ export default async function (
 
 
         /* =====================================
-           LOAD NEWS ARTICLE
+           LOAD NEWS ARTICLE FROM SUPABASE
         ===================================== */
 
-        const apiUrl =
-            supabaseUrl +
-            "/rest/v1/news" +
-            "?select=id,title,slug,excerpt,image_url,is_published" +
-            "&slug=eq." +
-            encodeURIComponent(
-                slug
-            ) +
-            "&is_published=eq.true" +
-            "&limit=1";
+        const newsApiUrl =
+            `${supabaseUrl}/rest/v1/news` +
+            `?select=id,title,slug,excerpt,image_url,is_published` +
+            `&slug=eq.${encodeURIComponent(slug)}` +
+            `&is_published=eq.true` +
+            `&limit=1`;
+
+
+        console.log(
+            "LOADING NEWS ARTICLE:",
+            newsApiUrl
+        );
 
 
         const newsResponse =
             await fetch(
-                apiUrl,
+                newsApiUrl,
                 {
+
                     headers: {
 
                         apikey:
@@ -105,15 +126,21 @@ export default async function (
                             `Bearer ${supabaseAnonKey}`
 
                     }
+
                 }
             );
+
+
+        console.log(
+            "SUPABASE RESPONSE:",
+            newsResponse.status
+        );
 
 
         if (!newsResponse.ok) {
 
             console.error(
-                "NEWS SOCIAL PREVIEW: Unable to load article.",
-                newsResponse.status
+                "SUPABASE NEWS REQUEST FAILED"
             );
 
             return context.next();
@@ -123,6 +150,12 @@ export default async function (
 
         const newsData =
             await newsResponse.json();
+
+
+        console.log(
+            "NEWS DATA FOUND:",
+            newsData.length
+        );
 
 
         const news =
@@ -136,7 +169,8 @@ export default async function (
         if (!news) {
 
             console.error(
-                "NEWS SOCIAL PREVIEW: Article not found."
+                "NEWS ARTICLE NOT FOUND FOR SLUG:",
+                slug
             );
 
             return context.next();
@@ -144,8 +178,14 @@ export default async function (
         }
 
 
+        console.log(
+            "NEWS ARTICLE FOUND:",
+            news.title
+        );
+
+
         /* =====================================
-           ARTICLE INFORMATION
+           ARTICLE DATA
         ===================================== */
 
         const articleTitle =
@@ -158,21 +198,14 @@ export default async function (
             "Latest news, announcements and stories from the Royal Kingdom of Agbor.";
 
 
-        /*
-           IMPORTANT:
-
-           This uses the EXACT image URL
-           stored in Supabase.
-        */
-
         let articleImage =
             news.image_url ||
             "";
 
 
-        /*
-           Convert relative URLs to absolute URLs.
-        */
+        /* =====================================
+           MAKE IMAGE URL ABSOLUTE
+        ===================================== */
 
         if (articleImage) {
 
@@ -187,7 +220,7 @@ export default async function (
             } catch (error) {
 
                 console.error(
-                    "NEWS SOCIAL PREVIEW: Invalid image URL.",
+                    "INVALID IMAGE URL:",
                     articleImage
                 );
 
@@ -196,16 +229,19 @@ export default async function (
         }
 
 
+        console.log(
+            "ARTICLE IMAGE:",
+            articleImage
+        );
+
+
         const articleUrl =
-            url.origin +
-            "/news.html?slug=" +
-            encodeURIComponent(
-                slug
-            );
+            `${url.origin}/news.html?slug=` +
+            encodeURIComponent(slug);
 
 
         /* =====================================
-           GET ORIGINAL NEWS.HTML
+           GET ORIGINAL PAGE
         ===================================== */
 
         const response =
@@ -216,21 +252,13 @@ export default async function (
             await response.text();
 
 
-        let updatedHtml =
-            html;
-
-
         /* =====================================
            ESCAPE HTML
         ===================================== */
 
-        function escapeHTML(
-            value
-        ) {
+        function escapeHTML(value) {
 
-            return String(
-                value || ""
-            )
+            return String(value || "")
 
                 .replaceAll(
                     "&",
@@ -256,197 +284,119 @@ export default async function (
 
 
         /* =====================================
-           UPDATE META TAG
+           CREATE SOCIAL META TAGS
 
-           This version is more reliable than
-           the previous regex.
-
-           It finds the meta tag by ID and
-           replaces its content value.
+           IMPORTANT:
+           These are inserted directly into
+           the HTML BEFORE </head>.
         ===================================== */
 
-        function updateMetaById(
-            id,
-            value
-        ) {
+        const socialMetaTags = `
 
-            const metaRegex =
-                new RegExp(
-                    `<meta\\b[^>]*\\bid=["']${id}["'][^>]*>`,
-                    "i"
-                );
+<!-- =====================================
+     AGBOR KINGDOM DYNAMIC NEWS PREVIEW
+===================================== -->
 
+<meta
+    name="description"
+    content="${escapeHTML(articleDescription)}"
+>
 
-            updatedHtml =
-                updatedHtml.replace(
-                    metaRegex,
-                    function (
-                        metaTag
-                    ) {
-
-                        /*
-                           If content already exists,
-                           replace it.
-                        */
-
-                        if (
-                            /\bcontent=["'][^"']*["']/i.test(
-                                metaTag
-                            )
-                        ) {
-
-                            return metaTag.replace(
-                                /\bcontent=["'][^"']*["']/i,
-                                `content="${escapeHTML(value)}"`
-                            );
-
-                        }
+<link
+    rel="canonical"
+    href="${escapeHTML(articleUrl)}"
+>
 
 
-                        /*
-                           If content does not exist,
-                           add it.
-                        */
+<!-- OPEN GRAPH -->
 
-                        return metaTag.replace(
-                            ">",
-                            ` content="${escapeHTML(value)}">`
-                        );
+<meta
+    property="og:type"
+    content="article"
+>
 
-                    }
-                );
+<meta
+    property="og:site_name"
+    content="The Royal Kingdom of Agbor"
+>
 
-        }
+<meta
+    property="og:title"
+    content="${escapeHTML(articleTitle)}"
+>
+
+<meta
+    property="og:description"
+    content="${escapeHTML(articleDescription)}"
+>
+
+<meta
+    property="og:url"
+    content="${escapeHTML(articleUrl)}"
+>
+
+<meta
+    property="og:image"
+    content="${escapeHTML(articleImage)}"
+>
+
+<meta
+    property="og:image:secure_url"
+    content="${escapeHTML(articleImage)}"
+>
+
+<meta
+    property="og:image:alt"
+    content="${escapeHTML(articleTitle)}"
+>
+
+
+<!-- X / TWITTER -->
+
+<meta
+    name="twitter:card"
+    content="summary_large_image"
+>
+
+<meta
+    name="twitter:title"
+    content="${escapeHTML(articleTitle)}"
+>
+
+<meta
+    name="twitter:description"
+    content="${escapeHTML(articleDescription)}"
+>
+
+<meta
+    name="twitter:image"
+    content="${escapeHTML(articleImage)}"
+>
+
+<meta
+    name="twitter:image:alt"
+    content="${escapeHTML(articleTitle)}"
+>
+
+
+<!-- NEWS SOCIAL PREVIEW ACTIVE -->
+
+`;
 
 
         /* =====================================
-           UPDATE CANONICAL URL
+           INSERT META TAGS
         ===================================== */
 
-        function updateCanonicalUrl(
-            value
-        ) {
-
-            const canonicalRegex =
-                /<link\b[^>]*\bid=["']newsCanonical["'][^>]*>/i;
-
-
-            updatedHtml =
-                updatedHtml.replace(
-                    canonicalRegex,
-                    function (
-                        linkTag
-                    ) {
-
-                        if (
-                            /\bhref=["'][^"']*["']/i.test(
-                                linkTag
-                            )
-                        ) {
-
-                            return linkTag.replace(
-                                /\bhref=["'][^"']*["']/i,
-                                `href="${escapeHTML(value)}"`
-                            );
-
-                        }
+        const updatedHtml =
+            html.replace(
+                "</head>",
+                `${socialMetaTags}</head>`
+            );
 
 
-                        return linkTag.replace(
-                            ">",
-                            ` href="${escapeHTML(value)}">`
-                        );
-
-                    }
-                );
-
-        }
-
-
-        /* =====================================
-           SEO
-        ===================================== */
-
-        updateMetaById(
-            "newsMetaDescription",
-            articleDescription
-        );
-
-
-        /* =====================================
-           OPEN GRAPH
-        ===================================== */
-
-        updateMetaById(
-            "ogTitle",
-            articleTitle
-        );
-
-
-        updateMetaById(
-            "ogDescription",
-            articleDescription
-        );
-
-
-        updateMetaById(
-            "ogUrl",
-            articleUrl
-        );
-
-
-        updateMetaById(
-            "ogImage",
-            articleImage
-        );
-
-
-        updateMetaById(
-            "ogImageSecure",
-            articleImage
-        );
-
-
-        updateMetaById(
-            "ogImageAlt",
-            articleTitle
-        );
-
-
-        /* =====================================
-           X / TWITTER
-        ===================================== */
-
-        updateMetaById(
-            "twitterTitle",
-            articleTitle
-        );
-
-
-        updateMetaById(
-            "twitterDescription",
-            articleDescription
-        );
-
-
-        updateMetaById(
-            "twitterImage",
-            articleImage
-        );
-
-
-        updateMetaById(
-            "twitterImageAlt",
-            articleTitle
-        );
-
-
-        /* =====================================
-           CANONICAL URL
-        ===================================== */
-
-        updateCanonicalUrl(
-            articleUrl
+        console.log(
+            "SOCIAL META TAGS INSERTED SUCCESSFULLY"
         );
 
 
@@ -466,11 +416,6 @@ export default async function (
         );
 
 
-        /*
-           Prevent metadata from one news article
-           being cached for another article.
-        */
-
         headers.set(
             "Cache-Control",
             "no-store"
@@ -478,7 +423,7 @@ export default async function (
 
 
         /* =====================================
-           RETURN UPDATED HTML
+           RETURN PAGE
         ===================================== */
 
         return new Response(
@@ -505,10 +450,6 @@ export default async function (
             error
         );
 
-
-        /*
-           Never break the website.
-        */
 
         return context.next();
 
