@@ -157,6 +157,520 @@ async function loadEventDetails() {
 
 
 /* =========================================
+   AGBOR KINGDOM
+   EVENT SOCIAL SHARING
+========================================= */
+
+
+/* =========================================
+   GET PUBLIC EVENT URL
+========================================= */
+
+function getEventShareUrl(event) {
+
+    if (!event || !event.id) {
+
+        return window.location.href;
+
+    }
+
+
+    return (
+        window.location.origin +
+        "/event.html?id=" +
+        encodeURIComponent(event.id)
+    );
+
+}
+
+
+/* =========================================
+   GET EVENT IMAGE URL
+========================================= */
+
+function getEventShareImageUrl(imageUrl) {
+
+    if (!imageUrl) {
+
+        return "";
+
+    }
+
+
+    try {
+
+        return new URL(
+            imageUrl,
+            window.location.origin
+        ).href;
+
+    } catch (error) {
+
+        console.warn(
+            "Unable to normalize event image URL:",
+            imageUrl
+        );
+
+        return imageUrl;
+
+    }
+
+}
+
+
+/* =========================================
+   INCREMENT EVENT SHARE
+========================================= */
+
+async function incrementEventShare(
+    eventId,
+    platform
+) {
+
+    if (!eventId) {
+
+        return null;
+
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } = await kingdomSupabase.rpc(
+            "increment_share_count",
+            {
+                p_content_type: "event",
+                p_content_id: eventId,
+                p_platform: platform
+            }
+        );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        return data;
+
+    } catch (error) {
+
+        console.error(
+            "Unable to increment event share count:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================
+   LOAD EVENT SHARE COUNT
+========================================= */
+
+async function loadEventShareCount(eventId) {
+
+    const totalElement =
+        document.getElementById(
+            "eventShareTotal"
+        );
+
+
+    if (!totalElement || !eventId) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } = await kingdomSupabase
+
+            .from("share_counts")
+
+            .select("share_count")
+
+            .eq(
+                "content_type",
+                "event"
+            )
+
+            .eq(
+                "content_id",
+                eventId
+            );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        const totalShares =
+            (data || []).reduce(
+                function (
+                    total,
+                    item
+                ) {
+
+                    return (
+                        total +
+                        Number(
+                            item.share_count || 0
+                        )
+                    );
+
+                },
+                0
+            );
+
+
+        totalElement.textContent =
+            totalShares;
+
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load event share count:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SETUP EVENT SHARING
+========================================= */
+
+function setupEventSharing(event) {
+
+    if (!event) {
+
+        return;
+
+    }
+
+
+    const whatsappButton =
+        document.getElementById(
+            "shareEventWhatsApp"
+        );
+
+
+    const facebookButton =
+        document.getElementById(
+            "shareEventFacebook"
+        );
+
+
+    const twitterButton =
+        document.getElementById(
+            "shareEventTwitter"
+        );
+
+
+    const copyButton =
+        document.getElementById(
+            "shareEventCopyLink"
+        );
+
+
+    /* =====================================
+       EVENT INFORMATION
+    ===================================== */
+
+    const eventTitle =
+        event.title ||
+        "Agbor Kingdom Event";
+
+
+    const eventDescription =
+        event.description ||
+        "Upcoming event from the Royal Kingdom of Agbor.";
+
+
+    const eventUrl =
+        getEventShareUrl(event);
+
+
+    /* =====================================
+       WHATSAPP
+    ===================================== */
+
+    if (whatsappButton) {
+
+        whatsappButton.onclick =
+            function () {
+
+                const text =
+                    eventTitle +
+                    "\n\n" +
+                    eventDescription +
+                    "\n\n" +
+                    eventUrl;
+
+
+                const shareUrl =
+                    "https://wa.me/?text=" +
+                    encodeURIComponent(text);
+
+
+                /* Record share */
+
+                incrementEventShare(
+                    event.id,
+                    "whatsapp"
+                ).then(function () {
+
+                    loadEventShareCount(
+                        event.id
+                    );
+
+                });
+
+
+                window.open(
+                    shareUrl,
+                    "_blank"
+                );
+
+            };
+
+    }
+
+
+    /* =====================================
+       FACEBOOK
+    ===================================== */
+
+    if (facebookButton) {
+
+        facebookButton.onclick =
+            function () {
+
+                const shareUrl =
+                    "https://www.facebook.com/sharer/sharer.php?u=" +
+                    encodeURIComponent(eventUrl);
+
+
+                /* Record share */
+
+                incrementEventShare(
+                    event.id,
+                    "facebook"
+                ).then(function () {
+
+                    loadEventShareCount(
+                        event.id
+                    );
+
+                });
+
+
+                window.open(
+                    shareUrl,
+                    "_blank",
+                    "width=650,height=600,resizable=yes,scrollbars=yes"
+                );
+
+            };
+
+    }
+
+
+    /* =====================================
+       X / TWITTER
+    ===================================== */
+
+    if (twitterButton) {
+
+        twitterButton.onclick =
+            function () {
+
+                const shareUrl =
+                    "https://twitter.com/intent/tweet?text=" +
+                    encodeURIComponent(eventTitle) +
+                    "&url=" +
+                    encodeURIComponent(eventUrl);
+
+
+                /* Record share */
+
+                incrementEventShare(
+                    event.id,
+                    "twitter"
+                ).then(function () {
+
+                    loadEventShareCount(
+                        event.id
+                    );
+
+                });
+
+
+                window.open(
+                    shareUrl,
+                    "_blank",
+                    "width=650,height=600,resizable=yes,scrollbars=yes"
+                );
+
+            };
+
+    }
+
+
+    /* =====================================
+       COPY LINK
+    ===================================== */
+
+    if (copyButton) {
+
+        copyButton.onclick =
+            async function () {
+
+                const copyText =
+                    document.getElementById(
+                        "shareEventCopyText"
+                    );
+
+
+                const originalText =
+                    copyText
+                        ? copyText.textContent
+                        : "Copy Link";
+
+
+                try {
+
+                    /* Modern clipboard */
+
+                    if (
+                        navigator.clipboard &&
+                        window.isSecureContext
+                    ) {
+
+                        await navigator.clipboard.writeText(
+                            eventUrl
+                        );
+
+                    } else {
+
+                        /* Fallback */
+
+                        const textarea =
+                            document.createElement(
+                                "textarea"
+                            );
+
+
+                        textarea.value =
+                            eventUrl;
+
+
+                        textarea.style.position =
+                            "fixed";
+
+
+                        textarea.style.left =
+                            "-9999px";
+
+
+                        document.body.appendChild(
+                            textarea
+                        );
+
+
+                        textarea.select();
+
+
+                        document.execCommand(
+                            "copy"
+                        );
+
+
+                        textarea.remove();
+
+                    }
+
+
+                    /* Record share */
+
+                    await incrementEventShare(
+                        event.id,
+                        "copy"
+                    );
+
+
+                    await loadEventShareCount(
+                        event.id
+                    );
+
+
+                    if (copyText) {
+
+                        copyText.textContent =
+                            "Copied!";
+
+                    }
+
+
+                    setTimeout(
+                        function () {
+
+                            if (copyText) {
+
+                                copyText.textContent =
+                                    originalText;
+
+                            }
+
+                        },
+                        2000
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Unable to copy event link:",
+                        error
+                    );
+
+                }
+
+            };
+
+    }
+
+
+    /* =====================================
+       LOAD INITIAL COUNT
+    ===================================== */
+
+    loadEventShareCount(
+        event.id
+    );
+
+}
+
+/* =========================================
    RENDER EVENT
 ========================================= */
 
@@ -363,9 +877,274 @@ function renderEventDetails(
     /* =====================================
        UPDATE PAGE TITLE
     ===================================== */
+/* =========================================
+   EVENT SEO & SOCIAL META DATA
+========================================= */
 
-    document.title =
-        `${event.title} | Agbor Kingdom`;
+const eventTitle =
+    event.title ||
+    "Agbor Kingdom Event";
+
+
+const eventDescription =
+    event.description ||
+    "Upcoming events and activities from the Royal Kingdom of Agbor.";
+
+
+/* =========================================
+   EVENT URL
+========================================= */
+
+const eventUrl =
+    window.location.origin +
+    "/event.html?id=" +
+    encodeURIComponent(event.id);
+
+
+/* =========================================
+   EVENT IMAGE
+========================================= */
+
+let eventImage =
+    event.image_url || "";
+
+
+/* Make relative images absolute */
+
+if (eventImage) {
+
+    try {
+
+        eventImage =
+            new URL(
+                eventImage,
+                window.location.origin
+            ).href;
+
+    } catch (error) {
+
+        console.warn(
+            "Unable to normalize event image:",
+            eventImage
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   PAGE TITLE
+========================================= */
+
+document.title =
+    `${event.title} | Agbor Kingdom`;
+
+
+/* =====================================
+   SETUP EVENT SHARING
+===================================== */
+
+setupEventSharing(event);
+
+
+/* =========================================
+   META DESCRIPTION
+========================================= */
+
+const metaDescription =
+    document.getElementById(
+        "eventMetaDescription"
+    );
+
+if (metaDescription) {
+
+    metaDescription.setAttribute(
+        "content",
+        eventDescription
+    );
+
+}
+
+
+/* =========================================
+   CANONICAL
+========================================= */
+
+const canonical =
+    document.getElementById(
+        "eventCanonical"
+    );
+
+if (canonical) {
+
+    canonical.setAttribute(
+        "href",
+        eventUrl
+    );
+
+}
+
+
+/* =========================================
+   OPEN GRAPH
+========================================= */
+
+const ogTitle =
+    document.getElementById(
+        "ogTitle"
+    );
+
+const ogDescription =
+    document.getElementById(
+        "ogDescription"
+    );
+
+const ogUrl =
+    document.getElementById(
+        "ogUrl"
+    );
+
+const ogImage =
+    document.getElementById(
+        "ogImage"
+    );
+
+const ogImageSecure =
+    document.getElementById(
+        "ogImageSecure"
+    );
+
+const ogImageAlt =
+    document.getElementById(
+        "ogImageAlt"
+    );
+
+
+if (ogTitle) {
+
+    ogTitle.setAttribute(
+        "content",
+        eventTitle
+    );
+
+}
+
+
+if (ogDescription) {
+
+    ogDescription.setAttribute(
+        "content",
+        eventDescription
+    );
+
+}
+
+
+if (ogUrl) {
+
+    ogUrl.setAttribute(
+        "content",
+        eventUrl
+    );
+
+}
+
+
+if (ogImage) {
+
+    ogImage.setAttribute(
+        "content",
+        eventImage
+    );
+
+}
+
+
+if (ogImageSecure) {
+
+    ogImageSecure.setAttribute(
+        "content",
+        eventImage
+    );
+
+}
+
+
+if (ogImageAlt) {
+
+    ogImageAlt.setAttribute(
+        "content",
+        eventTitle
+    );
+
+}
+
+
+/* =========================================
+   X / TWITTER
+========================================= */
+
+const twitterTitle =
+    document.getElementById(
+        "twitterTitle"
+    );
+
+const twitterDescription =
+    document.getElementById(
+        "twitterDescription"
+    );
+
+const twitterImage =
+    document.getElementById(
+        "twitterImage"
+    );
+
+const twitterImageAlt =
+    document.getElementById(
+        "twitterImageAlt"
+    );
+
+
+if (twitterTitle) {
+
+    twitterTitle.setAttribute(
+        "content",
+        eventTitle
+    );
+
+}
+
+
+if (twitterDescription) {
+
+    twitterDescription.setAttribute(
+        "content",
+        eventDescription
+    );
+
+}
+
+
+if (twitterImage) {
+
+    twitterImage.setAttribute(
+        "content",
+        eventImage
+    );
+
+}
+
+
+if (twitterImageAlt) {
+
+    twitterImageAlt.setAttribute(
+        "content",
+        eventTitle
+    );
+
+}  
+
 
 }
 
