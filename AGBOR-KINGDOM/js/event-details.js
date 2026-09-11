@@ -367,9 +367,330 @@ function renderEventDetails(
     document.title =
         `${event.title} | Agbor Kingdom`;
 
+        setupEventSharing(event);
+
 }
 
 
+/* =========================================
+   EVENT SOCIAL SHARING
+========================================= */
+
+function setupEventSharing(event) {
+
+    const shareWhatsApp =
+        document.getElementById(
+            "eventShareWhatsApp"
+        );
+
+    const shareFacebook =
+        document.getElementById(
+            "eventShareFacebook"
+        );
+
+    const shareTwitter =
+        document.getElementById(
+            "eventShareTwitter"
+        );
+
+    const shareCopyLink =
+        document.getElementById(
+            "eventShareCopyLink"
+        );
+
+    const shareCopyText =
+        document.getElementById(
+            "eventShareCopyText"
+        );
+
+
+    /*
+     * REAL EVENT URL
+     */
+
+    const eventUrl =
+        `${window.location.origin}` +
+        `${window.location.pathname}` +
+        `?id=${encodeURIComponent(event.id)}`;
+
+
+    /*
+     * SHARE TEXT
+     */
+
+    const shareText =
+        `${event.title} | Agbor Kingdom`;
+
+
+    /*
+     * WHATSAPP
+     */
+
+    if (shareWhatsApp) {
+
+        shareWhatsApp.addEventListener(
+            "click",
+            async () => {
+
+                const url =
+                    `https://wa.me/?text=` +
+                    encodeURIComponent(
+                        `${shareText}\n${eventUrl}`
+                    );
+
+                await recordEventShare(
+                    event.id,
+                    "whatsapp"
+                );
+
+                window.open(
+                    url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+     * FACEBOOK
+     */
+
+    if (shareFacebook) {
+
+        shareFacebook.addEventListener(
+            "click",
+            async () => {
+
+                const url =
+                    `https://www.facebook.com/sharer/sharer.php?u=` +
+                    encodeURIComponent(eventUrl);
+
+                await recordEventShare(
+                    event.id,
+                    "facebook"
+                );
+
+                window.open(
+                    url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+     * X
+     */
+
+    if (shareTwitter) {
+
+        shareTwitter.addEventListener(
+            "click",
+            async () => {
+
+                const url =
+                    `https://twitter.com/intent/tweet?text=` +
+                    encodeURIComponent(shareText) +
+                    `&url=` +
+                    encodeURIComponent(eventUrl);
+
+                await recordEventShare(
+                    event.id,
+                    "twitter"
+                );
+
+                window.open(
+                    url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+     * COPY LINK
+     */
+
+    if (shareCopyLink) {
+
+        shareCopyLink.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await navigator.clipboard.writeText(
+                        eventUrl
+                    );
+
+                    if (shareCopyText) {
+
+                        const originalText =
+                            shareCopyText.textContent;
+
+                        shareCopyText.textContent =
+                            "Copied!";
+
+                        setTimeout(() => {
+
+                            shareCopyText.textContent =
+                                originalText;
+
+                        }, 2000);
+
+                    }
+
+                    await recordEventShare(
+                        event.id,
+                        "copy"
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Copy link failed:",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /*
+     * LOAD TOTAL SHARE COUNT
+     */
+
+    loadEventShareCount(event.id);
+}
+
+
+/* =========================================
+   RECORD EVENT SHARE
+========================================= */
+
+async function recordEventShare(
+    eventId,
+    platform
+) {
+
+    try {
+
+        const {
+            error
+        } = await kingdomSupabase.rpc(
+            "increment_share_count",
+            {
+                p_content_type: "event",
+                p_content_id: eventId,
+                p_platform: platform
+            }
+        );
+
+        if (error) {
+
+            console.error(
+                "Event share count failed:",
+                error
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Event share error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   LOAD EVENT SHARE COUNT
+========================================= */
+
+async function loadEventShareCount(
+    eventId
+) {
+
+    const totalElement =
+        document.getElementById(
+            "eventShareTotal"
+        );
+
+    if (!totalElement) {
+        return;
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } = await kingdomSupabase
+
+            .from("share_counts")
+
+            .select("share_count")
+
+            .eq(
+                "content_type",
+                "event"
+            )
+
+            .eq(
+                "content_id",
+                eventId
+            )
+
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "Event share count loading failed:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        totalElement.textContent =
+            data?.share_count || 0;
+
+
+    } catch (error) {
+
+        console.error(
+            "Event share count error:",
+            error
+        );
+
+    }
+
+}
 /* =========================================
    ERROR MESSAGE
 ========================================= */
