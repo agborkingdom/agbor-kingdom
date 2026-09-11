@@ -6,7 +6,7 @@ const SUPABASE_URL =
     "https://flhorvkvkxbodappjspg.supabase.co";
 
 const SUPABASE_ANON_KEY =
-    "sb_publishable_6VtnjF-OR6pIJZS59we_sQ_uZ3XlWFs";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsaG9ydmt2a3hib2RhcHBqc3BnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjAyODIsImV4cCI6MjEwMjY5NjI4Mn0.JErIhQze3daON7PF_qGBHaAIBK6si4eyDxxU77VchNk";
 
 
 /* =========================================
