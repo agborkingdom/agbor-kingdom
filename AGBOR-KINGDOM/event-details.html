@@ -500,251 +500,26 @@
 
     <main>
 
-        <section class="event-detail-section">
+    <section class="event-detail-section">
 
-            <div
-                class="section-container"
-                id="eventDetailContainer"
-            >
+        <div
+            class="section-container"
+            id="eventDetailContainer"
+        >
 
-                <!-- Event loaded from Supabase -->
+            <div class="event-detail-loading">
 
-                <div class="event-detail-loading">
-
-                    Loading event...
-
-                </div>
+                Loading event...
 
             </div>
 
-        </section>
+        </div>
 
+    </section>
 
-        <!-- Error -->
+</main>
+        
 
-        <section
-            class="event-details-error"
-            id="eventDetailsError"
-            hidden
-        >
-
-            <span class="section-label">
-                KINGDOM EVENTS
-            </span>
-
-            <h1>
-                Event Not Found
-            </h1>
-
-            <p>
-                The event you are looking for could not be found.
-            </p>
-
-            <a
-                href="events.html"
-                class="hero-button"
-            >
-                View All Events
-            </a>
-
-        </section>
-
-
-        <!-- Event -->
-
-        <article
-            class="event-details-content"
-            id="eventDetailsContent"
-            hidden
-        >
-
-            <div class="event-details-header">
-
-                <a
-                    href="events.html"
-                    class="event-back-link"
-                >
-                    ← Back to Events
-                </a>
-
-
-                <span
-                    class="event-details-category"
-                    id="eventDetailsCategory"
-                >
-                    KINGDOM EVENT
-                </span>
-
-
-                <h1 id="eventDetailsTitle">
-                    Event Title
-                </h1>
-
-
-                <div class="event-details-meta">
-
-                    <span id="eventDetailsDate">
-                        —
-                    </span>
-
-                    <span id="eventDetailsTime">
-                        —
-                    </span>
-
-                    <span id="eventDetailsLocation">
-                        —
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="event-details-image-wrapper">
-
-                <img
-                    id="eventDetailsImage"
-                    src=""
-                    alt="Agbor Kingdom Event"
-                >
-
-            </div>
-
-
-            <div class="event-details-body">
-
-                <div
-                    id="eventDetailsDescription"
-                    class="event-description"
-                ></div>
-
-            </div>
-
-
-            <!-- =========================================
-     EVENT SOCIAL SHARING
-========================================== -->
-
-<div
-    class="single-event-share"
-    id="singleEventShare"
->
-
-    <div class="single-event-share-heading">
-
-        <span class="single-event-share-label">
-            SHARE THIS EVENT
-        </span>
-
-        <h3>
-            Invite others
-        </h3>
-
-    </div>
-
-
-    <div class="single-event-share-buttons">
-
-        <!-- WhatsApp -->
-
-        <button
-            type="button"
-            class="single-event-share-button whatsapp"
-            id="shareEventWhatsApp"
-        >
-
-            <span class="share-icon">
-                ◉
-            </span>
-
-            <span>
-                WhatsApp
-            </span>
-
-        </button>
-
-
-        <!-- Facebook -->
-
-        <button
-            type="button"
-            class="single-event-share-button facebook"
-            id="shareEventFacebook"
-        >
-
-            <span class="share-icon">
-                f
-            </span>
-
-            <span>
-                Facebook
-            </span>
-
-        </button>
-
-
-        <!-- X -->
-
-        <button
-            type="button"
-            class="single-event-share-button twitter"
-            id="shareEventTwitter"
-        >
-
-            <span class="share-icon">
-                𝕏
-            </span>
-
-            <span>
-                X
-            </span>
-
-        </button>
-
-
-        <!-- Copy Link -->
-
-        <button
-            type="button"
-            class="single-event-share-button copy"
-            id="shareEventCopyLink"
-        >
-
-            <span class="share-icon">
-                ↗
-            </span>
-
-            <span id="shareEventCopyText">
-                Copy Link
-            </span>
-
-        </button>
-
-    </div>
-
-
-    <!-- TOTAL SHARES -->
-
-    <div
-        class="single-event-share-count"
-        id="eventShareCount"
-    >
-
-        Shared
-
-        <strong id="eventShareTotal">
-            0
-        </strong>
-
-        times
-
-    </div>
-
-</div>
-
-        </article>
-
-    </main>
 
 <div id="siteFooter"></div>
 

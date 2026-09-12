@@ -730,8 +730,6 @@ if (eventCanonical) {
 }
 
 }
-
-
 /* =========================================
    EVENT SOCIAL SHARING
 ========================================= */
@@ -768,8 +766,14 @@ function setupEventSharing(event) {
         );
 
 
+    /* =====================================
+       EVENT URL
+    ===================================== */
+
     const eventUrl =
-        window.location.href;
+        window.location.origin +
+        "/event.html?id=" +
+        encodeURIComponent(event.id);
 
 
     const eventTitle =
@@ -785,7 +789,6 @@ function setupEventSharing(event) {
 
         whatsappButton.addEventListener(
             "click",
-
             function () {
 
                 const shareText =
@@ -794,7 +797,6 @@ function setupEventSharing(event) {
 
                 const whatsappUrl =
                     "https://wa.me/?text=" +
-
                     encodeURIComponent(
                         shareText
                     );
@@ -820,12 +822,10 @@ function setupEventSharing(event) {
 
         facebookButton.addEventListener(
             "click",
-
             function () {
 
                 const facebookUrl =
                     "https://www.facebook.com/sharer/sharer.php?u=" +
-
                     encodeURIComponent(
                         eventUrl
                     );
@@ -851,18 +851,14 @@ function setupEventSharing(event) {
 
         twitterButton.addEventListener(
             "click",
-
             function () {
 
                 const twitterUrl =
                     "https://twitter.com/intent/tweet?text=" +
-
                     encodeURIComponent(
                         eventTitle
                     ) +
-
                     "&url=" +
-
                     encodeURIComponent(
                         eventUrl
                     );
@@ -888,7 +884,6 @@ function setupEventSharing(event) {
 
         copyButton.addEventListener(
             "click",
-
             async function () {
 
                 try {
@@ -901,7 +896,7 @@ function setupEventSharing(event) {
                     if (copyText) {
 
                         const originalText =
-                            copyText.textContent;
+                            "Copy Link";
 
 
                         copyText.textContent =
@@ -915,11 +910,11 @@ function setupEventSharing(event) {
                                     originalText;
 
                             },
-
                             2000
                         );
 
                     }
+
 
                 } catch (error) {
 
@@ -936,6 +931,8 @@ function setupEventSharing(event) {
     }
 
 }
+
+
 
 /* =========================================
    ERROR MESSAGE
