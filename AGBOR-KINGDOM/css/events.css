@@ -499,4 +499,250 @@
 
 
 
+/* =========================================
+   AGBOR KINGDOM
+   EVENT SOCIAL SHARING
+========================================= */
 
+.single-event-share {
+
+    margin-top: 50px;
+
+    padding-top: 35px;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+
+}
+
+
+.single-event-share-heading {
+
+    margin-bottom: 22px;
+
+}
+
+
+.single-event-share-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 0.75rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+
+    color: #9b7b3e;
+
+}
+
+
+.single-event-share-heading h3 {
+
+    margin: 0;
+
+    font-family: Georgia, serif;
+
+    font-size: 1.5rem;
+
+    font-weight: 600;
+
+    color: #1f1f1f;
+
+}
+
+
+/* =========================================
+   SHARE BUTTONS
+========================================= */
+
+.single-event-share-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+}
+
+
+.single-event-share-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    min-width: 130px;
+
+    padding: 13px 18px;
+
+    border: 1px solid #d6d0c4;
+
+    border-radius: 3px;
+
+    background: #ffffff;
+
+    color: #222222;
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+
+}
+
+
+.single-event-share-button:hover {
+
+    transform: translateY(-2px);
+
+}
+
+
+.single-event-share-button .share-icon {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 22px;
+
+    height: 22px;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================
+   WHATSAPP
+========================================= */
+
+.single-event-share-button.whatsapp:hover {
+
+    background: #25D366;
+
+    border-color: #25D366;
+
+    color: #ffffff;
+
+}
+
+
+/* =========================================
+   FACEBOOK
+========================================= */
+
+.single-event-share-button.facebook:hover {
+
+    background: #1877F2;
+
+    border-color: #1877F2;
+
+    color: #ffffff;
+
+}
+
+
+/* =========================================
+   X / TWITTER
+========================================= */
+
+.single-event-share-button.twitter:hover {
+
+    background: #111111;
+
+    border-color: #111111;
+
+    color: #ffffff;
+
+}
+
+
+/* =========================================
+   COPY LINK
+========================================= */
+
+.single-event-share-button.copy:hover {
+
+    background: #9b7b3e;
+
+    border-color: #9b7b3e;
+
+    color: #ffffff;
+
+}
+
+
+/* =========================================
+   SHARE COUNT
+========================================= */
+
+.single-event-share-count {
+
+    margin-top: 22px;
+
+    font-size: 0.85rem;
+
+    color: #777777;
+
+}
+
+
+.single-event-share-count strong {
+
+    margin: 0 3px;
+
+    color: #9b7b3e;
+
+    font-size: 1rem;
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .single-event-share-buttons {
+
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+
+    .single-event-share-button {
+
+        width: 100%;
+
+        min-width: 0;
+
+        padding: 13px 10px;
+
+    }
+
+}
