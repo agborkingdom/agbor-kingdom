@@ -302,6 +302,101 @@ function setupEventSharing(event) {
     loadEventShareCount(event.id);
 }
 
+/* =========================================
+   RECORD EVENT SHARE
+========================================= */
+
+async function recordEventShare(eventId, platform) {
+
+    try {
+
+        const { error } =
+            await kingdomSupabase.rpc(
+                "increment_share_count",
+                {
+                    p_content_type: "event",
+                    p_content_id: eventId,
+                    p_platform: platform
+                }
+            );
+
+        if (error) {
+
+            console.error(
+                "Event share count failed:",
+                error
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Event share error:",
+            error
+        );
+
+    }
+}
+
+
+/* =========================================
+   LOAD EVENT SHARE COUNT
+========================================= */
+
+async function loadEventShareCount(eventId) {
+
+    const totalElement =
+        document.getElementById(
+            "eventShareTotal"
+        );
+
+    if (!totalElement) {
+        return;
+    }
+
+    try {
+
+        const {
+            data,
+            error
+        } = await kingdomSupabase
+
+            .from("share_counts")
+
+            .select("share_count")
+
+            .eq("content_type", "event")
+
+            .eq("content_id", eventId)
+
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "Event share count loading failed:",
+                error
+            );
+
+            return;
+        }
+
+
+        totalElement.textContent =
+            data?.share_count || 0;
+
+
+    } catch (error) {
+
+        console.error(
+            "Event share count error:",
+            error
+        );
+
+    }
+}
 
 /* =========================================
    RENDER EVENT
