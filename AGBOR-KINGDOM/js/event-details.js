@@ -335,29 +335,181 @@ function renderEventDetails(
 
 
             ${
-                event.link
-                    ? `
-                        <div class="event-detail-action">
 
-                            <a
-                                href="${escapeEventAttribute(event.link)}"
-                                class="hero-button"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                More Information
-                                <span>→</span>
-                            </a>
+    event.link
 
-                        </div>
-                    `
-                    : ""
-            }
+        ? `
+            <div class="event-detail-action">
+
+                <a
+                    href="${escapeEventAttribute(event.link)}"
+                    class="hero-button"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+
+                    More Information
+
+                    <span>→</span>
+
+                </a>
+
+            </div>
+        `
+
+        : ""
+
+}
 
 
-        </div>
+<!-- =========================================
+     EVENT SOCIAL SHARING
+========================================== -->
 
-    `;
+<div
+    class="single-event-share"
+    id="singleEventShare"
+>
+
+    <div class="single-event-share-heading">
+
+        <span class="single-event-share-label">
+
+            SHARE THIS EVENT
+
+        </span>
+
+        <h3>
+
+            Invite others
+
+        </h3>
+
+    </div>
+
+
+    <div class="single-event-share-buttons">
+
+
+        <!-- WhatsApp -->
+
+        <button
+            type="button"
+            class="single-event-share-button whatsapp"
+            id="shareEventWhatsApp"
+        >
+
+            <span class="share-icon">
+
+                ◉
+
+            </span>
+
+            <span>
+
+                WhatsApp
+
+            </span>
+
+        </button>
+
+
+        <!-- Facebook -->
+
+        <button
+            type="button"
+            class="single-event-share-button facebook"
+            id="shareEventFacebook"
+        >
+
+            <span class="share-icon">
+
+                f
+
+            </span>
+
+            <span>
+
+                Facebook
+
+            </span>
+
+        </button>
+
+
+        <!-- X / Twitter -->
+
+        <button
+            type="button"
+            class="single-event-share-button twitter"
+            id="shareEventTwitter"
+        >
+
+            <span class="share-icon">
+
+                𝕏
+
+            </span>
+
+            <span>
+
+                X
+
+            </span>
+
+        </button>
+
+
+        <!-- Copy Link -->
+
+        <button
+            type="button"
+            class="single-event-share-button copy"
+            id="shareEventCopyLink"
+        >
+
+            <span class="share-icon">
+
+                ↗
+
+            </span>
+
+            <span id="shareEventCopyText">
+
+                Copy Link
+
+            </span>
+
+        </button>
+
+
+    </div>
+
+
+    <!-- TOTAL SHARES -->
+
+    <div
+        class="single-event-share-count"
+        id="eventShareCount"
+    >
+
+        Shared
+
+        <strong id="eventShareTotal">
+
+            0
+
+        </strong>
+
+        times
+
+    </div>
+
+</div>
+
+
+</div>
+`;
 
 
     /* =====================================
@@ -366,6 +518,12 @@ function renderEventDetails(
 
     document.title =
         `${event.title} | Agbor Kingdom`;
+
+        /* =========================================
+   EVENT SOCIAL SHARING
+========================================= */
+
+setupEventSharing(event);
 
         /* =========================================
    EVENT SEO FOR BROWSER
@@ -573,6 +731,211 @@ if (eventCanonical) {
 
 }
 
+
+/* =========================================
+   EVENT SOCIAL SHARING
+========================================= */
+
+function setupEventSharing(event) {
+
+    const whatsappButton =
+        document.getElementById(
+            "shareEventWhatsApp"
+        );
+
+
+    const facebookButton =
+        document.getElementById(
+            "shareEventFacebook"
+        );
+
+
+    const twitterButton =
+        document.getElementById(
+            "shareEventTwitter"
+        );
+
+
+    const copyButton =
+        document.getElementById(
+            "shareEventCopyLink"
+        );
+
+
+    const copyText =
+        document.getElementById(
+            "shareEventCopyText"
+        );
+
+
+    const eventUrl =
+        window.location.href;
+
+
+    const eventTitle =
+        event.title ||
+        "Agbor Kingdom Event";
+
+
+    /* =====================================
+       WHATSAPP
+    ===================================== */
+
+    if (whatsappButton) {
+
+        whatsappButton.addEventListener(
+            "click",
+
+            function () {
+
+                const shareText =
+                    `${eventTitle}\n\n${eventUrl}`;
+
+
+                const whatsappUrl =
+                    "https://wa.me/?text=" +
+
+                    encodeURIComponent(
+                        shareText
+                    );
+
+
+                window.open(
+                    whatsappUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       FACEBOOK
+    ===================================== */
+
+    if (facebookButton) {
+
+        facebookButton.addEventListener(
+            "click",
+
+            function () {
+
+                const facebookUrl =
+                    "https://www.facebook.com/sharer/sharer.php?u=" +
+
+                    encodeURIComponent(
+                        eventUrl
+                    );
+
+
+                window.open(
+                    facebookUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       X / TWITTER
+    ===================================== */
+
+    if (twitterButton) {
+
+        twitterButton.addEventListener(
+            "click",
+
+            function () {
+
+                const twitterUrl =
+                    "https://twitter.com/intent/tweet?text=" +
+
+                    encodeURIComponent(
+                        eventTitle
+                    ) +
+
+                    "&url=" +
+
+                    encodeURIComponent(
+                        eventUrl
+                    );
+
+
+                window.open(
+                    twitterUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       COPY LINK
+    ===================================== */
+
+    if (copyButton) {
+
+        copyButton.addEventListener(
+            "click",
+
+            async function () {
+
+                try {
+
+                    await navigator.clipboard.writeText(
+                        eventUrl
+                    );
+
+
+                    if (copyText) {
+
+                        const originalText =
+                            copyText.textContent;
+
+
+                        copyText.textContent =
+                            "Copied!";
+
+
+                        setTimeout(
+                            function () {
+
+                                copyText.textContent =
+                                    originalText;
+
+                            },
+
+                            2000
+                        );
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Unable to copy event link:",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+}
 
 /* =========================================
    ERROR MESSAGE

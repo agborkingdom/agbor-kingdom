@@ -1,5 +1,6 @@
 /* =========================================
    AGBOR KINGDOM
+
    DYNAMIC EVENT SOCIAL PREVIEW
 
    WhatsApp
@@ -7,6 +8,7 @@
    X / Twitter
    LinkedIn
    Telegram
+
 ========================================= */
 
 export default async function (request, context) {
@@ -16,31 +18,31 @@ export default async function (request, context) {
     );
 
 
-    /* =====================================
+    /* =========================================
        CURRENT URL
-    ====================================== */
+    ========================================= */
 
     const url =
         new URL(request.url);
 
 
-    /* =====================================
+    /* =========================================
        GET EVENT ID
-    ====================================== */
+    ========================================= */
 
     const eventId =
         url.searchParams.get("id");
 
 
     console.log(
-        "Event ID:",
+        "EVENT ID:",
         eventId
     );
 
 
-    /* =====================================
+    /* =========================================
        NO EVENT ID
-    ====================================== */
+    ========================================= */
 
     if (!eventId) {
 
@@ -52,9 +54,9 @@ export default async function (request, context) {
     try {
 
 
-        /* =====================================
+        /* =========================================
            SUPABASE ENVIRONMENT VARIABLES
-        ====================================== */
+        ========================================= */
 
         const supabaseUrl =
             Netlify.env.get(
@@ -74,7 +76,7 @@ export default async function (request, context) {
         ) {
 
             console.error(
-                "Supabase environment variables are missing."
+                "Missing Supabase environment variables."
             );
 
             return context.next();
@@ -82,9 +84,9 @@ export default async function (request, context) {
         }
 
 
-        /* =====================================
-           GET EVENT FROM SUPABASE
-        ====================================== */
+        /* =========================================
+           BUILD SUPABASE REQUEST
+        ========================================= */
 
         const params =
             new URLSearchParams();
@@ -92,7 +94,16 @@ export default async function (request, context) {
 
         params.set(
             "select",
-            "id,title,description,event_type,event_date,event_time,location,image_url"
+            `
+                id,
+                title,
+                description,
+                event_type,
+                event_date,
+                event_time,
+                location,
+                image_url
+            `
         );
 
 
@@ -119,9 +130,13 @@ export default async function (request, context) {
 
 
         console.log(
-            "Loading event from Supabase"
+            "Loading event from Supabase..."
         );
 
+
+        /* =========================================
+           FETCH EVENT
+        ========================================= */
 
         const eventResponse =
             await fetch(
@@ -143,7 +158,7 @@ export default async function (request, context) {
         if (!eventResponse.ok) {
 
             console.error(
-                "Unable to load event:",
+                "Supabase event request failed:",
                 eventResponse.status
             );
 
@@ -152,17 +167,17 @@ export default async function (request, context) {
         }
 
 
-        const eventData =
+        const events =
             await eventResponse.json();
 
 
         const event =
-            eventData?.[0];
+            events?.[0];
 
 
-        /* =====================================
+        /* =========================================
            EVENT NOT FOUND
-        ====================================== */
+        ========================================= */
 
         if (!event) {
 
@@ -176,20 +191,20 @@ export default async function (request, context) {
 
 
         console.log(
-            "Event found:",
+            "EVENT FOUND:",
             event.title
         );
 
 
         console.log(
-            "Event image:",
+            "EVENT IMAGE:",
             event.image_url
         );
 
 
-        /* =====================================
+        /* =========================================
            EVENT INFORMATION
-        ====================================== */
+        ========================================= */
 
         const eventTitle =
             event.title ||
@@ -208,15 +223,17 @@ export default async function (request, context) {
             );
 
 
-        /* =====================================
-           IMAGE
-        ====================================== */
+        /* =========================================
+           EVENT IMAGE
+        ========================================= */
 
         let eventImage =
             event.image_url || "";
 
 
-        /* Make image absolute */
+        /* =========================================
+           MAKE IMAGE ABSOLUTE
+        ========================================= */
 
         if (eventImage) {
 
@@ -240,9 +257,9 @@ export default async function (request, context) {
         }
 
 
-        /* =====================================
+        /* =========================================
            FALLBACK IMAGE
-        ====================================== */
+        ========================================= */
 
         if (!eventImage) {
 
@@ -252,9 +269,46 @@ export default async function (request, context) {
         }
 
 
-        /* =====================================
-           GET ORIGINAL EVENT PAGE HTML
-        ====================================== */
+        console.log(
+            "FINAL EVENT SOCIAL IMAGE:",
+            eventImage
+        );
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHtml(value) {
+
+            return String(value || "")
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                );
+
+        }
+
+
+        /* =========================================
+           GET ORIGINAL PAGE
+        ========================================= */
 
         const response =
             await context.next();
@@ -264,266 +318,198 @@ export default async function (request, context) {
             await response.text();
 
 
+        /* =========================================
+           SOCIAL META TAGS
+
+           IMPORTANT:
+           These are generated SERVER-SIDE.
+
+           WhatsApp, Facebook, X, LinkedIn
+           and Telegram can read them.
+        ========================================= */
+
+        const socialMetaTags = `
+
+<!-- =========================================
+     AGBOR KINGDOM EVENT SOCIAL PREVIEW
+========================================= -->
+
+<meta
+    name="description"
+    content="${escapeHtml(eventDescription)}"
+>
+
+<link
+    rel="canonical"
+    href="${escapeHtml(canonicalUrl)}"
+>
+
+<!-- OPEN GRAPH -->
+
+<meta
+    property="og:type"
+    content="website"
+>
+
+<meta
+    property="og:site_name"
+    content="Agbor Kingdom"
+>
+
+<meta
+    property="og:title"
+    content="${escapeHtml(eventTitle)}"
+>
+
+<meta
+    property="og:description"
+    content="${escapeHtml(eventDescription)}"
+>
+
+<meta
+    property="og:url"
+    content="${escapeHtml(canonicalUrl)}"
+>
+
+<meta
+    property="og:image"
+    content="${escapeHtml(eventImage)}"
+>
+
+<meta
+    property="og:image:secure_url"
+    content="${escapeHtml(eventImage)}"
+>
+
+<meta
+    property="og:image:alt"
+    content="${escapeHtml(eventTitle)}"
+>
+
+<!-- X / TWITTER -->
+
+<meta
+    name="twitter:card"
+    content="summary_large_image"
+>
+
+<meta
+    name="twitter:title"
+    content="${escapeHtml(eventTitle)}"
+>
+
+<meta
+    name="twitter:description"
+    content="${escapeHtml(eventDescription)}"
+>
+
+<meta
+    name="twitter:image"
+    content="${escapeHtml(eventImage)}"
+>
+
+<meta
+    name="twitter:image:alt"
+    content="${escapeHtml(eventTitle)}"
+>
+
+<!-- EVENT EDGE FUNCTION ACTIVE -->
+
+`;
+
+
+        /* =========================================
+           REMOVE EMPTY DEFAULT EVENT TAGS
+
+           This prevents WhatsApp/Facebook from
+           seeing empty og:image tags first.
+        ========================================= */
+
         let updatedHtml =
             html;
 
 
-        /* =====================================
-           ESCAPE REGEX
-        ====================================== */
+        const idsToRemove = [
 
-        function escapeRegex(value) {
-
-            return String(value).replace(
-                /[.*+?^${}()|[\]\\]/g,
-                "\\$&"
-            );
-
-        }
-
-
-        /* =====================================
-           ESCAPE HTML ATTRIBUTE
-        ====================================== */
-
-        function escapeHTML(value) {
-
-            return String(value || "")
-
-                .replaceAll(
-                    "&",
-                    "&amp;"
-                )
-
-                .replaceAll(
-                    '"',
-                    "&quot;"
-                )
-
-                .replaceAll(
-                    "<",
-                    "&lt;"
-                )
-
-                .replaceAll(
-                    ">",
-                    "&gt;"
-                );
-
-        }
-
-
-        /* =====================================
-           UPDATE META TAG BY ID
-        ====================================== */
-
-        function updateMetaById(
-            id,
-            value
-        ) {
-
-            const idPattern =
-                escapeRegex(id);
-
-
-            const tagRegex =
-                new RegExp(
-                    `<meta\\b[^>]*\\bid=["']${idPattern}["'][^>]*>`,
-                    "i"
-                );
-
-
-            updatedHtml =
-                updatedHtml.replace(
-                    tagRegex,
-                    function (tag) {
-
-                        if (
-                            /\bcontent=["'][^"']*["']/i.test(tag)
-                        ) {
-
-                            return tag.replace(
-
-                                /\bcontent=(["'])[^"']*\1/i,
-
-                                `content="${escapeHTML(value)}"`
-
-                            );
-
-                        }
-
-
-                        return tag.replace(
-
-                            ">",
-
-                            ` content="${escapeHTML(value)}">`
-
-                        );
-
-                    }
-                );
-
-        }
-
-
-        /* =====================================
-           UPDATE CANONICAL
-        ====================================== */
-
-        function updateCanonicalUrl(value) {
-
-            const tagRegex =
-                /<link\b[^>]*\bid=["']eventCanonical["'][^>]*>/i;
-
-
-            updatedHtml =
-                updatedHtml.replace(
-                    tagRegex,
-                    function (tag) {
-
-                        if (
-                            /\bhref=["'][^"']*["']/i.test(tag)
-                        ) {
-
-                            return tag.replace(
-
-                                /\bhref=(["'])[^"']*\1/i,
-
-                                `href="${escapeHTML(value)}"`
-
-                            );
-
-                        }
-
-
-                        return tag.replace(
-
-                            ">",
-
-                            ` href="${escapeHTML(value)}">`
-
-                        );
-
-                    }
-                );
-
-        }
-
-
-        /* =====================================
-           SEO DESCRIPTION
-        ====================================== */
-
-        updateMetaById(
             "eventMetaDescription",
-            eventDescription
-        );
 
-
-        /* =====================================
-           OPEN GRAPH
-        ====================================== */
-
-        updateMetaById(
             "eventOgTitle",
-            eventTitle
-        );
 
-
-        updateMetaById(
             "eventOgDescription",
-            eventDescription
-        );
 
-
-        updateMetaById(
             "eventOgUrl",
-            canonicalUrl
-        );
 
-
-        updateMetaById(
             "eventOgImage",
-            eventImage
-        );
 
-
-        updateMetaById(
             "eventOgImageSecureUrl",
-            eventImage
-        );
 
-
-        updateMetaById(
             "eventOgImageAlt",
-            eventTitle
-        );
 
-
-        /* =====================================
-           TWITTER / X
-        ====================================== */
-
-        updateMetaById(
             "eventTwitterTitle",
-            eventTitle
-        );
 
-
-        updateMetaById(
             "eventTwitterDescription",
-            eventDescription
-        );
 
-
-        updateMetaById(
             "eventTwitterImage",
-            eventImage
-        );
+
+            "eventTwitterImageAlt"
+
+        ];
 
 
-        updateMetaById(
-            "eventTwitterImageAlt",
-            eventTitle
-        );
+        idsToRemove.forEach(id => {
+
+            const regex =
+                new RegExp(
+                    `<meta[^>]*id=["']${id}["'][^>]*>`,
+                    "gi"
+                );
 
 
-        /* =====================================
-           CANONICAL URL
-        ====================================== */
+            updatedHtml =
+                updatedHtml.replace(
+                    regex,
+                    ""
+                );
 
-        updateCanonicalUrl(
-            canonicalUrl
-        );
+        });
 
 
-        /* =====================================
-           DEBUG MARKER
-        ====================================== */
+        /* =========================================
+           REMOVE EMPTY CANONICAL
+        ========================================= */
 
         updatedHtml =
             updatedHtml.replace(
 
-                "</head>",
+                /<link[^>]*id=["']eventCanonical["'][^>]*>/gi,
 
-                `
+                ""
 
-<!-- EVENT EDGE FUNCTION ACTIVE -->
+            );
 
-</head>`
+
+        /* =========================================
+           INSERT SOCIAL TAGS INTO HEAD
+        ========================================= */
+
+        updatedHtml =
+            updatedHtml.replace(
+
+                /<\/head>/i,
+
+                `${socialMetaTags}</head>`
 
             );
 
 
         console.log(
-            "Event social preview HTML updated successfully."
+            "EVENT SOCIAL PREVIEW HTML CREATED SUCCESSFULLY"
         );
 
 
-        /* =====================================
+        /* =========================================
            RESPONSE HEADERS
-        ====================================== */
+        ========================================= */
 
         const headers =
             new Headers(
@@ -540,12 +526,6 @@ export default async function (request, context) {
         );
 
 
-        /*
-         * Important:
-         * Do not aggressively cache dynamic
-         * social preview pages.
-         */
-
         headers.set(
 
             "Cache-Control",
@@ -555,9 +535,9 @@ export default async function (request, context) {
         );
 
 
-        /* =====================================
+        /* =========================================
            RETURN UPDATED PAGE
-        ====================================== */
+        ========================================= */
 
         return new Response(
 
@@ -582,11 +562,8 @@ export default async function (request, context) {
 
 
         console.error(
-
-            "Agbor Kingdom event social preview error:",
-
+            "EVENT SOCIAL PREVIEW ERROR:",
             error
-
         );
 
 
