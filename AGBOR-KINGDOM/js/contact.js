@@ -117,50 +117,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             // -----------------------------------------
-            // SEND AUTOMATIC EMAIL CONFIRMATION
-            // -----------------------------------------
+// SEND EMAIL NOTIFICATION
+// -----------------------------------------
 
-            try {
+try {
 
-                const { data: emailResult, error: emailError } =
-                    await kingdomSupabase.functions.invoke(
-                        "send-contact-email",
-                        {
-                            body: {
-                                name: name,
-                                email: email,
-                                phone: phone || "",
-                                subject: subject,
-                                message: message
-                            }
-                        }
-                    );
+    const emailResponse = await fetch(
+        "/.netlify/functions/send-contact-email",
+        {
+            method: "POST",
 
-                if (emailError) {
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-                    console.error(
-                        "Confirmation email error:",
-                        emailError
-                    );
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                phone: phone || "",
+                subject: subject,
+                message: message
+            })
+        }
+    );
 
-                } else {
+    const emailResult = await emailResponse.json();
 
-                    console.log(
-                        "Confirmation email sent:",
-                        emailResult
-                    );
-                }
+    if (!emailResponse.ok) {
 
-            } catch (emailError) {
+        console.error(
+            "Contact email error:",
+            emailResult
+        );
 
-                // Email failure should NOT erase the saved enquiry.
+    } else {
 
-                console.error(
-                    "Unable to send confirmation email:",
-                    emailError
-                );
+        console.log(
+            "Contact email sent:",
+            emailResult
+        );
 
-            }
+    }
+
+} catch (emailError) {
+
+    // Email failure should NOT erase the saved enquiry.
+
+    console.error(
+        "Unable to send contact email:",
+        emailError
+    );
+}
 
             // -----------------------------------------
             // SUCCESS MESSAGE
@@ -169,9 +176,9 @@ document.addEventListener("DOMContentLoaded", () => {
             formMessage.className =
                 "contact-form-message success";
 
-            formMessage.textContent =
-                "Your correspondence has been received by the Royal Kingdom of Agbor. An acknowledgement has been sent to your email address.";
-
+                formMessage.textContent =
+    "Your correspondence has been received by the Royal Kingdom of Agbor. Thank you for contacting the Kingdom.";
+           
             form.reset();
 
         } catch (error) {
