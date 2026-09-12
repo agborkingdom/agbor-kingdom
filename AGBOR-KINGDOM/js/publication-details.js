@@ -115,7 +115,7 @@ const publicationDescription =
     "Official publications from the Royal Kingdom of Agbor.";
 
 const publicationUrl =
-    "https://agborkingdom.netlify.app/publication-details.html?id=" +
+    "https://agborkingdom.org/publication-details.html?id=" +
     encodeURIComponent(publication.id);
 
 const publicationImage =
