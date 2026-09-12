@@ -34,7 +34,8 @@ export default async (request, context) => {
 
         const title = event.title || "Agbor Kingdom Event";
         const description = event.description || "Upcoming events from the Royal Kingdom of Agbor.";
-        const eventUrl = `${url.origin}/event.html?id=${encodeURIComponent(event.id)}`;
+       /* Inside event-social-preview.js */
+const eventUrl = `${url.origin}/event-details.html?id=${encodeURIComponent(event.id)}`;
 
         let image = event.image_url || "";
         if (image) {

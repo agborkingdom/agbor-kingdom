@@ -94,8 +94,12 @@ async function loadEventDetails() {
 ========================================= */
 
 function getEventShareUrl(event) {
-    if (!event || !event.id) return window.location.href;
-    return window.location.origin + "/event.html?id=" + encodeURIComponent(event.id);
+    if (!event || !event.id) {
+        return window.location.href;
+    }
+    
+    /* Generates: https://agborkingdom.org/event-details.html?id=11ed7c9e-0fa1-40dd-82a4-893cd5aa40ea */
+    return `${window.location.origin}/event-details.html?id=${encodeURIComponent(event.id)}`;
 }
 
 function setupEventSharing(event) {
@@ -110,13 +114,15 @@ function setupEventSharing(event) {
     const eventDescription = event.description || "Upcoming event from the Royal Kingdom of Agbor.";
     const eventUrl = getEventShareUrl(event);
 
-    /* WHATSAPP */
-    if (whatsappButton) {
-        whatsappButton.onclick = function () {
-            const text = `${eventTitle}\n\n${eventDescription}\n\n${eventUrl}`;
-            window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
-        };
-    }
+
+/* WHATSAPP */
+if (whatsappButton) {
+    whatsappButton.onclick = function () {
+        /* Send ONLY the title and the clean URL so WhatsApp renders a clean preview card */
+        const text = `*${eventTitle}*\n\n${eventUrl}`;
+        window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+    };
+}
 
     /* FACEBOOK */
     if (facebookButton) {
@@ -261,9 +267,9 @@ function renderEventDetails(container, event) {
     `;
 
     /* SEO & META DATA */
-    const eventTitle = event.title || "Agbor Kingdom Event";
-    const eventDescription = event.description || "Upcoming events from the Royal Kingdom of Agbor.";
-    const eventUrl = window.location.origin + "/event.html?id=" + encodeURIComponent(event.id);
+const eventTitle = event.title || "Agbor Kingdom Event";
+const eventDescription = event.description || "Upcoming events from the Royal Kingdom of Agbor.";
+const eventUrl = window.location.origin + "/event-details.html?id=" + encodeURIComponent(event.id);
 
     let eventImage = event.image_url || "";
     if (eventImage) {

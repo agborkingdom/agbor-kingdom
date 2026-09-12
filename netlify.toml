@@ -8,4 +8,4 @@
 
 [[edge_functions]]
   function = "event-social-preview"
-  path = "/event.html"
+  path = "/event-details.html"
