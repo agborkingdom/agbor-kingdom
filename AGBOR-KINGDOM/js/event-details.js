@@ -670,6 +670,7 @@ function setupEventSharing(event) {
 
 }
 
+
 /* =========================================
    RENDER EVENT
 ========================================= */
@@ -873,10 +874,6 @@ function renderEventDetails(
 
     `;
 
-
-    /* =====================================
-       UPDATE PAGE TITLE
-    ===================================== */
 /* =========================================
    EVENT SEO & SOCIAL META DATA
 ========================================= */
@@ -936,9 +933,8 @@ if (eventImage) {
 /* =========================================
    PAGE TITLE
 ========================================= */
-
 document.title =
-    `${event.title}`;
+    `${event.title} | Agbor Kingdom`;
 
 
 /* =====================================
@@ -946,11 +942,58 @@ document.title =
 ===================================== */
 
 setupEventSharing(event);
+    
+
+
+}
 
 
 /* =========================================
-   META DESCRIPTION
+   EVENT SEO FOR BROWSER
 ========================================= */
+
+const eventTitle =
+    event.title ||
+    "Agbor Kingdom Event";
+
+
+const eventDescription =
+    event.description ||
+    "Official events from the Royal Kingdom of Agbor.";
+
+
+const eventUrl =
+    window.location.origin +
+    "/event.html?id=" +
+    encodeURIComponent(event.id);
+
+
+let eventImage =
+    event.image_url || "";
+
+
+if (eventImage) {
+
+    try {
+
+        eventImage =
+            new URL(
+                eventImage,
+                window.location.origin
+            ).href;
+
+    } catch (error) {
+
+        console.warn(
+            "Unable to normalize event image."
+        );
+
+    }
+
+}
+
+
+/* SEO */
 
 const metaDescription =
     document.getElementById(
@@ -967,187 +1010,147 @@ if (metaDescription) {
 }
 
 
-/* =========================================
-   CANONICAL
-========================================= */
+/* OPEN GRAPH */
 
-const canonical =
+const eventOgTitle =
+    document.getElementById(
+        "eventOgTitle"
+    );
+
+const eventOgDescription =
+    document.getElementById(
+        "eventOgDescription"
+    );
+
+const eventOgUrl =
+    document.getElementById(
+        "eventOgUrl"
+    );
+
+const eventOgImage =
+    document.getElementById(
+        "eventOgImage"
+    );
+
+const eventOgImageAlt =
+    document.getElementById(
+        "eventOgImageAlt"
+    );
+
+
+if (eventOgTitle) {
+
+    eventOgTitle.setAttribute(
+        "content",
+        eventTitle
+    );
+
+}
+
+
+if (eventOgDescription) {
+
+    eventOgDescription.setAttribute(
+        "content",
+        eventDescription
+    );
+
+}
+
+
+if (eventOgUrl) {
+
+    eventOgUrl.setAttribute(
+        "content",
+        eventUrl
+    );
+
+}
+
+
+if (eventOgImage) {
+
+    eventOgImage.setAttribute(
+        "content",
+        eventImage
+    );
+
+}
+
+
+if (eventOgImageAlt) {
+
+    eventOgImageAlt.setAttribute(
+        "content",
+        eventTitle
+    );
+
+}
+
+
+/* TWITTER / X */
+
+const eventTwitterTitle =
+    document.getElementById(
+        "eventTwitterTitle"
+    );
+
+const eventTwitterDescription =
+    document.getElementById(
+        "eventTwitterDescription"
+    );
+
+const eventTwitterImage =
+    document.getElementById(
+        "eventTwitterImage"
+    );
+
+
+if (eventTwitterTitle) {
+
+    eventTwitterTitle.setAttribute(
+        "content",
+        eventTitle
+    );
+
+}
+
+
+if (eventTwitterDescription) {
+
+    eventTwitterDescription.setAttribute(
+        "content",
+        eventDescription
+    );
+
+}
+
+
+if (eventTwitterImage) {
+
+    eventTwitterImage.setAttribute(
+        "content",
+        eventImage
+    );
+
+}
+
+
+/* CANONICAL */
+
+const eventCanonical =
     document.getElementById(
         "eventCanonical"
     );
 
-if (canonical) {
+if (eventCanonical) {
 
-    canonical.setAttribute(
+    eventCanonical.setAttribute(
         "href",
         eventUrl
     );
 
 }
-
-
-/* =========================================
-   OPEN GRAPH
-========================================= */
-
-const ogTitle =
-    document.getElementById(
-        "ogTitle"
-    );
-
-const ogDescription =
-    document.getElementById(
-        "ogDescription"
-    );
-
-const ogUrl =
-    document.getElementById(
-        "ogUrl"
-    );
-
-const ogImage =
-    document.getElementById(
-        "ogImage"
-    );
-
-const ogImageSecure =
-    document.getElementById(
-        "ogImageSecure"
-    );
-
-const ogImageAlt =
-    document.getElementById(
-        "ogImageAlt"
-    );
-
-
-if (ogTitle) {
-
-    ogTitle.setAttribute(
-        "content",
-        eventTitle
-    );
-
-}
-
-
-if (ogDescription) {
-
-    ogDescription.setAttribute(
-        "content",
-        eventDescription
-    );
-
-}
-
-
-if (ogUrl) {
-
-    ogUrl.setAttribute(
-        "content",
-        eventUrl
-    );
-
-}
-
-
-if (ogImage) {
-
-    ogImage.setAttribute(
-        "content",
-        eventImage
-    );
-
-}
-
-
-if (ogImageSecure) {
-
-    ogImageSecure.setAttribute(
-        "content",
-        eventImage
-    );
-
-}
-
-
-if (ogImageAlt) {
-
-    ogImageAlt.setAttribute(
-        "content",
-        eventTitle
-    );
-
-}
-
-
-/* =========================================
-   X / TWITTER
-========================================= */
-
-const twitterTitle =
-    document.getElementById(
-        "twitterTitle"
-    );
-
-const twitterDescription =
-    document.getElementById(
-        "twitterDescription"
-    );
-
-const twitterImage =
-    document.getElementById(
-        "twitterImage"
-    );
-
-const twitterImageAlt =
-    document.getElementById(
-        "twitterImageAlt"
-    );
-
-
-if (twitterTitle) {
-
-    twitterTitle.setAttribute(
-        "content",
-        eventTitle
-    );
-
-}
-
-
-if (twitterDescription) {
-
-    twitterDescription.setAttribute(
-        "content",
-        eventDescription
-    );
-
-}
-
-
-if (twitterImage) {
-
-    twitterImage.setAttribute(
-        "content",
-        eventImage
-    );
-
-}
-
-
-if (twitterImageAlt) {
-
-    twitterImageAlt.setAttribute(
-        "content",
-        eventTitle
-    );
-
-}  
-
-
-}
-
 
 /* =========================================
    ERROR MESSAGE

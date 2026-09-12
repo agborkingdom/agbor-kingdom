@@ -119,7 +119,12 @@ const publicationUrl =
     encodeURIComponent(publication.id);
 
 const publicationImage =
-    publication.cover_image_url || "";
+    publication.cover_image_url
+        ? new URL(
+            publication.cover_image_url,
+            url.origin
+        ).href
+        : "";
 
 
 /* SEO DESCRIPTION */
