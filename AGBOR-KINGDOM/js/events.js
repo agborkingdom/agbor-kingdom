@@ -181,10 +181,16 @@ function createFullEventCard(event) {
             event.title
         );
 
+        /* TRUNCATE DESCRIPTION SNIPPET FOR GRID VIEW */
+    const maxSnippetLength = 160;
+    const descriptionText = event.description || "";
+    const truncatedDescription = descriptionText.length > maxSnippetLength 
+        ? descriptionText.substring(0, maxSnippetLength).trim() + "..." 
+        : descriptionText;
 
     const description =
         escapeEventPageText(
-            event.description || ""
+            truncatedDescription
         );
 
 
