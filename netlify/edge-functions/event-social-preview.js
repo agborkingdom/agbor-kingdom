@@ -1,46 +1,21 @@
-/* =========================================
-   AGBOR KINGDOM
-   DYNAMIC EVENT SOCIAL PREVIEW
-
-   WhatsApp
-   Facebook
-   X / Twitter
-   LinkedIn
-   Telegram
-========================================= */
-
-export default async function (request, context) {
-
-    console.log(
-        "EVENT SOCIAL PREVIEW FUNCTION STARTED"
-    );
-
-
-    /* =====================================
-       CURRENT URL
-    ====================================== */
+export default async (
+    request,
+    context
+) => {
 
     const url =
         new URL(request.url);
 
 
-    /* =====================================
+    /* =========================================
        GET EVENT ID
-    ====================================== */
+    ========================================= */
 
     const eventId =
         url.searchParams.get("id");
 
 
-    console.log(
-        "Event ID:",
-        eventId
-    );
-
-
-    /* =====================================
-       NO EVENT ID
-    ====================================== */
+    /* No event ID → normal page */
 
     if (!eventId) {
 
@@ -49,11 +24,32 @@ export default async function (request, context) {
     }
 
 
+    /* =========================================
+       DETECT SOCIAL MEDIA BOTS
+    ========================================= */
+
+    const userAgent =
+        request.headers.get("user-agent") ||
+        "";
+
+
+    const socialBots =
+        /facebookexternalhit|Facebot|Twitterbot|WhatsApp|Slackbot|TelegramBot|LinkedInBot|Discordbot|Pinterest|Googlebot/i;
+
+
+    /* Normal visitors continue normally */
+
+    if (!socialBots.test(userAgent)) {
+
+        return context.next();
+
+    }
+
+
     try {
 
-
         /* =====================================
-           SUPABASE ENVIRONMENT VARIABLES
+           ENVIRONMENT VARIABLES
         ====================================== */
 
         const supabaseUrl =
@@ -62,7 +58,7 @@ export default async function (request, context) {
             );
 
 
-        const supabaseAnonKey =
+        const supabaseKey =
             Netlify.env.get(
                 "SUPABASE_ANON_KEY"
             );
@@ -70,11 +66,11 @@ export default async function (request, context) {
 
         if (
             !supabaseUrl ||
-            !supabaseAnonKey
+            !supabaseKey
         ) {
 
             console.error(
-                "Supabase environment variables are missing."
+                "Missing Supabase environment variables."
             );
 
             return context.next();
@@ -86,65 +82,41 @@ export default async function (request, context) {
            GET EVENT FROM SUPABASE
         ====================================== */
 
-        const params =
-            new URLSearchParams();
-
-
-        params.set(
-            "select",
-            "id,title,description,event_type,event_date,event_time,location,image_url"
-        );
-
-
-        params.set(
-            "id",
-            `eq.${eventId}`
-        );
-
-
-        params.set(
-            "is_active",
-            "eq.true"
-        );
-
-
-        params.set(
-            "limit",
-            "1"
-        );
-
-
-        const eventApiUrl =
-            `${supabaseUrl}/rest/v1/events?${params.toString()}`;
-
-
-        console.log(
-            "Loading event from Supabase"
-        );
-
-
-        const eventResponse =
+        const response =
             await fetch(
-                eventApiUrl,
+
+                `${supabaseUrl}/rest/v1/events` +
+
+                `?select=id,title,description,event_type,event_date,event_time,location,image_url` +
+
+                `&id=eq.${encodeURIComponent(eventId)}` +
+
+                `&is_active=eq.true` +
+
+                `&limit=1`,
+
                 {
+
                     headers: {
 
                         apikey:
-                            supabaseAnonKey,
+                            supabaseKey,
 
                         Authorization:
-                            `Bearer ${supabaseAnonKey}`
+                            `Bearer ${supabaseKey}`
 
                     }
+
                 }
+
             );
 
 
-        if (!eventResponse.ok) {
+        if (!response.ok) {
 
             console.error(
-                "Unable to load event:",
-                eventResponse.status
+                "Supabase event request failed:",
+                response.status
             );
 
             return context.next();
@@ -152,79 +124,54 @@ export default async function (request, context) {
         }
 
 
-        const eventData =
-            await eventResponse.json();
+        const events =
+            await response.json();
 
 
         const event =
-            eventData?.[0];
+            events?.[0];
 
-
-        /* =====================================
-           EVENT NOT FOUND
-        ====================================== */
 
         if (!event) {
-
-            console.error(
-                "Event not found."
-            );
 
             return context.next();
 
         }
-
-
-        console.log(
-            "Event found:",
-            event.title
-        );
-
-
-        console.log(
-            "Event image:",
-            event.image_url
-        );
 
 
         /* =====================================
            EVENT INFORMATION
         ====================================== */
 
-        const eventTitle =
+        const title =
             event.title ||
             "Agbor Kingdom Event";
 
 
-        const eventDescription =
+        const description =
             event.description ||
             "Upcoming events and activities from the Royal Kingdom of Agbor.";
 
 
-        const canonicalUrl =
-            `${url.origin}/event.html?id=` +
-            encodeURIComponent(
-                event.id
-            );
+        const eventUrl =
+            `${url.origin}/event.html?id=${encodeURIComponent(event.id)}`;
 
 
-        /* =====================================
-           IMAGE
-        ====================================== */
-
-        let eventImage =
+        let image =
             event.image_url || "";
 
 
-        /* Make image absolute */
+        /* =====================================
+           MAKE IMAGE ABSOLUTE
+        ====================================== */
 
-        if (eventImage) {
+        if (image) {
 
             try {
 
-                eventImage =
+                image =
                     new URL(
-                        eventImage,
+                        image,
                         url.origin
                     ).href;
 
@@ -232,7 +179,7 @@ export default async function (request, context) {
 
                 console.error(
                     "Invalid event image URL:",
-                    eventImage
+                    image
                 );
 
             }
@@ -244,334 +191,153 @@ export default async function (request, context) {
            FALLBACK IMAGE
         ====================================== */
 
-        if (!eventImage) {
+        if (!image) {
 
-            eventImage =
+            image =
                 `${url.origin}/images/events/event-default.jpg`;
 
         }
 
 
         /* =====================================
-           GET ORIGINAL EVENT PAGE HTML
+           ESCAPE HTML
         ====================================== */
 
-        const response =
-            await context.next();
-
-
-        const html =
-            await response.text();
-
-
-        let updatedHtml =
-            html;
+        const escapeHtml =
+            value =>
+                String(value || "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
 
 
         /* =====================================
-           ESCAPE REGEX
+           SOCIAL PREVIEW HTML
         ====================================== */
 
-        function escapeRegex(value) {
+        const html = `<!DOCTYPE html>
 
-            return String(value).replace(
-                /[.*+?^${}()|[\]\\]/g,
-                "\\$&"
-            );
+<html lang="en">
 
-        }
+<head>
 
+<meta charset="UTF-8">
 
-        /* =====================================
-           ESCAPE HTML ATTRIBUTE
-        ====================================== */
+<title>${escapeHtml(title)}</title>
 
-        function escapeHTML(value) {
 
-            return String(value || "")
+<meta
+    name="description"
+    content="${escapeHtml(description)}"
+>
 
-                .replaceAll(
-                    "&",
-                    "&amp;"
-                )
 
-                .replaceAll(
-                    '"',
-                    "&quot;"
-                )
+<link
+    rel="canonical"
+    href="${escapeHtml(eventUrl)}"
+>
 
-                .replaceAll(
-                    "<",
-                    "&lt;"
-                )
 
-                .replaceAll(
-                    ">",
-                    "&gt;"
-                );
+<!-- OPEN GRAPH -->
 
-        }
+<meta
+    property="og:type"
+    content="website"
+>
 
+<meta
+    property="og:site_name"
+    content="Agbor Kingdom"
+>
 
-        /* =====================================
-           UPDATE META TAG BY ID
-        ====================================== */
+<meta
+    property="og:title"
+    content="${escapeHtml(title)}"
+>
 
-        function updateMetaById(
-            id,
-            value
-        ) {
+<meta
+    property="og:description"
+    content="${escapeHtml(description)}"
+>
 
-            const idPattern =
-                escapeRegex(id);
+<meta
+    property="og:url"
+    content="${escapeHtml(eventUrl)}"
+>
 
+<meta
+    property="og:image"
+    content="${escapeHtml(image)}"
+>
 
-            const tagRegex =
-                new RegExp(
-                    `<meta\\b[^>]*\\bid=["']${idPattern}["'][^>]*>`,
-                    "i"
-                );
+<meta
+    property="og:image:secure_url"
+    content="${escapeHtml(image)}"
+>
 
+<meta
+    property="og:image:alt"
+    content="${escapeHtml(title)}"
+>
 
-            updatedHtml =
-                updatedHtml.replace(
-                    tagRegex,
-                    function (tag) {
 
-                        if (
-                            /\bcontent=["'][^"']*["']/i.test(tag)
-                        ) {
+<!-- X / TWITTER -->
 
-                            return tag.replace(
+<meta
+    name="twitter:card"
+    content="summary_large_image"
+>
 
-                                /\bcontent=(["'])[^"']*\1/i,
+<meta
+    name="twitter:title"
+    content="${escapeHtml(title)}"
+>
 
-                                `content="${escapeHTML(value)}"`
+<meta
+    name="twitter:description"
+    content="${escapeHtml(description)}"
+>
 
-                            );
+<meta
+    name="twitter:image"
+    content="${escapeHtml(image)}"
+>
 
-                        }
+<meta
+    name="twitter:image:alt"
+    content="${escapeHtml(title)}"
+>
 
+</head>
 
-                        return tag.replace(
+<body>
 
-                            ">",
+<h1>${escapeHtml(title)}</h1>
 
-                            ` content="${escapeHTML(value)}">`
+<p>${escapeHtml(description)}</p>
 
-                        );
+</body>
 
-                    }
-                );
+</html>`;
 
-        }
-
-
-        /* =====================================
-           UPDATE CANONICAL
-        ====================================== */
-
-        function updateCanonicalUrl(value) {
-
-            const tagRegex =
-                /<link\b[^>]*\bid=["']eventCanonical["'][^>]*>/i;
-
-
-            updatedHtml =
-                updatedHtml.replace(
-                    tagRegex,
-                    function (tag) {
-
-                        if (
-                            /\bhref=["'][^"']*["']/i.test(tag)
-                        ) {
-
-                            return tag.replace(
-
-                                /\bhref=(["'])[^"']*\1/i,
-
-                                `href="${escapeHTML(value)}"`
-
-                            );
-
-                        }
-
-
-                        return tag.replace(
-
-                            ">",
-
-                            ` href="${escapeHTML(value)}">`
-
-                        );
-
-                    }
-                );
-
-        }
-
-
-        /* =====================================
-           SEO DESCRIPTION
-        ====================================== */
-
-        updateMetaById(
-            "eventMetaDescription",
-            eventDescription
-        );
-
-
-        /* =====================================
-           OPEN GRAPH
-        ====================================== */
-
-        updateMetaById(
-            "eventOgTitle",
-            eventTitle
-        );
-
-
-        updateMetaById(
-            "eventOgDescription",
-            eventDescription
-        );
-
-
-        updateMetaById(
-            "eventOgUrl",
-            canonicalUrl
-        );
-
-
-        updateMetaById(
-            "eventOgImage",
-            eventImage
-        );
-
-
-        updateMetaById(
-            "eventOgImageSecureUrl",
-            eventImage
-        );
-
-
-        updateMetaById(
-            "eventOgImageAlt",
-            eventTitle
-        );
-
-
-        /* =====================================
-           TWITTER / X
-        ====================================== */
-
-        updateMetaById(
-            "eventTwitterTitle",
-            eventTitle
-        );
-
-
-        updateMetaById(
-            "eventTwitterDescription",
-            eventDescription
-        );
-
-
-        updateMetaById(
-            "eventTwitterImage",
-            eventImage
-        );
-
-
-        updateMetaById(
-            "eventTwitterImageAlt",
-            eventTitle
-        );
-
-
-        /* =====================================
-           CANONICAL URL
-        ====================================== */
-
-        updateCanonicalUrl(
-            canonicalUrl
-        );
-
-
-        /* =====================================
-           DEBUG MARKER
-        ====================================== */
-
-        updatedHtml =
-            updatedHtml.replace(
-
-                "</head>",
-
-                `
-
-<!-- EVENT EDGE FUNCTION ACTIVE -->
-
-</head>`
-
-            );
-
-
-        console.log(
-            "Event social preview HTML updated successfully."
-        );
-
-
-        /* =====================================
-           RESPONSE HEADERS
-        ====================================== */
-
-        const headers =
-            new Headers(
-                response.headers
-            );
-
-
-        headers.set(
-
-            "content-type",
-
-            "text/html; charset=UTF-8"
-
-        );
-
-
-        /*
-         * Important:
-         * Do not aggressively cache dynamic
-         * social preview pages.
-         */
-
-        headers.set(
-
-            "Cache-Control",
-
-            "no-store, no-cache, must-revalidate"
-
-        );
-
-
-        /* =====================================
-           RETURN UPDATED PAGE
-        ====================================== */
 
         return new Response(
 
-            updatedHtml,
+            html,
 
             {
 
-                status:
-                    response.status,
+                headers: {
 
-                statusText:
-                    response.statusText,
+                    "content-type":
+                        "text/html; charset=UTF-8",
 
-                headers
+                    "cache-control":
+                        "public, max-age=300"
+
+                }
 
             }
 
@@ -580,30 +346,13 @@ export default async function (request, context) {
 
     } catch (error) {
 
-
         console.error(
-
-            "Agbor Kingdom event social preview error:",
-
+            "Event social preview error:",
             error
-
         );
-
 
         return context.next();
 
     }
-
-}
-
-
-/* =========================================
-   NETLIFY EDGE FUNCTION CONFIGURATION
-========================================= */
-
-export const config = {
-
-    path:
-        "/event.html"
 
 };
