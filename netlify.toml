@@ -2,11 +2,9 @@
   function = "news-social-preview"
   path = "/news.html"
 
-
 [[edge_functions]]
   function = "publication-social-preview"
   path = "/publication-details.html"
-
 
 [[edge_functions]]
   function = "event-social-preview"
