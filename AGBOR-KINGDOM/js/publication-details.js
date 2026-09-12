@@ -118,14 +118,15 @@ const publicationUrl =
     "https://agborkingdom.org/publication-details.html?id=" +
     encodeURIComponent(publication.id);
 
+
+/* ✅ FIXED ✅ */
 const publicationImage =
     publication.cover_image_url
         ? new URL(
             publication.cover_image_url,
-            url.origin
+            window.location.origin // <--- replaced with window.location.origin
         ).href
         : "";
-
 
 /* SEO DESCRIPTION */
 
