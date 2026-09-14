@@ -839,7 +839,7 @@ async function loadSidebarPosts(tab = "latest") {
                 .order("published_at", {
                     ascending: false
                 })
-                .limit(5);
+                .limit(2);
 
         }
 
@@ -854,7 +854,7 @@ async function loadSidebarPosts(tab = "latest") {
                 .order("views", {
                     ascending: false
                 })
-                .limit(5);
+                .limit(2);
 
         }
 
@@ -876,7 +876,7 @@ async function loadSidebarPosts(tab = "latest") {
         .order("views", {
             ascending: false
         })
-        .limit(5);
+        .limit(2);
 
 }
 
@@ -935,7 +935,7 @@ function renderSidebarPosts(posts, tab = "latest") {
 
 
     widgetPosts.innerHTML = posts
-        .slice(0, 5)
+        .slice(0, 2)
         .map((item, index) => {
 
             const title =

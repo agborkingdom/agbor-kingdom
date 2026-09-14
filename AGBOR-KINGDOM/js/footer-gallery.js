@@ -3,26 +3,8 @@
    FOOTER GALLERY SLIDER
 ========================================= */
 
-const footerGallery =
-    document.getElementById("footerGallery");
-
-const footerGalleryImage =
-    document.getElementById("footerGalleryImage");
-
-const footerGalleryTitle =
-    document.getElementById("footerGalleryTitle");
-
-const footerGalleryCategory =
-    document.getElementById("footerGalleryCategory");
-
-const footerGalleryLoading =
-    document.getElementById("footerGalleryLoading");
-
-
 let footerGalleryItems = [];
-
 let footerGalleryIndex = 0;
-
 let footerGalleryTimer = null;
 
 
@@ -32,14 +14,40 @@ let footerGalleryTimer = null;
 
 async function loadFooterGallery() {
 
+    const gallery =
+        document.getElementById("footerGallery");
+
+    const image =
+        document.getElementById("footerGalleryImage");
+
+    const loading =
+        document.getElementById("footerGalleryLoading");
+
+    const category =
+        document.getElementById("footerGalleryCategory");
+
+    const title =
+        document.getElementById("footerGalleryTitle");
+
+
     if (
-        !footerGallery ||
-        !footerGalleryImage
+        !gallery ||
+        !image
     ) {
+        console.warn(
+            "Footer gallery elements not found."
+        );
+
         return;
     }
 
+
     try {
+
+        if (loading) {
+            loading.style.display = "block";
+        }
+
 
         const {
             data,
@@ -49,7 +57,7 @@ async function loadFooterGallery() {
             .from("gallery")
 
             .select(
-                "id, title, category, image_url, sort_order, created_at"
+                "id, title, category, description, image_url, sort_order, created_at"
             )
 
             .eq(
@@ -70,7 +78,9 @@ async function loadFooterGallery() {
                     ascending: false
                 }
             )
+
             .limit(6);
+
 
         if (error) {
             throw error;
@@ -87,30 +97,35 @@ async function loadFooterGallery() {
         );
 
 
-        if (
-            !footerGalleryItems.length
-        ) {
+        if (!footerGalleryItems.length) {
 
-            footerGallery.style.display =
-                "none";
+            if (loading) {
+                loading.textContent =
+                    "No gallery images available.";
+            }
 
             return;
         }
 
 
-        footerGallery.classList.add(
-            "is-ready"
-        );
+        /*
+         * Hide loading
+         */
+
+        if (loading) {
+            loading.style.display = "none";
+        }
 
 
-        footerGalleryIndex = 0;
-
+        /*
+         * Show first image
+         */
 
         showFooterGalleryImage();
 
 
         /*
-         * Change image every 5 seconds.
+         * Start automatic slider
          */
 
         startFooterGallerySlider();
@@ -124,10 +139,10 @@ async function loadFooterGallery() {
         );
 
 
-        if (footerGallery) {
+        if (loading) {
 
-            footerGallery.style.display =
-                "none";
+            loading.textContent =
+                "Gallery unavailable.";
 
         }
 
@@ -142,107 +157,93 @@ async function loadFooterGallery() {
 
 function showFooterGalleryImage() {
 
+    const image =
+        document.getElementById(
+            "footerGalleryImage"
+        );
+
+    const category =
+        document.getElementById(
+            "footerGalleryCategory"
+        );
+
+    const title =
+        document.getElementById(
+            "footerGalleryTitle"
+        );
+
+
     const item =
         footerGalleryItems[
             footerGalleryIndex
         ];
 
 
-    if (!item) {
+    if (!item || !image) {
         return;
     }
 
 
-    footerGalleryImage.classList.add(
-        "is-changing"
+    /*
+     * Fade out
+     */
+
+    image.classList.add(
+        "footer-gallery-changing"
     );
 
 
-    setTimeout(
-        function () {
+    setTimeout(() => {
 
-            footerGalleryImage.src =
-                item.image_url || "";
-
-
-            footerGalleryImage.alt =
-                item.title ||
-                "Agbor Kingdom Gallery";
+        image.src =
+            item.image_url || "";
 
 
-            footerGalleryTitle.textContent =
-                item.title ||
-                "Agbor Kingdom";
+        image.alt =
+            item.title ||
+            "Agbor Kingdom Gallery";
 
 
-            footerGalleryCategory.textContent =
+        if (category) {
+
+            category.textContent =
                 item.category ||
                 "HERITAGE";
 
-
-            footerGalleryImage.classList.remove(
-                "is-changing"
-            );
-
-        },
-        450
-    );
-
-}
+        }
 
 
-/* =========================================
-   NEXT IMAGE
-========================================= */
+        if (title) {
 
-function showNextFooterGalleryImage() {
+            title.textContent =
+                item.title ||
+                "Agbor Kingdom";
 
-    if (
-        !footerGalleryItems.length
-    ) {
-        return;
-    }
+        }
 
 
-    footerGalleryIndex =
-        (
-            footerGalleryIndex + 1
-        ) %
-        footerGalleryItems.length;
+        /*
+         * Fade back in
+         */
 
+        image.classList.remove(
+            "footer-gallery-changing"
+        );
 
-    showFooterGalleryImage();
+    }, 200);
 
 }
 
 
 /* =========================================
-   START SLIDER
+   AUTOMATIC SLIDER
 ========================================= */
 
 function startFooterGallerySlider() {
 
-    stopFooterGallerySlider();
-
-
     /*
-     * 5 seconds between images.
+     * Clear an existing timer
      */
-
-    footerGalleryTimer =
-        setInterval(
-            showNextFooterGalleryImage,
-            5000
-        );
-
-}
-
-
-/* =========================================
-   STOP SLIDER
-========================================= */
-
-function stopFooterGallerySlider() {
 
     if (footerGalleryTimer) {
 
@@ -250,21 +251,102 @@ function stopFooterGallerySlider() {
             footerGalleryTimer
         );
 
-        footerGalleryTimer = null;
-
     }
+
+
+    /*
+     * No need to slide if
+     * there is only one image.
+     */
+
+    if (
+        footerGalleryItems.length <= 1
+    ) {
+        return;
+    }
+
+
+    /*
+     * Change image every 5 seconds.
+     */
+
+    footerGalleryTimer =
+        setInterval(() => {
+
+            footerGalleryIndex =
+                (
+                    footerGalleryIndex + 1
+                ) %
+                footerGalleryItems.length;
+
+
+            showFooterGalleryImage();
+
+        }, 5000);
 
 }
 
+
 /* =========================================
-   START AFTER FOOTER LOADS
+   INITIALIZE FOOTER GALLERY
 ========================================= */
 
-document.addEventListener(
-    "agborFooterLoaded",
-    () => {
+function initializeFooterGallery() {
+
+    /*
+     * If the footer is already available,
+     * load immediately.
+     */
+
+    const gallery =
+        document.getElementById(
+            "footerGallery"
+        );
+
+
+    if (gallery) {
 
         loadFooterGallery();
 
+        return;
+
     }
-);
+
+
+    /*
+     * Otherwise wait for footer-loader.js
+     */
+
+    document.addEventListener(
+        "agborFooterLoaded",
+        () => {
+
+            loadFooterGallery();
+
+        },
+        {
+            once: true
+        }
+    );
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+if (
+    document.readyState === "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeFooterGallery
+    );
+
+} else {
+
+    initializeFooterGallery();
+
+}
