@@ -1,8 +1,8 @@
-
 /* =========================================
    AGBOR KINGDOM
    REUSABLE FOOTER LOADER
 ========================================= */
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     const footerContainer =
@@ -18,9 +18,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             await fetch("footer.html");
 
         if (!response.ok) {
+
             throw new Error(
                 `Footer failed to load: ${response.status}`
             );
+
         }
 
         const footerHTML =
@@ -29,13 +31,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         footerContainer.innerHTML =
             footerHTML;
 
+
         const footerYear =
             document.getElementById("footerYear");
 
         if (footerYear) {
+
             footerYear.textContent =
                 new Date().getFullYear();
+
         }
+
+
+        /* =========================================
+           TELL OTHER SCRIPTS THAT FOOTER IS READY
+        ========================================= */
+
+        document.dispatchEvent(
+            new CustomEvent("agborFooterLoaded")
+        );
+
 
     } catch (error) {
 

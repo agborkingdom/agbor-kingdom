@@ -1327,7 +1327,9 @@ async function loadSingleNews() {
 
     }
 
-}/* =========================================================
+}
+
+/* =========================================================
    AGBOR KINGDOM
    NEWS SOCIAL SHARING
    ========================================================= */
@@ -1603,11 +1605,9 @@ function setupNewsSharing(news) {
                 );
 
 
-                const text =
-                    `${articleTitle}\n\n` +
-                    `${articleDescription}\n\n` +
-                    `${articleUrl}`;
-
+                        const text =
+                `${articleTitle}\n\n` +
+                `${articleUrl}`;
 
                 const shareUrl =
                     "https://wa.me/?text=" +
@@ -3067,10 +3067,13 @@ function renderHomepageEvents(events) {
 
 
                 const description =
-                    escapeSearchText(
-                        event.description ||
-                        ""
-                    );
+    escapeSearchText(
+        event.description
+            ? event.description.length > 140
+                ? event.description.substring(0, 140).trim() + "..."
+                : event.description
+            : ""
+    );
 
 
                 const category =

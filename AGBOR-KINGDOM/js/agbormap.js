@@ -56,19 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
       position: { left: '15%', top: '20%' },
       tagline: 'Agricultural Center',
       description: 'Ihu-Iyase serves as the prominent heart of Artifacts in Agbor. ',
-      mapUrl: 'https://maps.app.goo.gl/wW3RB4dQuXqeEzLo8'
+      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Ihu-Iyase+Agbor+Delta+State'
     },
     {
 
-      id: 'asaba-city',
-      name: 'Asaba Metropolis',
+      id: 'Ihu-Ozomor',
+      name: 'Ihu-Ozomor Agbor',
       subtitle: 'Capital Gateway City',
-      type: 'City',
+      type: 'Village',
       icon: 'building-2',
-      position: { left: '88%', top: '22%' },
+      position: { left: '78%', top: '65%' },
       tagline: 'Regional City',
-      description: 'Asaba is the capital city of Delta State located along the Niger River. It serves as a major administrative hub connecting Agbor Kingdom to the eastern transit corridor.',
-      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Asaba+Delta+State'
+      description: 'Ihu-Ozomor serves as a primary agricultural belt. The zone is known for the robust production of staple crops like yam, cassava, maize, and palm produce.',
+      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Ihu-Ozomor+Agbor+Delta+State'
     },
     {
       id: 'ekuku-agbor',
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       icon: 'sprout',
       position: { left: '30%', top: '78%' },
       tagline: 'Agricultural Center',
-      description: 'Ekuku-Agbor is one of the prominent agricultural powerhouses of the kingdom, renowned for its fertile soils, palm oil production, yam harvests, and cultural festivals.',
+      description: 'Ekuku-Agbor is one of the prominent agricultural powerhouses of Agbor Kingdom, renowned for its fertile soils, palm oil production, yam harvests, and cultural festivals.',
       mapUrl: 'https://www.google.com/maps/search/?api=1&query=Ekuku-Agbor+Delta+State'
     },
     {
