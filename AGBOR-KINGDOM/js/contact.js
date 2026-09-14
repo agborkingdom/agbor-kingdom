@@ -87,126 +87,131 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // -----------------------------------------
-        // SAVE TO SUPABASE
-        // -----------------------------------------
-
-        try {
-
-            const { error: databaseError } =
-    await kingdomSupabase
-        .from("contact_messages")
-        .insert([
-            {
-                name: name,
-                email: email,
-                phone: phone || null,
-                subject: subject,
-                message: message
-            }
-        ]);
-            
-
-            if (databaseError) {
-                console.error(
-                    "Contact message database error:",
-                    databaseError
-                );
-
-                throw databaseError;
-            }
-
-
-            // -----------------------------------------
-// SEND EMAIL NOTIFICATION
+// SAVE TO SUPABASE
 // -----------------------------------------
 
 try {
 
-    const emailResponse = await fetch(
-        "/.netlify/functions/send-contact-email",
-        {
-            method: "POST",
+    const { error: databaseError } =
+        await kingdomSupabase
+            .from("contact_messages")
+            .insert([
+                {
+                    name: name,
+                    email: email,
+                    phone: phone || null,
+                    subject: subject,
+                    message: message
+                }
+            ]);
 
-            headers: {
-                "Content-Type": "application/json"
-            },
 
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                phone: phone || "",
-                subject: subject,
-                message: message
-            })
-        }
-    );
-
-    const emailResult = await emailResponse.json();
-
-    if (!emailResponse.ok) {
+    if (databaseError) {
 
         console.error(
-            "Contact email error:",
-            emailResult
+            "Contact message database error:",
+            databaseError
         );
 
-    } else {
+        throw databaseError;
+    }
 
-        console.log(
-            "Contact email sent:",
-            emailResult
+
+    // -----------------------------------------
+    // SEND AUTOMATIC EMAIL CONFIRMATION
+    // -----------------------------------------
+
+    try {
+
+        const {
+            data: emailResult,
+            error: emailError
+        } = await kingdomSupabase.functions.invoke(
+            "send-contact-email",
+            {
+                body: {
+                    name: name,
+                    email: email,
+                    phone: phone || "",
+                    subject: subject,
+                    message: message
+                }
+            }
+        );
+
+
+        if (emailError) {
+
+            console.error(
+                "Contact email error:",
+                emailError
+            );
+
+        } else {
+
+            console.log(
+                "Contact acknowledgement sent:",
+                emailResult
+            );
+
+        }
+
+    } catch (emailError) {
+
+        // Email failure should NOT erase
+        // the saved enquiry.
+
+        console.error(
+            "Unable to send contact acknowledgement:",
+            emailError
         );
 
     }
 
-} catch (emailError) {
 
-    // Email failure should NOT erase the saved enquiry.
+    // -----------------------------------------
+    // SUCCESS MESSAGE
+    // -----------------------------------------
+
+    formMessage.className =
+        "contact-form-message success";
+
+    formMessage.textContent =
+        "Your correspondence has been received by the Royal Kingdom of Agbor. Thank you for contacting the Kingdom.";
+
+    form.reset();
+
+
+} catch (error) {
 
     console.error(
-        "Unable to send contact email:",
-        emailError
+        "Failed to receive contact enquiry:",
+        error
     );
+
+
+    // -----------------------------------------
+    // ERROR MESSAGE
+    // -----------------------------------------
+
+    formMessage.className =
+        "contact-form-message error";
+
+    formMessage.textContent =
+        "We were unable to receive your enquiry at this time. Please try again shortly.";
+
+} finally {
+
+    submitButton.disabled = false;
+
+    if (buttonText) {
+
+        buttonText.textContent =
+            "Send Enquiry";
+
+    }
+
 }
-
-            // -----------------------------------------
-            // SUCCESS MESSAGE
-            // -----------------------------------------
-
-            formMessage.className =
-                "contact-form-message success";
-
-                formMessage.textContent =
-    "Your correspondence has been received by the Royal Kingdom of Agbor. Thank you for contacting the Kingdom.";
-           
-            form.reset();
-
-        } catch (error) {
-
-            console.error(
-                "Failed to receive contact enquiry:",
-                error
-            );
-
-            // -----------------------------------------
-            // ERROR MESSAGE
-            // -----------------------------------------
-
-            formMessage.className =
-                "contact-form-message error";
-
-            formMessage.textContent =
-                "We were unable to receive your enquiry at this time. Please try again shortly.";
-
-        } finally {
-
-            submitButton.disabled = false;
-
-            if (buttonText) {
-                buttonText.textContent = "Send Enquiry";
-            }
-
-        }
 
     });
 
