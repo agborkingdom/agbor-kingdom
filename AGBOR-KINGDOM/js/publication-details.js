@@ -288,6 +288,9 @@ if (canonical) {
 }
 
 
+
+
+
 document.title =
     title + " | Agbor Kingdom";
 
@@ -372,23 +375,80 @@ document.title =
             "publicationOpenButton"
         );
 
+if (publication.file_url) {
+    openButton.href = publication.file_url;
+    openButton.style.display = "flex";
+} else {
+    openButton.style.display = "none";
+}
 
-    if (publication.file_url) {
 
-        openButton.href =
-            publication.file_url;
+/* =========================================
+   PUBLICATION STRUCTURED DATA
+========================================= */
 
-        openButton.style.display =
-            "flex";
-
-    } else {
-
-        openButton.style.display =
-            "none";
-
+const publicationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": publicationDescription,
+    "url": publicationUrl,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": publicationUrl
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Agbor Kingdom",
+        "url": "https://agborkingdom.org/"
     }
+};
 
-    /* =========================================
+/* PUBLICATION IMAGE */
+if (publicationImage) {
+    publicationSchema.image = [publicationImage];
+}
+
+/* PUBLICATION DATE */
+if (publication.publication_date) {
+    publicationSchema.datePublished =
+        publication.publication_date;
+}
+
+/* PUBLICATION AUTHOR */
+if (publication.author) {
+    publicationSchema.author = {
+        "@type": "Person",
+        "name": publication.author
+    };
+}
+
+/* CREATE OR UPDATE JSON-LD */
+let existingPublicationSchema =
+    document.getElementById(
+        "publicationStructuredData"
+    );
+
+if (!existingPublicationSchema) {
+    existingPublicationSchema =
+        document.createElement("script");
+
+    existingPublicationSchema.type =
+        "application/ld+json";
+
+    existingPublicationSchema.id =
+        "publicationStructuredData";
+
+    document.head.appendChild(
+        existingPublicationSchema
+    );
+}
+
+existingPublicationSchema.textContent =
+    JSON.stringify(publicationSchema);
+
+
+/* =========================================
    SETUP PUBLICATION SHARING
 ========================================= */
 
@@ -396,11 +456,9 @@ if (
     typeof setupPublicationSharing ===
     "function"
 ) {
-
     setupPublicationSharing(
         publication
     );
-
 }
 
 }

@@ -307,13 +307,69 @@ const eventUrl = window.location.origin + "/event-details.html?id=" + encodeURIC
     const twitterImage = document.getElementById("twitterImage");
     const twitterImageAlt = document.getElementById("twitterImageAlt");
 
+  
     if (twitterTitle) twitterTitle.setAttribute("content", eventTitle);
-    if (twitterDescription) twitterDescription.setAttribute("content", eventDescription);
-    if (twitterImage) twitterImage.setAttribute("content", eventImage);
-    if (twitterImageAlt) twitterImageAlt.setAttribute("content", eventTitle);
+if (twitterDescription) twitterDescription.setAttribute("content", eventDescription);
+if (twitterImage) twitterImage.setAttribute("content", eventImage);
+if (twitterImageAlt) twitterImageAlt.setAttribute("content", eventTitle);
 
-    /* ATTACH SHARE HANDLERS */
-    setupEventSharing(event);
+
+/* =========================================
+   EVENT STRUCTURED DATA
+========================================= */
+
+const eventSchema = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": eventTitle,
+    "description": eventDescription,
+    "startDate": event.event_date,
+    "url": eventUrl,
+    "organizer": {
+        "@type": "Organization",
+        "name": "Agbor Kingdom",
+        "url": "https://agborkingdom.org/"
+    }
+};
+
+/* EVENT IMAGE */
+if (eventImage) {
+    eventSchema.image = [eventImage];
+}
+
+/* EVENT LOCATION */
+if (event.location) {
+    eventSchema.location = {
+        "@type": "Place",
+        "name": event.location
+    };
+}
+
+/* EXTERNAL EVENT INFORMATION */
+if (event.link) {
+    eventSchema.sameAs = event.link;
+}
+
+/* CREATE OR UPDATE JSON-LD */
+let existingEventSchema =
+    document.getElementById("eventStructuredData");
+
+if (!existingEventSchema) {
+    existingEventSchema = document.createElement("script");
+    existingEventSchema.type = "application/ld+json";
+    existingEventSchema.id = "eventStructuredData";
+    document.head.appendChild(existingEventSchema);
+}
+
+existingEventSchema.textContent =
+    JSON.stringify(eventSchema);
+
+
+/* =========================================
+   ATTACH SHARE HANDLERS
+========================================= */
+
+setupEventSharing(event);
 }
 
 function showEventError(container, message) {
