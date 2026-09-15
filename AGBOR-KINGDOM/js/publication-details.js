@@ -412,7 +412,7 @@ if (publicationImage) {
 /* PUBLICATION DATE */
 if (publication.publication_date) {
     publicationSchema.datePublished =
-        publication.publication_date;
+        `${publication.publication_date}T00:00:00+01:00`;
 }
 
 /* PUBLICATION AUTHOR */

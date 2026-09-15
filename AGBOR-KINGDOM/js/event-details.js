@@ -269,7 +269,9 @@ function renderEventDetails(container, event) {
     /* SEO & META DATA */
 const eventTitle = event.title || "Agbor Kingdom Event";
 const eventDescription = event.description || "Upcoming events from the Royal Kingdom of Agbor.";
-const eventUrl = window.location.origin + "/event-details.html?id=" + encodeURIComponent(event.id);
+const eventUrl =
+    "https://agborkingdom.org/event-details.html?id=" +
+    encodeURIComponent(event.id);
 
     let eventImage = event.image_url || "";
     if (eventImage) {
