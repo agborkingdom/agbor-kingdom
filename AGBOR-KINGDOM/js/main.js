@@ -1297,20 +1297,77 @@ async function loadSingleNews() {
             .maybeSingle();
 
 
-        if (error) {
-            throw error;
-        }
+       if (error) {
+    throw error;
+}
 
+if (!data) {
+    showSingleNewsError();
+    return;
+}
 
-        if (!data) {
+/* =========================================
+   NEWS ARTICLE STRUCTURED DATA
+========================================= */
 
-            showSingleNewsError();
+const articleUrl =
+    `https://agborkingdom.org/news.html?slug=${encodeURIComponent(data.slug)}`;
 
-            return;
-        }
+const articleDescription =
+    data.excerpt ||
+    data.content?.replace(/<[^>]*>/g, "").substring(0, 160) ||
+    "Latest news and stories from the Royal Kingdom of Agbor.";
 
+const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": data.title,
+    "description": articleDescription,
+    "url": articleUrl,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": articleUrl
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Agbor Kingdom",
+        "url": "https://agborkingdom.org/"
+    }
+};
 
-        renderSingleNews(data);
+if (data.image_url) {
+    articleSchema.image = [data.image_url];
+}
+
+if (data.published_at) {
+    articleSchema.datePublished = data.published_at;
+}
+
+if (data.author) {
+    articleSchema.author = {
+        "@type": "Person",
+        "name": data.author
+    };
+}
+
+let existingNewsSchema =
+    document.getElementById("newsArticleStructuredData");
+
+if (!existingNewsSchema) {
+    existingNewsSchema = document.createElement("script");
+    existingNewsSchema.type = "application/ld+json";
+    existingNewsSchema.id = "newsArticleStructuredData";
+    document.head.appendChild(existingNewsSchema);
+}
+
+existingNewsSchema.textContent =
+    JSON.stringify(articleSchema);
+
+/* =========================================
+   RENDER NEWS ARTICLE
+========================================= */
+
+renderSingleNews(data);
 
     }
 
