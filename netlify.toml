@@ -13,3 +13,7 @@
   [[edge_functions]]
   function = "send-contact-email"
   path = "/.netlify/functions/send-contact-email"
+
+  [[edge_functions]]
+  function = "indexnow"
+  path = "/api/indexnow"

@@ -423,6 +423,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    /* =========================================
+   NOTIFY INDEXNOW
+========================================= */
+
+async function notifyIndexNow(urls) {
+    try {
+        const response = await fetch("/api/indexnow", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ urls })
+        });
+
+        if (!response.ok) {
+            console.error(
+                "IndexNow notification failed:",
+                response.status
+            );
+            return false;
+        }
+
+        console.log("IndexNow notification sent successfully.");
+        return true;
+
+    } catch (error) {
+        console.error("IndexNow request error:", error);
+        return false;
+    }
+}
 
     /* =========================================
        SAVE EVENT
@@ -511,20 +541,34 @@ document.addEventListener("DOMContentLoaded", () => {
                     ================================= */
 
                     else {
-
-                        result = await kingdomAdminSupabase
-                            .from("events")
-                            .insert([
-                                eventData
-                            ]);
-
-                    }
+    result = await kingdomAdminSupabase
+        .from("events")
+        .insert([
+            eventData
+        ])
+        .select("id")
+        .single();
+}
 
 
                     if (result.error) {
                         throw result.error;
                     }
 
+
+                    /* =========================================
+   INDEXNOW NOTIFICATION
+========================================= */
+
+const savedEventId =
+    eventId || result.data?.id;
+
+if (eventData.is_active && savedEventId) {
+    const eventUrl =
+        `https://agborkingdom.org/event-details.html?id=${encodeURIComponent(savedEventId)}`;
+
+    await notifyIndexNow([eventUrl]);
+}
 
                     showEventMessage(
                         eventId

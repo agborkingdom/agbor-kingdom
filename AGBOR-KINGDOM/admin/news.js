@@ -851,7 +851,44 @@ if (addNewsButton) {
 
 }
 
+/* =========================================
+   NOTIFY INDEXNOW
+========================================= */
 
+async function notifyIndexNow(urls) {
+    try {
+        const response = await fetch("/api/indexnow", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                urls: urls
+            })
+        });
+
+        if (!response.ok) {
+            console.error(
+                "IndexNow notification failed:",
+                response.status
+            );
+
+            return false;
+        }
+
+        console.log("IndexNow notification sent successfully.");
+
+        return true;
+
+    } catch (error) {
+        console.error(
+            "IndexNow request error:",
+            error
+        );
+
+        return false;
+    }
+}
 /* =========================================
    SAVE NEWS
 ========================================= */
@@ -1145,6 +1182,19 @@ if (newsEditorForm) {
                     "NEWS SAVED SUCCESSFULLY:",
                     data
                 );
+
+  
+
+                /* =========================================
+                INDEXNOW NOTIFICATION
+                ========================================= */
+
+                if (data && data.is_published && data.slug) {
+                    const newsUrl =
+                        `https://agborkingdom.org/news.html?slug=${encodeURIComponent(data.slug)}`;
+
+                    await notifyIndexNow([newsUrl]);
+                }
 
 
                 /* =================================

@@ -673,6 +673,47 @@ function openPublicationEditor(
 
 
 /* =========================================
+   NOTIFY INDEXNOW
+========================================= */
+
+async function notifyIndexNow(urls) {
+    try {
+        const response = await fetch("/api/indexnow", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                urls: urls
+            })
+        });
+
+        if (!response.ok) {
+            console.error(
+                "IndexNow notification failed:",
+                response.status
+            );
+
+            return false;
+        }
+
+        console.log(
+            "IndexNow notification sent successfully."
+        );
+
+        return true;
+
+    } catch (error) {
+        console.error(
+            "IndexNow request error:",
+            error
+        );
+
+        return false;
+    }
+}
+
+/* =========================================
    SAVE / CREATE / UPDATE
 ========================================= */
 
@@ -800,14 +841,14 @@ if (publicationEditorForm) {
                     );
 
 
-                    result =
-                        await kingdomAdminSupabase
-
-                            .from("publications")
-
-                            .insert([
-                                publicationData
-                            ]);
+                   result =
+    await kingdomAdminSupabase
+        .from("publications")
+        .insert([
+            publicationData
+        ])
+        .select("id")
+        .single(); 
 
                 }
 
@@ -823,6 +864,20 @@ if (publicationEditorForm) {
                     "PUBLICATION SAVED SUCCESSFULLY"
                 );
 
+
+                /* =========================================
+                INDEXNOW NOTIFICATION
+                ========================================= */
+
+                const savedPublicationId =
+                    publicationId || result.data?.id;
+
+                if (publicationData.is_active && savedPublicationId) {
+                    const publicationUrl =
+                        `https://agborkingdom.org/publication-details.html?id=${encodeURIComponent(savedPublicationId)}`;
+
+                    await notifyIndexNow([publicationUrl]);
+                }
 
                 publicationSaveMessage.textContent =
                     publicationId
