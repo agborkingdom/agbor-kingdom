@@ -4012,7 +4012,7 @@ button {
    MOBILE
 ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 900px)  {
 
     .admin-news-layout {
         grid-template-columns: 1fr;
