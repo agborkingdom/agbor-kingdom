@@ -84,6 +84,208 @@ const addNewsButton =
 
 
 /* =========================================
+   ADDITIONAL NEWS PHOTOS
+========================================= */
+
+const newsMediaList =
+    document.getElementById("newsMediaList");
+
+const addNewsMediaButton =
+    document.getElementById("addNewsMediaButton");
+
+
+function addNewsMediaRow(media = {}) {
+
+    if (!newsMediaList) {
+        return;
+    }
+
+
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "news-media-row";
+
+
+    row.innerHTML = `
+
+        <div class="admin-form-group">
+
+            <label>
+                Photo URL
+            </label>
+
+            <input
+                type="url"
+                class="news-media-image-url"
+                placeholder="https://..."
+                value="${escapeAdminHTML(media.image_url || "")}"
+            >
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+            <label>
+                Caption
+            </label>
+
+            <input
+                type="text"
+                class="news-media-caption"
+                placeholder="Optional photo caption"
+                value="${escapeAdminHTML(media.caption || "")}"
+            >
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+            <label>
+                Position
+            </label>
+
+            <select class="news-media-position">
+
+                <option
+                    value="middle"
+                    ${
+                        media.position === "middle"
+                            ? "selected"
+                            : ""
+                    }
+                >
+                    Middle of Article
+                </option>
+
+                <option
+                    value="bottom"
+                    ${
+                        media.position === "bottom"
+                            ? "selected"
+                            : ""
+                    }
+                >
+                    Bottom of Article
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+            <label>
+                Display Order
+            </label>
+
+            <input
+                type="number"
+                class="news-media-sort-order"
+                value="${
+                    Number.isFinite(
+                        Number(media.sort_order)
+                    )
+                        ? Number(media.sort_order)
+                        : 0
+                }"
+                min="0"
+            >
+
+        </div>
+
+
+        <div class="admin-toggle-row">
+
+            <div>
+
+                <strong>
+                    Active
+                </strong>
+
+                <span>
+                    Show this photo on the news article.
+                </span>
+
+            </div>
+
+
+            <label class="admin-switch">
+
+                <input
+                    type="checkbox"
+                    class="news-media-active"
+                    ${
+                        media.is_active !== false
+                            ? "checked"
+                            : ""
+                    }
+                >
+
+                <span
+                    class="admin-switch-slider"
+                ></span>
+
+            </label>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="admin-delete-button news-media-remove"
+        >
+            Remove Photo
+        </button>
+
+    `;
+
+
+    newsMediaList.appendChild(row);
+
+
+    const removeButton =
+        row.querySelector(
+            ".news-media-remove"
+        );
+
+
+    if (removeButton) {
+
+        removeButton.addEventListener(
+            "click",
+            function () {
+
+                row.remove();
+
+            }
+        );
+
+    }
+
+}
+
+
+if (addNewsMediaButton) {
+
+    addNewsMediaButton.addEventListener(
+        "click",
+        function () {
+
+            addNewsMediaRow();
+
+        }
+    );
+
+}
+
+
+
+/* =========================================
    LOAD NEWS
 ========================================= */
 
@@ -506,6 +708,11 @@ function loadAdminNewsForEditing(
 
     }
 
+    /* =====================================
+   LOAD ADDITIONAL PHOTOS
+===================================== */
+
+loadNewsMedia(article.id);
 
     /* =====================================
        CATEGORY
@@ -681,6 +888,111 @@ function loadAdminNewsForEditing(
 
 
 /* =========================================
+   LOAD ADDITIONAL NEWS PHOTOS
+========================================= */
+
+async function loadNewsMedia(newsId) {
+
+    if (!newsMediaList) {
+        return;
+    }
+
+
+    newsMediaList.innerHTML = "";
+
+
+    if (!newsId) {
+        return;
+    }
+
+
+    try {
+
+        const {
+            data: media,
+            error
+        } = await kingdomAdminSupabase
+
+            .from("news_media")
+
+            .select(`
+                id,
+                news_id,
+                image_url,
+                caption,
+                position,
+                sort_order,
+                is_active
+            `)
+
+            .eq(
+                "news_id",
+                newsId
+            )
+
+            .order(
+                "position",
+                {
+                    ascending: true
+                }
+            )
+
+            .order(
+                "sort_order",
+                {
+                    ascending: true
+                }
+            );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        (media || []).forEach(item => {
+
+            addNewsMediaRow(item);
+
+            const rows =
+                newsMediaList.querySelectorAll(
+                    ".news-media-row"
+                );
+
+            const row =
+                rows[rows.length - 1];
+
+
+            if (row) {
+
+                row.dataset.mediaId =
+                    item.id;
+
+            }
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load additional news photos:",
+            error
+        );
+
+
+        newsMediaList.innerHTML = `
+            <p class="admin-loading">
+                Unable to load additional photos.
+            </p>
+        `;
+
+    }
+
+}
+
+
+/* =========================================
    PREPARE NEW NEWS
 ========================================= */
 
@@ -740,6 +1052,11 @@ function prepareNewNews() {
 
     }
 
+    if (newsMediaList) {
+
+    newsMediaList.innerHTML = "";
+
+}
 
     if (editNewsCategory) {
 
@@ -889,6 +1206,286 @@ async function notifyIndexNow(urls) {
         return false;
     }
 }
+
+/* =========================================
+   SAVE ADDITIONAL NEWS PHOTOS
+========================================= */
+
+async function saveNewsMedia(newsId) {
+
+    if (!newsId || !newsMediaList) {
+        return;
+    }
+
+
+    const rows =
+        newsMediaList.querySelectorAll(
+            ".news-media-row"
+        );
+
+
+    /* -----------------------------------------
+       Get existing media IDs
+    ----------------------------------------- */
+
+    const existingMediaIds = [];
+
+
+    rows.forEach(row => {
+
+        const mediaId =
+            row.dataset.mediaId;
+
+        if (mediaId) {
+            existingMediaIds.push(mediaId);
+        }
+
+    });
+
+
+    /* -----------------------------------------
+       Load existing photos
+    ----------------------------------------- */
+
+    const {
+        data: existingMedia,
+        error: existingMediaError
+    } = await kingdomAdminSupabase
+
+        .from("news_media")
+
+        .select("id")
+
+        .eq(
+            "news_id",
+            newsId
+        );
+
+
+    if (existingMediaError) {
+        throw existingMediaError;
+    }
+
+
+    /* -----------------------------------------
+       Delete removed photos
+    ----------------------------------------- */
+
+    const mediaToDelete =
+        (existingMedia || [])
+            .filter(
+                media =>
+                    !existingMediaIds.includes(
+                        media.id
+                    )
+            )
+            .map(
+                media => media.id
+            );
+
+
+    if (mediaToDelete.length) {
+
+        const {
+            error: deleteError
+        } = await kingdomAdminSupabase
+
+            .from("news_media")
+
+            .delete()
+
+            .in(
+                "id",
+                mediaToDelete
+            );
+
+
+        if (deleteError) {
+            throw deleteError;
+        }
+
+    }
+
+
+    /* -----------------------------------------
+       Save current photo rows
+    ----------------------------------------- */
+
+    for (const row of rows) {
+
+        const imageInput =
+            row.querySelector(
+                ".news-media-image-url"
+            );
+
+        const captionInput =
+            row.querySelector(
+                ".news-media-caption"
+            );
+
+        const positionInput =
+            row.querySelector(
+                ".news-media-position"
+            );
+
+        const sortOrderInput =
+            row.querySelector(
+                ".news-media-sort-order"
+            );
+
+        const activeInput =
+            row.querySelector(
+                ".news-media-active"
+            );
+
+
+        const imageUrl =
+            imageInput
+                ? imageInput.value.trim()
+                : "";
+
+
+        /* Ignore completely empty rows */
+
+        if (!imageUrl) {
+            continue;
+        }
+
+
+        const caption =
+            captionInput
+                ? captionInput.value.trim()
+                : "";
+
+
+        const position =
+            positionInput
+                ? positionInput.value
+                : "middle";
+
+
+        const sortOrder =
+            sortOrderInput
+                ? Number(
+                    sortOrderInput.value
+                ) || 0
+                : 0;
+
+
+        const isActive =
+            activeInput
+                ? activeInput.checked
+                : true;
+
+
+        const mediaId =
+            row.dataset.mediaId;
+
+
+        /* -------------------------------------
+           UPDATE EXISTING PHOTO
+        ------------------------------------- */
+
+        if (mediaId) {
+
+            const {
+                error
+            } = await kingdomAdminSupabase
+
+                .from("news_media")
+
+                .update({
+
+                    image_url:
+                        imageUrl,
+
+                    caption:
+                        caption || null,
+
+                    position:
+                        position,
+
+                    sort_order:
+                        sortOrder,
+
+                    is_active:
+                        isActive
+
+                })
+
+                .eq(
+                    "id",
+                    mediaId
+                );
+
+
+            if (error) {
+                throw error;
+            }
+
+        }
+
+
+        /* -------------------------------------
+           INSERT NEW PHOTO
+        ------------------------------------- */
+
+        else {
+
+            const {
+                data: insertedMedia,
+                error
+            } = await kingdomAdminSupabase
+
+                .from("news_media")
+
+                .insert({
+
+                    news_id:
+                        newsId,
+
+                    image_url:
+                        imageUrl,
+
+                    caption:
+                        caption || null,
+
+                    position:
+                        position,
+
+                    sort_order:
+                        sortOrder,
+
+                    is_active:
+                        isActive
+
+                })
+
+                .select()
+
+                .single();
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            if (insertedMedia) {
+
+                row.dataset.mediaId =
+                    insertedMedia.id;
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
 /* =========================================
    SAVE NEWS
 ========================================= */
@@ -1183,6 +1780,15 @@ if (newsEditorForm) {
                     data
                 );
 
+                /* =================================
+   SAVE ADDITIONAL NEWS PHOTOS
+================================= */
+
+if (data && data.id) {
+
+    await saveNewsMedia(data.id);
+
+}
   
 
                 /* =========================================

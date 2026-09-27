@@ -1363,6 +1363,11 @@ if (!existingNewsSchema) {
 existingNewsSchema.textContent =
     JSON.stringify(articleSchema);
 
+
+
+
+
+
 /* =========================================
    RENDER NEWS ARTICLE
 ========================================= */
@@ -2019,6 +2024,247 @@ function setupNewsSharing(news) {
 
 
 /* =========================================
+   LOAD ADDITIONAL NEWS PHOTOS
+========================================= */
+
+async function loadNewsMedia(newsId) {
+
+    if (!newsId) {
+        return {
+            middle: [],
+            bottom: []
+        };
+    }
+
+    try {
+
+        const {
+            data,
+            error
+        } = await kingdomSupabase
+            .from("news_media")
+            .select(`
+                id,
+                image_url,
+                caption,
+                position,
+                sort_order
+            `)
+            .eq("news_id", newsId)
+            .eq("is_active", true)
+            .order("position", { ascending: true })
+            .order("sort_order", { ascending: true });
+
+        if (error) {
+            throw error;
+        }
+
+        const media = data || [];
+
+        return {
+            middle: media.filter(
+                item => item.position === "middle"
+            ),
+
+            bottom: media.filter(
+                item => item.position === "bottom"
+            )
+        };
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load additional news photos:",
+            error
+        );
+
+        return {
+            middle: [],
+            bottom: []
+        };
+    }
+}
+
+
+
+/* =========================================
+   RENDER NEWS PHOTO SLIDER
+========================================= */
+
+function renderNewsPhotoSlider(
+    galleryElement,
+    mediaItems,
+    galleryClass
+) {
+
+    if (!galleryElement) {
+        return;
+    }
+
+    galleryElement.innerHTML = "";
+
+    if (!mediaItems || !mediaItems.length) {
+        galleryElement.hidden = true;
+        return;
+    }
+
+    galleryElement.hidden = false;
+
+    galleryElement.className =
+        `news-photo-slider ${galleryClass}`;
+
+    const track =
+        document.createElement("div");
+
+    track.className =
+        "news-photo-slider-track";
+
+    mediaItems.forEach((item, index) => {
+
+        const slide =
+            document.createElement("div");
+
+        slide.className =
+            "news-photo-slide";
+
+        if (index === 0) {
+            slide.classList.add("active");
+        }
+
+        const image =
+            document.createElement("img");
+
+        image.src =
+            item.image_url || "";
+
+        image.alt =
+            item.caption ||
+            "Agbor Kingdom News";
+
+        image.loading =
+            index === 0
+                ? "eager"
+                : "lazy";
+
+        slide.appendChild(image);
+
+        if (item.caption) {
+
+            const caption =
+                document.createElement("div");
+
+            caption.className =
+                "news-photo-caption";
+
+            caption.textContent =
+                item.caption;
+
+            slide.appendChild(caption);
+        }
+
+        track.appendChild(slide);
+    });
+
+    galleryElement.appendChild(track);
+
+    if (mediaItems.length > 1) {
+
+        const previousButton =
+            document.createElement("button");
+
+        previousButton.type =
+            "button";
+
+        previousButton.className =
+            "news-photo-prev";
+
+        previousButton.setAttribute(
+            "aria-label",
+            "Previous photo"
+        );
+
+        previousButton.innerHTML =
+            "&#10094;";
+
+        const nextButton =
+            document.createElement("button");
+
+        nextButton.type =
+            "button";
+
+        nextButton.className =
+            "news-photo-next";
+
+        nextButton.setAttribute(
+            "aria-label",
+            "Next photo"
+        );
+
+        nextButton.innerHTML =
+            "&#10095;";
+
+        galleryElement.appendChild(
+            previousButton
+        );
+
+        galleryElement.appendChild(
+            nextButton
+        );
+
+        const slides =
+            track.querySelectorAll(
+                ".news-photo-slide"
+            );
+
+        let currentIndex = 0;
+
+        function showSlide(index) {
+
+            slides.forEach(
+                (slide, slideIndex) => {
+
+                    slide.classList.toggle(
+                        "active",
+                        slideIndex === index
+                    );
+
+                }
+            );
+
+        }
+
+        previousButton.addEventListener(
+            "click",
+            function () {
+
+                currentIndex =
+                    (currentIndex -
+                        1 +
+                        slides.length) %
+                    slides.length;
+
+                showSlide(currentIndex);
+
+            }
+        );
+
+        nextButton.addEventListener(
+            "click",
+            function () {
+
+                currentIndex =
+                    (currentIndex + 1) %
+                    slides.length;
+
+                showSlide(currentIndex);
+
+            }
+        );
+    }
+}
+
+
+/* =========================================
    RENDER SINGLE NEWS
 ========================================= */
 
@@ -2065,6 +2311,36 @@ function renderSingleNews(news) {
             "singleNewsBody"
         );
 
+        const middleGallery =
+    document.getElementById(
+        "singleNewsMiddleGallery"
+    );
+
+const bottomGallery =
+    document.getElementById(
+        "singleNewsBottomGallery"
+    );
+
+
+/* =========================================
+   LOAD & RENDER ADDITIONAL NEWS PHOTOS
+========================================= */
+
+loadNewsMedia(news.id).then(media => {
+
+    renderNewsPhotoSlider(
+        middleGallery,
+        media.middle,
+        "news-photo-slider-middle"
+    );
+
+    renderNewsPhotoSlider(
+        bottomGallery,
+        media.bottom,
+        "news-photo-slider-bottom"
+    );
+
+});
 
     const publishedDate =
         news.published_at
@@ -2115,8 +2391,55 @@ function renderSingleNews(news) {
        text rather than interpreted as HTML.
     */
 
+    const articleText =
+    news.content || news.excerpt || "";
+
+const paragraphs =
+    articleText
+        .split(/\n\s*\n/)
+        .map(paragraph => paragraph.trim())
+        .filter(Boolean);
+
+body.innerHTML = "";
+
+if (paragraphs.length) {
+
+    const middlePoint =
+        Math.ceil(paragraphs.length / 2);
+
+    paragraphs.forEach(
+        (paragraph, index) => {
+
+            const paragraphElement =
+                document.createElement("p");
+
+            paragraphElement.textContent =
+                paragraph;
+
+            body.appendChild(
+                paragraphElement
+            );
+
+            if (
+                index + 1 === middlePoint &&
+                middleGallery
+            ) {
+
+                body.appendChild(
+                    middleGallery
+                );
+
+            }
+
+        }
+    );
+
+} else {
+
     body.textContent =
-        news.content || news.excerpt || "";
+        articleText;
+
+}
 
 
     document.title = `${news.title} | Agbor Kingdom`;
