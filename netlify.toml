@@ -15,6 +15,10 @@
   path = "/event-details.html"
 
 [[edge_functions]]
+  function = "event-social-preview"
+  path = "/events/*"
+
+[[edge_functions]]
   function = "send-contact-email"
   path = "/.netlify/functions/send-contact-email"
 

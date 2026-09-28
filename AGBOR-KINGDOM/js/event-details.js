@@ -40,66 +40,223 @@ document.addEventListener("keydown", (event) => {
    AGBOR KINGDOM
    INDIVIDUAL EVENT PAGE
 ========================================= */
-
 /* =========================================
-   GET EVENT ID
+   GET EVENT
 ========================================= */
 
-const eventParams = new URLSearchParams(window.location.search);
-const eventId = eventParams.get("id");
+const eventParams =
+    new URLSearchParams(
+        window.location.search
+    );
 
+let eventId =
+    eventParams.get("id");
+
+let eventSlug =
+    eventParams.get("slug");
+
+
+/* =========================================
+   CREATE EVENT SLUG
+========================================= */
+
+function createEventSlug(title) {
+
+    if (!title) {
+        return "";
+    }
+
+    return title
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/['"]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+}
+
+
+/* =========================================
+   SUPPORT CLEAN EVENT URL
+
+   /events/event-title
+========================================= */
+
+if (!eventSlug) {
+
+    const pathMatch =
+        window.location.pathname.match(
+            /^\/events\/([^/]+)\/?$/
+        );
+
+    if (pathMatch) {
+
+        eventSlug =
+            decodeURIComponent(
+                pathMatch[1]
+            );
+
+    }
+
+}
 /* =========================================
    LOAD EVENT
 ========================================= */
-
 async function loadEventDetails() {
-    const container = document.getElementById("eventDetailContainer");
 
-    if (!container) return;
+    const container =
+        document.getElementById(
+            "eventDetailContainer"
+        );
 
-    if (!eventId) {
-        showEventError(container, "No event was specified.");
+    if (!container) {
+        return;
+    }
+
+    if (!eventId && !eventSlug) {
+
+        showEventError(
+            container,
+            "No event was specified."
+        );
+
         return;
     }
 
     try {
-        const { data, error } = await kingdomSupabase
-            .from("events")
-            .select("*")
-            .eq("id", eventId)
-            .eq("is_active", true)
-            .maybeSingle();
 
-        if (error) {
-            console.error("Event loading failed:", error);
-            showEventError(container, "Unable to load this event.");
-            return;
+        let data = null;
+
+
+        /* =====================================
+           EXISTING UUID URL
+        ===================================== */
+
+        if (eventId) {
+
+            const {
+                data: event,
+                error
+            } = await kingdomSupabase
+
+                .from("events")
+
+                .select("*")
+
+                .eq("id", eventId)
+
+                .eq("is_active", true)
+
+                .maybeSingle();
+
+
+            if (error) {
+                throw error;
+            }
+
+            data = event;
+
         }
+
+
+        /* =====================================
+           NEW CLEAN URL
+           /events/event-title
+        ===================================== */
+
+        else if (eventSlug) {
+
+            const {
+                data: events,
+                error
+            } = await kingdomSupabase
+
+                .from("events")
+
+                .select("*")
+
+                .eq("is_active", true);
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            data =
+                (events || []).find(
+                    event =>
+                        createEventSlug(
+                            event.title
+                        ) === eventSlug
+                );
+
+        }
+
+
+        /* =====================================
+           EVENT NOT FOUND
+        ===================================== */
 
         if (!data) {
-            showEventError(container, "This event could not be found.");
+
+            showEventError(
+                container,
+                "This event could not be found."
+            );
+
             return;
         }
 
-        renderEventDetails(container, data);
+
+        /* =====================================
+           RENDER
+        ===================================== */
+
+        renderEventDetails(
+            container,
+            data
+        );
 
     } catch (error) {
-        console.error("Event page error:", error);
-        showEventError(container, "Something went wrong while loading the event.");
-    }
-}
 
+        console.error(
+            "Event page error:",
+            error
+        );
+
+        showEventError(
+            container,
+            "Something went wrong while loading the event."
+        );
+
+    }
+
+}
 /* =========================================
    SOCIAL SHARING HELPER
 ========================================= */
 
 function getEventShareUrl(event) {
-    if (!event || !event.id) {
+
+    if (!event) {
         return window.location.href;
     }
-    
-    /* Generates: https://agborkingdom.org/event-details.html?id=11ed7c9e-0fa1-40dd-82a4-893cd5aa40ea */
-    return `${window.location.origin}/event-details.html?id=${encodeURIComponent(event.id)}`;
+
+    const eventSlug =
+        createEventSlug(event.title);
+
+    if (!eventSlug) {
+        return window.location.href;
+    }
+
+    return (
+        window.location.origin +
+        "/events/" +
+        encodeURIComponent(eventSlug)
+    );
+
 }
 
 function setupEventSharing(event) {
@@ -267,11 +424,20 @@ function renderEventDetails(container, event) {
     `;
 
     /* SEO & META DATA */
-const eventTitle = event.title || "Agbor Kingdom Event";
-const eventDescription = event.description || "Upcoming events from the Royal Kingdom of Agbor.";
+const eventTitle =
+    event.title ||
+    "Agbor Kingdom Event";
+
+const eventDescription =
+    event.description ||
+    "Upcoming events from the Royal Kingdom of Agbor.";
+
+const eventSlug =
+    createEventSlug(event.title);
+
 const eventUrl =
-    "https://agborkingdom.org/event-details.html?id=" +
-    encodeURIComponent(event.id);
+    "https://agborkingdom.org/events/" +
+    encodeURIComponent(eventSlug);
 
     let eventImage = event.image_url || "";
     if (eventImage) {

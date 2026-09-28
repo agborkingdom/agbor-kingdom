@@ -181,6 +181,17 @@ function createFullEventCard(event) {
             event.title
         );
 
+        const eventSlug =
+    String(
+        event.title ||
+        "agbor-kingdom-event"
+    )
+        .trim()
+        .toLowerCase()
+        .replace(/['"]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
         /* TRUNCATE DESCRIPTION SNIPPET FOR GRID VIEW */
     const maxSnippetLength = 160;
     const descriptionText = event.description || "";
@@ -284,7 +295,7 @@ function createFullEventCard(event) {
 
 
             <a
-                href="event-details.html?id=${event.id}"
+                href="events/${encodeURIComponent(eventSlug)}"
                 class="event-read-more"
             >
                 Event Details

@@ -1,8 +1,41 @@
 export default async (request, context) => {
     const url = new URL(request.url);
-    const eventId = url.searchParams.get("id");
+    
+let eventId =
+    url.searchParams.get("id");
 
-    if (!eventId) return context.next();
+let eventSlug =
+    url.searchParams.get("slug");
+
+
+/* =========================================
+   CLEAN EVENT URL
+   /events/event-title
+========================================= */
+
+if (!eventSlug) {
+
+    const pathMatch =
+        url.pathname.match(
+            /^\/events\/([^/]+)\/?$/
+        );
+
+    if (pathMatch) {
+
+        eventSlug =
+            decodeURIComponent(
+                pathMatch[1]
+            );
+
+    }
+
+}
+
+
+if (!eventId && !eventSlug) {
+    return context.next();
+}
+
 
     const userAgent = request.headers.get("user-agent") || "";
     const socialBots = /facebookexternalhit|Facebot|Twitterbot|WhatsApp|Slackbot|TelegramBot|LinkedInBot|Discordbot|Pinterest|Googlebot/i;
@@ -15,27 +48,125 @@ export default async (request, context) => {
 
         if (!supabaseUrl || !supabaseKey) return context.next();
 
-        const response = await fetch(
-            `${supabaseUrl}/rest/v1/events?select=id,title,description,image_url&id=eq.${encodeURIComponent(eventId)}&is_active=eq.true&limit=1`,
-            {
-                headers: {
-                    apikey: supabaseKey,
-                    Authorization: `Bearer ${supabaseKey}`
-                }
+
+        let response;
+
+
+/* =========================================
+   LOOK UP EVENT BY UUID
+========================================= */
+
+if (eventId) {
+
+    response = await fetch(
+
+        `${supabaseUrl}/rest/v1/events?select=id,title,description,image_url&id=eq.${encodeURIComponent(eventId)}&is_active=eq.true&limit=1`,
+
+        {
+
+            headers: {
+
+                apikey: supabaseKey,
+
+                Authorization: `Bearer ${supabaseKey}`
+
             }
-        );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================
+   LOOK UP EVENT BY CLEAN SLUG
+========================================= */
+
+else if (eventSlug) {
+
+    response = await fetch(
+
+        `${supabaseUrl}/rest/v1/events?select=id,title,description,image_url&is_active=eq.true&limit=1000`,
+
+        {
+
+            headers: {
+
+                apikey: supabaseKey,
+
+                Authorization: `Bearer ${supabaseKey}`
+
+            }
+
+        }
+
+    );
+
+}
+
+
 
         if (!response.ok) return context.next();
 
-        const events = await response.json();
-        const event = events?.[0];
+        const events =
+    await response.json();
+
+let event = null;
+
+
+if (eventId) {
+
+    event =
+        events?.[0] || null;
+
+}
+
+
+if (eventSlug) {
+
+    event =
+        (events || []).find(
+            item => {
+
+                const slug =
+                    String(
+                        item.title || ""
+                    )
+                        .trim()
+                        .toLowerCase()
+                        .replace(/['"]/g, "")
+                        .replace(/[^a-z0-9]+/g, "-")
+                        .replace(/^-+|-+$/g, "");
+
+                return slug === eventSlug;
+
+            }
+        ) || null;
+
+}
 
         if (!event) return context.next();
 
         const title = event.title || "Agbor Kingdom Event";
         const description = event.description || "Upcoming events from the Royal Kingdom of Agbor.";
        /* Inside event-social-preview.js */
-const eventUrl = `${url.origin}/event-details.html?id=${encodeURIComponent(event.id)}`;
+
+       const eventSlugFromTitle =
+    String(
+        event.title ||
+        "agbor-kingdom-event"
+    )
+        .trim()
+        .toLowerCase()
+        .replace(/['"]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+const eventUrl =
+    `${url.origin}/events/` +
+    encodeURIComponent(eventSlugFromTitle);
+    
 
         let image = event.image_url || "";
         if (image) {
