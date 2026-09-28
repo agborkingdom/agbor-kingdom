@@ -561,16 +561,26 @@
 
         <div class="video-player-wrapper">
 
-            <iframe
-                id="videoPlayer"
-                src=""
-                title="Agbor Kingdom Video"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-            ></iframe>
+    <!-- YouTube player -->
+    <iframe
+        id="videoPlayer"
+        src=""
+        title="Agbor Kingdom Video"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+    ></iframe>
 
-        </div>
+    <!-- Direct video player -->
+    <video
+        id="directVideoPlayer"
+        controls
+        playsinline
+        preload="metadata"
+        hidden
+    ></video>
+
+</div>
 
 
         <div class="video-modal-info">

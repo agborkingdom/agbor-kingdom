@@ -23,6 +23,11 @@ const videoModalClose =
 const videoPlayer =
     document.getElementById("videoPlayer");
 
+    const directVideoPlayer =
+    document.getElementById(
+        "directVideoPlayer"
+    );
+
 const videoModalTitle =
     document.getElementById("videoModalTitle");
 
@@ -321,74 +326,141 @@ videosGrid?.addEventListener(
 /* =========================================
    OPEN VIDEO MODAL
 ========================================= */
-
 function openVideoModal(video) {
 
-    const embedUrl =
-        getYouTubeEmbedUrl(
-            video.video_url
-        );
-
-
-    if (!embedUrl) {
-
-        /*
-           If the URL isn't YouTube,
-           open the original URL instead.
-        */
-
-        if (video.video_url) {
-
-            window.open(
-                video.video_url,
-                "_blank",
-                "noopener,noreferrer"
-            );
-
-        }
-
+    if (!video || !video.video_url) {
         return;
     }
 
+    const videoUrl =
+        video.video_url.trim();
+
+    /*
+       Detect YouTube URL
+    */
+
+    const youtubeEmbedUrl =
+        getYouTubeEmbedUrl(
+            videoUrl
+        );
+
+
+    /*
+       If it is YouTube,
+       use the iframe.
+    */
+
+    if (youtubeEmbedUrl) {
+
+        if (directVideoPlayer) {
+            directVideoPlayer.pause();
+            directVideoPlayer.removeAttribute(
+                "src"
+            );
+            directVideoPlayer.load();
+            directVideoPlayer.hidden = true;
+        }
+
+        if (videoPlayer) {
+            videoPlayer.hidden = false;
+            videoPlayer.src =
+                youtubeEmbedUrl;
+        }
+
+    } else {
+
+        /*
+           Otherwise treat it as a
+           direct video URL.
+        */
+
+        if (videoPlayer) {
+            videoPlayer.src = "";
+            videoPlayer.hidden = true;
+        }
+
+        if (directVideoPlayer) {
+
+            directVideoPlayer.hidden = false;
+
+            directVideoPlayer.src =
+                videoUrl;
+
+            directVideoPlayer.load();
+
+        }
+
+    }
+
+
+    /*
+       Modal information
+    */
 
     videoModalTitle.textContent =
         video.title ||
         "Agbor Kingdom Video";
 
-
     videoModalDescription.textContent =
         video.description ||
         "";
-
 
     videoModalCategory.textContent =
         video.category ||
         "KINGDOM MEDIA";
 
 
-    videoPlayer.src =
-        embedUrl;
+    /*
+       Open modal
+    */
 
-
-    videoModal.classList.add("show");
+    videoModal.classList.add(
+        "show"
+    );
 
     videoModal.setAttribute(
         "aria-hidden",
         "false"
     );
 
-
     document.body.style.overflow =
         "hidden";
 
-}
 
+    /*
+       Autoplay direct videos.
+       Browser policy may block autoplay
+       if sound is enabled, so controls
+       remain available.
+    */
+
+    if (
+        directVideoPlayer &&
+        !directVideoPlayer.hidden
+    ) {
+
+        directVideoPlayer
+            .play()
+            .catch(() => {
+                /*
+                   Autoplay may be blocked.
+                   User can press Play.
+                */
+            });
+
+    }
+
+}
 
 /* =========================================
    CLOSE VIDEO MODAL
 ========================================= */
 
 function closeVideoModal() {
+
+    /*
+       Close modal
+    */
 
     videoModal.classList.remove(
         "show"
@@ -401,18 +473,44 @@ function closeVideoModal() {
 
 
     /*
-       Clearing the iframe stops the
-       YouTube video immediately.
+       Stop YouTube
     */
 
-    videoPlayer.src = "";
+    if (videoPlayer) {
 
+        videoPlayer.src = "";
+        videoPlayer.hidden = false;
+
+    }
+
+
+    /*
+       Stop direct video
+    */
+
+    if (directVideoPlayer) {
+
+        directVideoPlayer.pause();
+
+        directVideoPlayer.removeAttribute(
+            "src"
+        );
+
+        directVideoPlayer.load();
+
+        directVideoPlayer.hidden = true;
+
+    }
+
+
+    /*
+       Restore page scrolling
+    */
 
     document.body.style.overflow =
         "";
 
 }
-
 
 /* =========================================
    CLOSE BUTTON
