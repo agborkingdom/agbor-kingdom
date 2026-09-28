@@ -80,16 +80,55 @@ export default async function (
        ONLY HANDLE NEWS PAGES WITH A SLUG
     ===================================================== */
 
-    const slug =
-        requestUrl.searchParams.get("slug");
+   /* =====================================================
+   GET NEWS SLUG
+===================================================== */
+
+let slug =
+    requestUrl.searchParams.get("slug");
 
 
+/*
+ * Clean news URL:
+ *
+ * /news/article-slug
+ *
+ * Internally rewrite it to:
+ *
+ * /news.html?slug=article-slug
+ *
+ * The browser keeps the clean URL.
+ */
 
-    if (!slug) {
+const cleanNewsMatch =
+    requestUrl.pathname.match(
+        /^\/news\/([^/]+)\/?$/
+    );
 
-        return context.next();
 
-    }
+if (
+    !slug &&
+    cleanNewsMatch
+) {
+
+    slug =
+        decodeURIComponent(
+            cleanNewsMatch[1]
+        );
+
+    return new URL(
+        `/news.html?slug=${encodeURIComponent(slug)}`,
+        requestUrl
+    );
+
+}
+
+
+if (!slug) {
+
+    return context.next();
+
+}
 
 
 
@@ -217,11 +256,11 @@ export default async function (
          */
 
         const articleUrl =
-            requestUrl.origin +
-            "/news.html?slug=" +
-            encodeURIComponent(
-                news.slug
-            );
+    requestUrl.origin +
+    "/news/" +
+    encodeURIComponent(
+        news.slug
+    );
 
 
 
@@ -473,7 +512,8 @@ export default async function (
 ========================================================= */
 
 export const config = {
-
-    path: "/news.html"
-
+    path: [
+        "/news.html",
+        "/news/*"
+    ]
 };

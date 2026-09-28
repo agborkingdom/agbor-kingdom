@@ -1253,12 +1253,36 @@ async function loadSingleNews() {
 
 
     const params =
-        new URLSearchParams(
-            window.location.search
+    new URLSearchParams(
+        window.location.search
+    );
+
+let slug =
+    params.get("slug");
+
+
+/* =========================================
+   SUPPORT CLEAN NEWS URL
+   /news/article-slug
+========================================= */
+
+if (!slug) {
+
+    const pathMatch =
+        window.location.pathname.match(
+            /^\/news\/([^/]+)\/?$/
         );
 
+    if (pathMatch) {
 
-    const slug = params.get("slug");
+        slug =
+            decodeURIComponent(
+                pathMatch[1]
+            );
+
+    }
+
+}
 
 
     if (!slug) {
@@ -1311,7 +1335,7 @@ if (!data) {
 ========================================= */
 
 const articleUrl =
-    `https://agborkingdom.org/news.html?slug=${encodeURIComponent(data.slug)}`;
+    `https://agborkingdom.org/news/${encodeURIComponent(data.slug)}`;
 
 const articleDescription =
     data.excerpt ||
@@ -1400,17 +1424,22 @@ renderSingleNews(data);
 /* =========================================================
    GET PUBLIC NEWS URL
    ========================================================= */
-
 function getNewsArticleUrl(news) {
 
     if (!news || !news.slug) {
+
         return window.location.href;
+
     }
 
     return (
+
         window.location.origin +
-        "/news.html?slug=" +
+
+        "/news/" +
+
         encodeURIComponent(news.slug)
+
     );
 
 }
@@ -2923,9 +2952,9 @@ function renderNewsArchive(
                     <article class="news-card">
 
                         <a
-                            href="news.html?slug=${encodeURIComponent(news.slug)}"
-                            class="news-image"
-                        >
+    href="news/${encodeURIComponent(news.slug)}"
+    class="news-image"
+>
 
                             <img
                                 src="${escapeSearchText(image)}"
@@ -2961,10 +2990,10 @@ function renderNewsArchive(
                             </p>
 
 
-                            <a
-                                href="news.html?slug=${encodeURIComponent(news.slug)}"
-                                class="news-read-more"
-                            >
+                           <a
+    href="news/${encodeURIComponent(news.slug)}"
+    class="news-read-more"
+>
                                 Read More
                                 <span>→</span>
                             </a>

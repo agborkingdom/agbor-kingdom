@@ -1796,8 +1796,8 @@ if (data && data.id) {
                 ========================================= */
 
                 if (data && data.is_published && data.slug) {
-                    const newsUrl =
-                        `https://agborkingdom.org/news.html?slug=${encodeURIComponent(data.slug)}`;
+                   const newsUrl =
+    `https://agborkingdom.org/news/${encodeURIComponent(data.slug)}`;
 
                     await notifyIndexNow([newsUrl]);
                 }
