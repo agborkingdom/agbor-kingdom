@@ -18,6 +18,11 @@
   function = "event-social-preview"
   path = "/events/*"
 
+  [[redirects]]
+  from = "/events/*"
+  to = "/event-details.html?slug=:splat"
+  status = 200
+
 [[edge_functions]]
   function = "send-contact-email"
   path = "/.netlify/functions/send-contact-email"

@@ -5,7 +5,10 @@
 
 .you-missed-section {
     width: 100%;
-    margin: 50px 0;
+    max-width: 1440px;
+    margin: 70px auto 80px;
+    padding: 0 28px;
+    box-sizing: border-box;
 }
 
 
@@ -17,17 +20,18 @@
     display: flex;
     align-items: center;
     width: 100%;
-    margin-bottom: 26px;
+    margin-bottom: 30px;
 }
 
 .you-missed-heading h2 {
     margin: 0;
-    padding: 12px 22px;
+    padding: 13px 24px;
     background: #1657d8;
     color: #ffffff;
-    font-size: 22px;
+    font-size: clamp(19px, 2vw, 24px);
     font-weight: 700;
     line-height: 1;
+    letter-spacing: -0.2px;
     white-space: nowrap;
 }
 
@@ -46,8 +50,7 @@
     display: grid;
     grid-template-columns:
         repeat(3, minmax(0, 1fr));
-
-    gap: 28px;
+    gap: 26px;
 }
 
 
@@ -58,11 +61,29 @@
 .you-missed-card {
     position: relative;
     min-width: 0;
-    height: 330px;
+    height: 360px;
     overflow: hidden;
     background: #111111;
+    border-radius: 4px;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.12);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
+.you-missed-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 18px 42px rgba(0, 0, 0, 0.20);
+}
+
+
+/* =========================================
+   CARD LINK
+========================================= */
 
 .you-missed-card-link {
     position: relative;
@@ -89,18 +110,22 @@
     object-position: center;
 
     transition:
-        transform 0.45s ease;
+        transform 0.65s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
 }
-
 
 .you-missed-card:hover
 .you-missed-image {
-    transform: scale(1.05);
+    transform: scale(1.07);
 }
 
 
 /* =========================================
-   DARK IMAGE OVERLAY
+   IMAGE OVERLAY
 ========================================= */
 
 .you-missed-overlay {
@@ -110,10 +135,13 @@
     background:
         linear-gradient(
             to top,
-            rgba(0, 0, 0, 0.88) 0%,
-            rgba(0, 0, 0, 0.50) 45%,
-            rgba(0, 0, 0, 0.08) 100%
+            rgba(0, 0, 0, 0.92) 0%,
+            rgba(0, 0, 0, 0.68) 32%,
+            rgba(0, 0, 0, 0.22) 68%,
+            rgba(0, 0, 0, 0.04) 100%
         );
+
+    z-index: 1;
 }
 
 
@@ -123,11 +151,13 @@
 
 .you-missed-content {
     position: absolute;
+
     left: 0;
     right: 0;
     bottom: 0;
 
-    padding: 24px;
+    padding: 26px;
+
     z-index: 2;
 }
 
@@ -137,20 +167,23 @@
 ========================================= */
 
 .you-missed-category {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
 
-    margin-bottom: 10px;
-    padding: 6px 10px;
+    margin-bottom: 12px;
+    padding: 7px 11px;
 
     background: #1657d8;
     color: #ffffff;
 
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 800;
     line-height: 1;
 
     text-transform: uppercase;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.7px;
+
+    border-radius: 2px;
 }
 
 
@@ -163,13 +196,21 @@
 
     color: #ffffff;
 
-    font-size: 25px;
+    font-size: clamp(
+        20px,
+        2vw,
+        27px
+    );
+
     font-weight: 700;
-    line-height: 1.12;
+    line-height: 1.14;
+
+    letter-spacing: -0.35px;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+
     overflow: hidden;
 }
 
@@ -179,12 +220,15 @@
 ========================================= */
 
 .you-missed-date {
-    margin-top: 14px;
+    margin-top: 15px;
 
-    color: rgba(255, 255, 255, 0.92);
+    color:
+        rgba(255, 255, 255, 0.88);
 
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
+
+    letter-spacing: 0.15px;
 }
 
 
@@ -192,17 +236,44 @@
    TABLET
 ========================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+
+    .you-missed-section {
+        padding: 0 22px;
+    }
 
     .you-missed-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
         gap: 20px;
     }
 
     .you-missed-card {
-        height: 310px;
+        height: 330px;
+    }
+
+    .you-missed-content {
+        padding: 22px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 850px) {
+
+    .you-missed-section {
+        margin: 55px auto 65px;
+    }
+
+    .you-missed-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .you-missed-card {
+        height: 320px;
     }
 
     .you-missed-content h3 {
@@ -219,7 +290,8 @@
 @media (max-width: 600px) {
 
     .you-missed-section {
-        margin: 35px 0;
+        margin: 45px auto 55px;
+        padding: 0 16px;
     }
 
     .you-missed-heading {
@@ -227,8 +299,12 @@
     }
 
     .you-missed-heading h2 {
-        padding: 10px 16px;
-        font-size: 19px;
+        padding: 11px 17px;
+        font-size: 18px;
+    }
+
+    .you-missed-heading span {
+        height: 2px;
     }
 
     .you-missed-grid {
@@ -237,15 +313,53 @@
     }
 
     .you-missed-card {
-        height: 300px;
+        height: 310px;
+        border-radius: 3px;
     }
 
     .you-missed-content {
         padding: 20px;
     }
 
+    .you-missed-category {
+        margin-bottom: 10px;
+        padding: 6px 9px;
+        font-size: 9px;
+    }
+
     .you-missed-content h3 {
-        font-size: 22px;
+        font-size: 21px;
+        line-height: 1.16;
+    }
+
+    .you-missed-date {
+        margin-top: 12px;
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================
+   VERY SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+
+    .you-missed-section {
+        padding: 0 12px;
+    }
+
+    .you-missed-card {
+        height: 290px;
+    }
+
+    .you-missed-content {
+        padding: 18px;
+    }
+
+    .you-missed-content h3 {
+        font-size: 19px;
     }
 
 }
