@@ -317,11 +317,7 @@ if (
         rewrittenUrl.search
     );
 
-    request =
-        new Request(
-            rewrittenUrl,
-            request
-        );
+    return rewrittenUrl;
 
 }
 
