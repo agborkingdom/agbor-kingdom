@@ -18,26 +18,85 @@ export default async function (request, context) {
 
 
     /* =====================================
-       GET PUBLICATION ID
-    ===================================== */
+   GET PUBLICATION
+===================================== */
 
-    const publicationId =
-        url.searchParams.get("id");
+let publicationId =
+    url.searchParams.get("id");
+
+let publicationSlug =
+    url.searchParams.get("slug");
 
 
-    console.log(
-        "Publication ID:",
-        publicationId
+console.log(
+    "Publication ID:",
+    publicationId
+);
+
+console.log(
+    "Publication Slug:",
+    publicationSlug
+);
+
+
+/* =====================================
+   CREATE PUBLICATION SLUG
+===================================== */
+
+function createPublicationSlug(title) {
+
+    if (!title) {
+        return "";
+    }
+
+    return title
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/['"]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+}
+
+
+/* =====================================
+   SUPPORT CLEAN PUBLICATION URL
+
+   /publications/publication-title
+===================================== */
+
+const cleanPublicationMatch =
+    url.pathname.match(
+        /^\/publications\/([^/]+)\/?$/
     );
 
 
-    /* No ID → load normally */
+if (
+    !publicationId &&
+    cleanPublicationMatch
+) {
 
-    if (!publicationId) {
+    publicationSlug =
+        decodeURIComponent(
+            cleanPublicationMatch[1]
+        );
 
-        return context.next();
+}
 
-    }
+
+/* =====================================
+   NO PUBLICATION ID OR SLUG
+===================================== */
+
+if (
+    !publicationId &&
+    !publicationSlug
+) {
+
+    return context.next();
+
+}
 
 
     try {
@@ -74,32 +133,62 @@ export default async function (request, context) {
 
 
         /* =================================
-           GET PUBLICATION
-        ================================= */
+   GET PUBLICATION
+================================= */
 
-        const params =
-            new URLSearchParams();
+const params =
+    new URLSearchParams();
 
-        params.set(
-            "select",
-            "*"
-        );
+params.set(
+    "select",
+    "*"
+);
 
-        params.set(
-            "id",
-            `eq.${publicationId}`
-        );
+params.set(
+    "is_active",
+    "eq.true"
+);
 
-        params.set(
-            "is_active",
-            "eq.true"
-        );
 
-        params.set(
-            "limit",
-            "1"
-        );
+/* =================================
+   LOAD BY UUID
+================================= */
 
+if (publicationId) {
+
+    params.set(
+        "id",
+        `eq.${publicationId}`
+    );
+
+}
+
+
+/* =================================
+   LOAD BY CLEAN SLUG
+================================= */
+
+else if (publicationSlug) {
+
+    /*
+     * We do not have a slug column.
+     *
+     * Load active publications and find
+     * the publication whose title produces
+     * the requested slug.
+     */
+
+    params.set(
+        "limit",
+        "1000"
+    );
+
+}
+else {
+
+    return context.next();
+
+}
 
         const publicationUrl =
             `${supabaseUrl}/rest/v1/publications?${params.toString()}`;
@@ -140,12 +229,43 @@ export default async function (request, context) {
 
 
         const publicationData =
-            await publicationResponse.json();
+    await publicationResponse.json();
 
 
-        const publication =
-            publicationData?.[0];
+/* =================================
+   FIND PUBLICATION
+================================= */
 
+let publication = null;
+
+
+/* =================================
+   UUID REQUEST
+================================= */
+
+if (publicationId) {
+
+    publication =
+        publicationData?.[0] || null;
+
+}
+
+
+/* =================================
+   CLEAN SLUG REQUEST
+================================= */
+
+else if (publicationSlug) {
+
+    publication =
+        (publicationData || []).find(
+            item =>
+                createPublicationSlug(
+                    item.title
+                ) === publicationSlug
+        ) || null;
+
+}
 
         /* Publication not found */
 
@@ -165,12 +285,45 @@ export default async function (request, context) {
             publication.title
         );
 
+        
 
         console.log(
             "Publication image:",
             publication.cover_image_url
         );
 
+   /* =================================
+   REWRITE CLEAN URL TO PUBLICATION ID
+================================= */
+
+if (
+    publicationSlug &&
+    !publicationId
+) {
+
+    const rewrittenUrl =
+        new URL(
+            `/publication-details.html?id=${encodeURIComponent(
+                publication.id
+            )}&slug=${encodeURIComponent(
+                publicationSlug
+            )}`,
+            url
+        );
+
+    console.log(
+        "Rewriting clean publication URL to:",
+        rewrittenUrl.pathname +
+        rewrittenUrl.search
+    );
+
+    request =
+        new Request(
+            rewrittenUrl,
+            request
+        );
+
+}
 
         /* =================================
            PUBLICATION DATA
@@ -192,10 +345,14 @@ export default async function (request, context) {
 
 
         const canonicalUrl =
-            `${url.origin}/publication-details.html?id=` +
-            encodeURIComponent(
-                publicationId
-            );
+    publicationSlug
+        ? `${url.origin}/publications/${encodeURIComponent(
+            publicationSlug
+        )}`
+        : `${url.origin}/publication-details.html?id=` +
+          encodeURIComponent(
+              publicationId
+          );
 
 
         /* =================================
@@ -513,7 +670,9 @@ export default async function (request, context) {
 
 export const config = {
 
-    path:
-        "/publication-details.html"
+    path: [
+        "/publication-details.html",
+        "/publications/*"
+    ]
 
 };

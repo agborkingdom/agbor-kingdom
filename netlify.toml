@@ -4,7 +4,10 @@
 
 [[edge_functions]]
   function = "publication-social-preview"
-  path = "/publication-details.html"
+  path = [
+    "/publication-details.html",
+    "/publications/*"
+  ]
 
 [[edge_functions]]
   function = "event-social-preview"

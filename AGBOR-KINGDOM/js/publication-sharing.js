@@ -27,20 +27,32 @@ function setupPublicationSharing(publication) {
 
 
     /* =====================================
-       PUBLICATION DETAILS
-    ===================================== */
+   PUBLICATION DETAILS
+===================================== */
 
-    const publicationTitle =
+const publicationTitle =
+    publication?.title ||
+    "Publication from Agbor Kingdom";
+
+
+const publicationSlug =
+    String(
         publication?.title ||
-        "Publication from Agbor Kingdom";
+        "agbor-kingdom-publication"
+    )
+        .trim()
+        .toLowerCase()
+        .replace(/['"]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
 
 
-    const publicationUrl =
-        window.location.origin +
-        "/publication-details.html?id=" +
-        encodeURIComponent(
-            publication?.id || ""
-        );
+const publicationUrl =
+    window.location.origin +
+    "/publications/" +
+    encodeURIComponent(
+        publicationSlug
+    );
 
 
     /* =====================================

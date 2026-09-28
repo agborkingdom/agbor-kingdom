@@ -450,27 +450,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!error && data) {
 
-                data.forEach(item => {
+             data.forEach(item => {
 
-                    results.push({
+    const publicationSlug =
+        String(
+            item.title ||
+            "agbor-kingdom-publication"
+        )
+            .trim()
+            .toLowerCase()
+            .replace(/['"]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
 
-                        title:
-                            item.title,
+    results.push({
 
-                        description:
-                            item.description ||
-                            "Official publication of Agbor Kingdom.",
+        title:
+            item.title,
 
-                        category:
-                            item.category ||
-                            "PUBLICATIONS",
+        description:
+            item.description ||
+            "Official publication of Agbor Kingdom.",
 
-                        url:
-                            `publication-details.html?id=${encodeURIComponent(item.id)}`
+        category:
+            item.category ||
+            "PUBLICATIONS",
 
-                    });
+        url:
+            `publications/${encodeURIComponent(
+                publicationSlug
+            )}`
 
-                });
+    });
+
+});   
 
             }
 

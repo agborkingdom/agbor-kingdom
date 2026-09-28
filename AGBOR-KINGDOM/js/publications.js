@@ -118,6 +118,16 @@ function renderPublications(publications) {
                     "Agbor Kingdom Publication"
                 );
 
+                const publicationSlug =
+    String(
+        publication.title ||
+        "agbor-kingdom-publication"
+    )
+        .trim()
+        .toLowerCase()
+        .replace(/['"]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
 
             const description =
                 escapePublicationText(
@@ -250,7 +260,7 @@ function renderPublications(publications) {
 
 
                         <a
-    href="publication-details.html?id=${encodeURIComponent(publication.id)}"
+    href="publications/${encodeURIComponent(publicationSlug)}"
     class="publication-button"
 >
 

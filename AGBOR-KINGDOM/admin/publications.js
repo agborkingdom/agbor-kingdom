@@ -870,14 +870,34 @@ if (publicationEditorForm) {
                 ========================================= */
 
                 const savedPublicationId =
-                    publicationId || result.data?.id;
+    publicationId || result.data?.id;
 
-                if (publicationData.is_active && savedPublicationId) {
-                    const publicationUrl =
-                        `https://agborkingdom.org/publication-details.html?id=${encodeURIComponent(savedPublicationId)}`;
+if (
+    publicationData.is_active &&
+    savedPublicationId
+) {
 
-                    await notifyIndexNow([publicationUrl]);
-                }
+    const publicationSlug =
+        String(
+            publicationData.title ||
+            "agbor-kingdom-publication"
+        )
+            .trim()
+            .toLowerCase()
+            .replace(/['"]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+
+    const publicationUrl =
+        `https://agborkingdom.org/publications/${encodeURIComponent(
+            publicationSlug
+        )}`;
+
+    await notifyIndexNow([
+        publicationUrl
+    ]);
+
+}
 
                 publicationSaveMessage.textContent =
                     publicationId

@@ -12,15 +12,67 @@ const publicationDetailsError =
 
 
 /* =========================================
-   GET PUBLICATION ID
+   GET PUBLICATION
 ========================================= */
 
 const publicationParams =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
-const publicationId =
+let publicationId =
     publicationParams.get("id");
 
+let publicationSlug =
+    publicationParams.get("slug");
+
+/* =========================================
+   CREATE PUBLICATION SLUG
+========================================= */
+
+function createPublicationSlug(title) {
+
+    if (!title) {
+        return "";
+    }
+
+    return title
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/['"]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+}
+
+
+/* =========================================
+   SUPPORT CLEAN PUBLICATION URL
+   /publications/publication-title
+========================================= */
+
+if (!publicationSlug) {
+
+    const pathMatch =
+        window.location.pathname.match(
+            /^\/publications\/([^/]+)\/?$/
+        );
+
+    if (pathMatch) {
+
+        publicationSlug =
+            decodeURIComponent(
+                pathMatch[1]
+            );
+
+    }
+
+}
+
+/* =========================================
+   LOAD PUBLICATION
+========================================= */
 
 /* =========================================
    LOAD PUBLICATION
@@ -28,44 +80,111 @@ const publicationId =
 
 async function loadPublicationDetails() {
 
-    if (!publicationId) {
+    if (!publicationId && !publicationSlug) {
 
         showPublicationError();
 
         return;
-    }
 
+    }
 
     try {
 
-        const {
-            data,
-            error
-        } = await kingdomSupabase
-
-            .from("publications")
-
-            .select("*")
-
-            .eq("id", publicationId)
-
-            .eq("is_active", true)
-
-            .maybeSingle();
+        let data = null;
 
 
-        if (error) {
-            throw error;
+        /* =====================================
+           EXISTING UUID URL
+        ===================================== */
+
+        if (publicationId) {
+
+            const {
+
+                data: publication,
+
+                error
+
+            } = await kingdomSupabase
+
+                .from("publications")
+
+                .select("*")
+
+                .eq("id", publicationId)
+
+                .eq("is_active", true)
+
+                .maybeSingle();
+
+
+            if (error) {
+
+                throw error;
+
+            }
+
+            data = publication;
+
         }
 
+
+        /* =====================================
+           NEW CLEAN URL
+           /publications/publication-title
+        ===================================== */
+
+        else if (publicationSlug) {
+
+            const {
+
+                data: publications,
+
+                error
+
+            } = await kingdomSupabase
+
+                .from("publications")
+
+                .select("*")
+
+                .eq("is_active", true);
+
+
+            if (error) {
+
+                throw error;
+
+            }
+
+
+            data =
+                (publications || []).find(
+                    publication =>
+                        createPublicationSlug(
+                            publication.title
+                        ) === publicationSlug
+                );
+
+        }
+
+
+        /* =====================================
+           PUBLICATION NOT FOUND
+        ===================================== */
 
         if (!data) {
 
             showPublicationError();
 
             return;
+
         }
 
+
+        /* =====================================
+           RENDER
+        ===================================== */
 
         renderPublicationDetails(data);
 
@@ -114,9 +233,17 @@ const publicationDescription =
     publication.description ||
     "Official publications from the Royal Kingdom of Agbor.";
 
+const publicationSlug =
+    createPublicationSlug(
+        publication.title
+    );
+
 const publicationUrl =
-    "https://agborkingdom.org/publication-details.html?id=" +
-    encodeURIComponent(publication.id);
+    window.location.origin +
+    "/publications/" +
+    encodeURIComponent(
+        publicationSlug
+    );
 
 
 /* ✅ FIXED ✅ */
