@@ -4,19 +4,20 @@
 
 [[edge_functions]]
   function = "publication-social-preview"
-  path = [
-    "/publication-details.html",
-    "/publications/*"
-  ]
+  path = "/publication-details.html"
+
+[[edge_functions]]
+  function = "publication-social-preview"
+  path = "/publications/*"
 
 [[edge_functions]]
   function = "event-social-preview"
   path = "/event-details.html"
 
-  [[edge_functions]]
+[[edge_functions]]
   function = "send-contact-email"
   path = "/.netlify/functions/send-contact-email"
 
-  [[edge_functions]]
+[[edge_functions]]
   function = "indexnow"
   path = "/api/indexnow"
