@@ -24,6 +24,10 @@
   status = 200
 
 [[edge_functions]]
+  function = "sitemap"
+  path = "/sitemap.xml"
+
+[[edge_functions]]
   function = "send-contact-email"
   path = "/.netlify/functions/send-contact-email"
 
