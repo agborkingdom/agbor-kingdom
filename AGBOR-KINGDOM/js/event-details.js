@@ -36,6 +36,90 @@ document.addEventListener("keydown", (event) => {
 });
 
 
+
+/* =========================================
+   KINGDOM ANNOUNCEMENT MARQUEE
+========================================= */
+
+const marqueeTrack = document.getElementById("marqueeTrack");
+const marqueeToggle = document.getElementById("marqueeToggle");
+let marqueePaused = false;
+
+if (marqueeToggle && marqueeTrack) {
+    marqueeToggle.addEventListener("click", () => {
+        marqueePaused = !marqueePaused;
+
+        if (marqueePaused) {
+            marqueeTrack.style.animationPlayState = "paused";
+            marqueeToggle.textContent = "▶";
+            marqueeToggle.setAttribute("aria-label", "Play announcements");
+            marqueeToggle.setAttribute("aria-pressed", "true");
+        } else {
+            marqueeTrack.style.animationPlayState = "running";
+            marqueeToggle.textContent = "❚❚";
+            marqueeToggle.setAttribute("aria-label", "Pause announcements");
+            marqueeToggle.setAttribute("aria-pressed", "false");
+        }
+    });
+}
+
+const kingdomMarquee = document.querySelector(".kingdom-marquee");
+if (kingdomMarquee && marqueeTrack) {
+    kingdomMarquee.addEventListener("mouseenter", () => {
+        if (!marqueePaused) marqueeTrack.style.animationPlayState = "paused";
+    });
+
+    kingdomMarquee.addEventListener("mouseleave", () => {
+        if (!marqueePaused) marqueeTrack.style.animationPlayState = "running";
+    });
+}
+
+
+
+/* =========================================
+   LOAD ANNOUNCEMENTS (SUPABASE)
+========================================= */
+
+async function loadAnnouncements() {
+    const marqueeTrack = document.getElementById("marqueeTrack");
+    if (!marqueeTrack) return;
+
+    const { data, error } = await kingdomSupabase
+        .from("announcements")
+        .select(`id, title, message, link`)
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+
+    if (error) {
+        console.error("Error loading announcements:", error);
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        marqueeTrack.innerHTML = "";
+        return;
+    }
+
+    const announcementHTML = data
+        .map((announcement) => {
+            const title = announcement.title || "";
+            const message = announcement.message || "";
+            const link = announcement.link || "#";
+
+            return `
+                <a href="${link}" class="marquee-item">
+                    <span class="marquee-dot"></span>
+                    <span>${title}: ${message}</span>
+                </a>
+            `;
+        })
+        .join("");
+
+    marqueeTrack.innerHTML = announcementHTML + announcementHTML;
+}
+
+loadAnnouncements();
+
 /* =========================================
    AGBOR KINGDOM
    INDIVIDUAL EVENT PAGE
